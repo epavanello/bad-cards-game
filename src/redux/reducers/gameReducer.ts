@@ -1,4 +1,4 @@
-import { GAME_STARTED, GameActionTypes } from '../../actionTypes/gameTypes';
+import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
 const initialState = {
   gameStarted: false,
@@ -6,8 +6,8 @@ const initialState = {
 
 export default function gameReducer(state = initialState, action: GameActionTypes) {
   switch (action.type) {
-    case GAME_STARTED:
-      return { ...state, gameStarted: true };
+    case GAME_STATE_CHANGED:
+      return { ...state, gameStarted: action.payload };
   }
   return state;
 }

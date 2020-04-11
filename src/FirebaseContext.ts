@@ -1,7 +1,12 @@
+import { gameStarted } from './redux/actions/gameActions';
 import React from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import { Dispatch } from 'redux';
+import { throws } from 'assert';
+import { threadId } from 'worker_threads';
+import { GameActionTypes } from './redux/actionTypes/gameTypes';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,11 +23,13 @@ export class Firebase {
   db: app.database.Database;
 
   private roomID: string | null = null;
+  reduxDispatch: Dispatch<GameActionTypes>;
 
-  constructor() {
+  constructor(reduxDispatch: Dispatch<GameActionTypes>) {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
+    this.reduxDispatch = reduxDispatch;
   }
 
   doCreateUserWithEmailAndPassword = (email: string, password: string, username: string) => {
@@ -57,6 +64,12 @@ export class Firebase {
     if (this.auth.currentUser) {
       this.roomID = roomID;
 
+      this.room(this.roomID)
+        .child('game_started')
+        .on('value', (snap) => {
+          this.reduxDispatch(gameStarted(!!snap.val()));
+        });
+
       const userRow = this.user(roomID);
       userRow.set({
         username: this.auth.currentUser.displayName,
@@ -73,6 +86,7 @@ export class Firebase {
 
   exitRoom = () => {
     if (this.roomID) {
+      this.room(this.roomID).child('game_started').off('value');
       this.user(this.roomID).remove();
     }
     this.roomID = null;

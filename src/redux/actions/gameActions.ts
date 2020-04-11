@@ -1,5 +1,6 @@
-import { GAME_STARTED } from '../../actionTypes/gameTypes';
+import { GAME_STATE_CHANGED, GameStateChangedAction } from '../actionTypes/gameTypes';
 
-export const gameStarted = () => ({
-  type: GAME_STARTED,
+export const gameStarted = (state: boolean): GameStateChangedAction => ({
+  type: GAME_STATE_CHANGED,
+  payload: state,
 });
