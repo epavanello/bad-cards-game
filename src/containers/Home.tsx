@@ -1,16 +1,17 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
-import { User } from "firebase";
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
+import { User } from 'firebase';
 
-import { FirebaseContext } from "../components/Firebase";
-import Room from "../containers/Room";
+import { FirebaseContext } from '../FirebaseContext';
+import Room from '../containers/Room';
 
 type HomeProps = { user: User };
 
 export default function Home({ user }: HomeProps) {
   const firebase = useContext(FirebaseContext);
-  const [roomID, setRoomID] = useState("");
+  const [roomID, setRoomID] = useState('');
   const [inRoom, setInRoom] = useState(false);
+  const [isHost, setIsHost] = useState(false);
 
   const joinRoom = () => {
     if (firebase) {
@@ -22,9 +23,8 @@ export default function Home({ user }: HomeProps) {
   const hostGame = async () => {
     if (firebase?.auth.currentUser) {
       try {
-        const response = await axios.get<{ roomID: string }>(
-          "/game/createRoom"
-        );
+        const response = await axios.get<{ roomID: string }>('/game/createRoom');
+        setIsHost(true);
         setRoomID(response.data.roomID);
         firebase?.enterRoom(response.data.roomID);
         setInRoom(true);
@@ -42,18 +42,12 @@ export default function Home({ user }: HomeProps) {
   return (
     <>
       <p>
-        Logged as: {user.displayName}({user.email})
-        <button onClick={firebase?.doSignOut}>Logout</button>
+        Logged as: {user.displayName}({user.email})<button onClick={firebase?.doSignOut}>Logout</button>
       </p>
       {!inRoom && (
         <>
           <h3>Join room</h3>
-          <input
-            type="text"
-            size={4}
-            value={roomID}
-            onChange={(e) => setRoomID(e.target.value)}
-          />
+          <input type="text" size={4} value={roomID} onChange={(e) => setRoomID(e.target.value)} />
           <button onClick={joinRoom}>Join</button>
           <button onClick={hostGame}>Host</button>
         </>
@@ -63,7 +57,7 @@ export default function Home({ user }: HomeProps) {
       {inRoom && (
         <>
           <h3>Room {roomID}</h3>
-          <Room roomID={roomID} />
+          <Room roomID={roomID} isHost={isHost} />
         </>
       )}
     </>
