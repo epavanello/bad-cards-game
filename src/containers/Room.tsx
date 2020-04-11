@@ -3,11 +3,10 @@ import UsersList from './UsersList';
 import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 
-type RoomProps = { roomID: string; isHost: boolean };
-export default function Room({ roomID, isHost }: RoomProps) {
+export default function Room() {
   const firebase = useContext(FirebaseContext);
-
-  const gameStarted = useSelector((state) => state.gameReducer.gameStarted);
+  const gameStarted = useSelector((state) => state.gameStarted);
+  const isHost = useSelector((state) => state.isHost);
 
   const startGame = () => {
     if (isHost) {
@@ -19,7 +18,7 @@ export default function Room({ roomID, isHost }: RoomProps) {
     <>
       {!gameStarted && isHost && <button onClick={startGame}>Start game</button>}
       {gameStarted && <p>Let's play</p>}
-      <UsersList roomID={roomID} />
+      <UsersList />
     </>
   );
 }

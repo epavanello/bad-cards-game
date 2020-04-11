@@ -1,13 +1,13 @@
-import { createStore, combineReducers } from 'redux';
-import gameReducer from './reducers/gameReducer';
+import { createStore, applyMiddleware } from 'redux';
+import { GameState, gameReducer } from './reducers/gameReducer';
 import { TypedUseSelectorHook, useSelector as useReduxSelector } from 'react-redux';
+import { ThunkAction } from 'redux-thunk';
+import { Action as ReduxAction } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const rootReducer = combineReducers({
-  gameReducer,
-});
+export const store = createStore(gameReducer, composeWithDevTools(applyMiddleware(thunk)));
 
-export const store = createStore(rootReducer);
+export const useSelector: TypedUseSelectorHook<GameState> = useReduxSelector;
 
-type RootState = ReturnType<typeof rootReducer>;
-
-export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
+export type Action<T> = ThunkAction<void, GameState, unknown, ReduxAction<T>>;

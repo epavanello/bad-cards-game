@@ -1,12 +1,11 @@
-import { gameStarted } from './redux/actions/gameActions';
+import { gameStarted, newRound, userLoaded, updatePlayers } from './redux/actions/gameActions';
 import React from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import { Dispatch } from 'redux';
-import { throws } from 'assert';
-import { threadId } from 'worker_threads';
-import { GameActionTypes } from './redux/actionTypes/gameTypes';
+import { GameActionTypes, Card, UserType, Role } from './redux/actionTypes/gameTypes';
+import Axios from 'axios';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -22,14 +21,32 @@ export class Firebase {
   auth: app.auth.Auth;
   db: app.database.Database;
 
-  private roomID: string | null = null;
+  private roomID: string = '';
   reduxDispatch: Dispatch<GameActionTypes>;
+  cards: { white: Card[]; black: Card[] } = { white: [], black: [] };
+  judgeID: string = '';
+  uid: string = '';
 
   constructor(reduxDispatch: Dispatch<GameActionTypes>) {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
     this.reduxDispatch = reduxDispatch;
+
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.uid = user.uid;
+        user.getIdToken(true).then((idToken) => {
+          Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
+        });
+        this.reduxDispatch(userLoaded(user.displayName || ''));
+      }
+    });
+
+    this.db.ref('cards').once('value', (cards) => {
+      this.cards = cards.val();
+      console.log(this.cards);
+    });
   }
 
   doCreateUserWithEmailAndPassword = (email: string, password: string, username: string) => {
@@ -54,42 +71,72 @@ export class Firebase {
 
   doSignOut = () => this.auth.signOut();
 
-  private room = (roomID: string) => this.db.ref(`rooms/${roomID}`);
+  private room = () => this.db.ref(`rooms/${this.roomID}`);
 
-  users = (roomID: string) => this.db.ref(`rooms/${roomID}/users`);
+  users = () => this.db.ref(`rooms/${this.roomID}/users`);
 
-  private user = (roomID: string) => this.db.ref(`rooms/${roomID}/users/${this.auth.currentUser?.uid}`);
+  private userInRoom = () => this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}`);
+
+  private roundCards = async (): Promise<Card[]> => {
+    const indexes = (await this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/white`).once('value')).val().split('|');
+    const cards: Card[] = [];
+    indexes.forEach((i: number) => {
+      cards.push(this.cards.white[i]);
+    });
+    return cards;
+  };
 
   enterRoom = (roomID: string) => {
-    if (this.auth.currentUser) {
-      this.roomID = roomID;
+    this.roomID = roomID;
 
-      this.room(this.roomID)
-        .child('game_started')
-        .on('value', (snap) => {
-          this.reduxDispatch(gameStarted(!!snap.val()));
-        });
-
-      const userRow = this.user(roomID);
-      userRow.set({
-        username: this.auth.currentUser.displayName,
+    this.room()
+      .child('game_started')
+      .on('value', (snap) => {
+        this.reduxDispatch(gameStarted(!!snap.val()));
       });
-      userRow.onDisconnect().remove();
-    }
+    this.room()
+      .child('round')
+      .on('value', async (snap) => {
+        if (snap.exists()) {
+          this.judgeID = (await snap.ref.parent?.child('judge').once('value'))?.val();
+          const round = snap.val();
+          const cards = await this.roundCards();
+          const role = this.judgeID === this.uid ? Role.JUDGE : Role.PLAYER;
+          const blackCard = this.cards.black[(await snap.ref.parent?.child('black').once('value'))?.val()];
+          this.reduxDispatch(newRound(round, cards, role, blackCard));
+        }
+      });
+
+    this.users().on('value', (snapshot) => {
+      const newPlayers: UserType[] = [];
+      snapshot.forEach((user) => {
+        if (user.exists() && user.key) {
+          const userObj = user.val();
+          newPlayers.push({ uid: user.key, username: userObj.username, points: userObj.points });
+        }
+      });
+      this.reduxDispatch(updatePlayers(newPlayers));
+    });
+
+    const userRow = this.userInRoom();
+    userRow.set({
+      username: this.auth.currentUser?.displayName,
+      points: 0,
+    });
+    userRow.onDisconnect().remove();
   };
 
   startGame = () => {
-    if (this.roomID) {
-      this.room(this.roomID).child('game_started').set(true);
-    }
+    this.room().child('game_started').set(true);
   };
 
   exitRoom = () => {
     if (this.roomID) {
-      this.room(this.roomID).child('game_started').off('value');
-      this.user(this.roomID).remove();
+      this.room().child('game_started').off('value');
+      this.users().off('value');
+      this.userInRoom().remove();
     }
-    this.roomID = null;
+    this.roomID = '';
   };
 }
 

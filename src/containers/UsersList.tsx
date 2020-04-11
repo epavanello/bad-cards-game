@@ -1,30 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FirebaseContext } from '../FirebaseContext';
+import React from 'react';
+import { useSelector } from '../redux/store';
 
-type UserType = { username: string; uid: string };
+export default function UsersList() {
+  const gameStarted = useSelector((store) => store.gameStarted);
+  const players = useSelector((state) => state.players);
 
-type UsersListProps = { roomID: string };
-export default function UsersList({ roomID }: UsersListProps) {
-  const firebase = useContext(FirebaseContext);
-
-  const [users, setUsers] = useState<UserType[]>([]);
-
-  useEffect(() => {
-    firebase?.users(roomID).on('value', (snapshot) => {
-      const newUsers: UserType[] = [];
-      snapshot.forEach((user) => {
-        const userObj = user.val();
-        if (user.key) {
-          newUsers.push({ uid: user.key, username: userObj.username });
-        }
-      });
-      setUsers(newUsers);
-    });
-
-    return () => {
-      firebase?.users(roomID).off('value');
-    };
-  }, [roomID, firebase]);
-
-  return <div>{users && users.map((user) => <p key={user.uid}>{user.username}</p>)}</div>;
+  return (
+    <div>
+      {players &&
+        players.map((user) => (
+          <p key={user.uid}>
+            {user.username}
+            {gameStarted ? ` (${user.points})` : ''}
+          </p>
+        ))}
+    </div>
+  );
 }

@@ -1,41 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 
 import Home from './containers/Home';
+import Login from './containers/Login';
+import { useSelector } from './redux/store';
 
 import './styles/App.css';
-import { FirebaseContext } from './FirebaseContext';
-import { User } from 'firebase';
-import Login from './containers/Login';
-import Axios from 'axios';
 
 function App() {
-  const firebase = useContext(FirebaseContext);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const unsubscribeOnAuthStateChange = firebase?.auth.onAuthStateChanged((user) => {
-      if (user) {
-        user.reload().then(() => {
-          // First reload, wait after register to update displayName with username
-          setCurrentUser(firebase.auth.currentUser);
-
-          firebase?.auth.currentUser?.getIdToken(true).then(function (idToken) {
-            Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
-          });
-        });
-      } else {
-        setCurrentUser(null);
-      }
-    });
-    return unsubscribeOnAuthStateChange;
-  }, [firebase]);
+  const logged = useSelector((state) => state.logged);
 
   return (
     <>
-      {!currentUser && <Login />}
-      {!!currentUser && (
+      {!logged && <Login />}
+      {logged && (
         <>
-          <Home user={currentUser} />
+          <Home />
         </>
       )}
     </>
