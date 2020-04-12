@@ -8,26 +8,26 @@ import {
   GAME_UPDATE_PLAYERS,
   GameJoindedAction,
   GAME_JOINED,
-  GameHostedAction,
   GAME_HOSTED,
   GAME_EXITED,
   GameExitedAction,
 } from './../actionTypes/gameTypes';
 import { Action } from '../store';
-import { GAME_STATE_CHANGED, GameStateChangedAction, Card, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
+import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
 export const gameStarted = (state: boolean): GameStateChangedAction => ({
   type: GAME_STATE_CHANGED,
   payload: { gameStarted: state },
 });
 
-export const newRound = (round: number, cards: Card[], role: Role, blackCard: Card): GameNextRoundAction => ({
+export const newRound = (round: number, cards: CardType[], role: Role, blackCard: CardType, judgeID: string): GameNextRoundAction => ({
   type: GAME_NEXT_ROUND,
   payload: {
     round,
     cards,
     role,
     blackCard,
+    judgeID,
   },
 });
 

@@ -4,7 +4,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import { Dispatch } from 'redux';
-import { GameActionTypes, Card, UserType, Role } from './redux/actionTypes/gameTypes';
+import { GameActionTypes, CardType, UserType, Role } from './redux/actionTypes/gameTypes';
 import Axios from 'axios';
 
 const config = {
@@ -23,8 +23,7 @@ export class Firebase {
 
   private roomID: string = '';
   reduxDispatch: Dispatch<GameActionTypes>;
-  cards: { white: Card[]; black: Card[] } = { white: [], black: [] };
-  judgeID: string = '';
+  cards: { white: CardType[]; black: CardType[] } = { white: [], black: [] };
   uid: string = '';
 
   constructor(reduxDispatch: Dispatch<GameActionTypes>) {
@@ -77,36 +76,47 @@ export class Firebase {
 
   private userInRoom = () => this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}`);
 
-  private roundCards = async (): Promise<Card[]> => {
-    const indexes = (await this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/white`).once('value')).val().split('|');
-    const cards: Card[] = [];
-    indexes.forEach((i: number) => {
-      cards.push(this.cards.white[i]);
-    });
+  private roundCards = async (): Promise<CardType[]> => {
+    const cards: CardType[] = [];
+
+    const whiteRef = this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/white`);
+    const whiteSnap = await whiteRef.once('value');
+    if (!whiteSnap.exists()) {
+      console.error('White not exists', whiteSnap);
+    } else {
+      const indexes = whiteSnap.val();
+      (indexes || '').split('|').forEach((i: number) => {
+        cards.push(this.cards.white[i]);
+      });
+    }
     return cards;
   };
 
   enterRoom = (roomID: string) => {
     this.roomID = roomID;
 
+    // Notify game started
     this.room()
       .child('game_started')
       .on('value', (snap) => {
         this.reduxDispatch(gameStarted(!!snap.val()));
       });
+
+    // manage new round
     this.room()
       .child('round')
       .on('value', async (snap) => {
         if (snap.exists()) {
-          this.judgeID = (await snap.ref.parent?.child('judge').once('value'))?.val();
+          const judgeID = (await snap.ref.parent?.child('judge').once('value'))?.val();
           const round = snap.val();
           const cards = await this.roundCards();
-          const role = this.judgeID === this.uid ? Role.JUDGE : Role.PLAYER;
+          const role = judgeID === this.uid ? Role.JUDGE : Role.PLAYER;
           const blackCard = this.cards.black[(await snap.ref.parent?.child('black').once('value'))?.val()];
-          this.reduxDispatch(newRound(round, cards, role, blackCard));
+          this.reduxDispatch(newRound(round, cards, role, blackCard, judgeID));
         }
       });
 
+    // Notify new players
     this.users().on('value', (snapshot) => {
       const newPlayers: UserType[] = [];
       snapshot.forEach((user) => {
@@ -118,11 +128,14 @@ export class Firebase {
       this.reduxDispatch(updatePlayers(newPlayers));
     });
 
+    // Set user in room
     const userRow = this.userInRoom();
     userRow.set({
       username: this.auth.currentUser?.displayName,
       points: 0,
     });
+
+    // Delete on disconnect
     userRow.onDisconnect().remove();
   };
 

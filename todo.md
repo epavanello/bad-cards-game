@@ -1,0 +1,5 @@
+- [ ] show white cards
+- [ ] show black card
+- [ ] select cards
+- [ ] timer
+- [ ] show chooices

@@ -1,4 +1,13 @@
-import { GAME_USER_LOADED, UserType, GAME_JOINED, GAME_HOSTED, GAME_UPDATE_PLAYERS } from './../actionTypes/gameTypes';
+import {
+  GAME_USER_LOADED,
+  UserType,
+  GAME_JOINED,
+  GAME_HOSTED,
+  GAME_UPDATE_PLAYERS,
+  GAME_NEXT_ROUND,
+  CardType,
+  Role,
+} from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
 export interface GameState {
@@ -8,7 +17,12 @@ export interface GameState {
   inRoom: boolean;
   roomID: string;
   isHost: boolean;
+  judge: UserType | undefined;
   players: UserType[];
+  round: number;
+  cards: CardType[];
+  role: Role;
+  blackCard: CardType | undefined;
 }
 
 const initialState: GameState = {
@@ -18,7 +32,12 @@ const initialState: GameState = {
   inRoom: false,
   roomID: '',
   isHost: false,
+  judge: undefined,
   players: [],
+  round: 0,
+  cards: [],
+  role: Role.PLAYER,
+  blackCard: undefined,
 };
 
 export function gameReducer(state = initialState, action: GameActionTypes) {
@@ -33,6 +52,9 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
       return { ...state, inRoom: true, roomID: action.payload.roomID, isHost: true };
     case GAME_UPDATE_PLAYERS:
       return { ...state, players: [...action.payload.players] };
+    case GAME_NEXT_ROUND:
+      const { round, cards, role, blackCard, judgeID } = action.payload;
+      return { ...state, judge: state.players.find((player) => player.uid === judgeID), round, cards, role, blackCard };
   }
   return state;
 }

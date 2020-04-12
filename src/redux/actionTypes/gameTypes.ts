@@ -11,9 +11,13 @@ export enum Role {
   PLAYER,
 }
 
-export interface Card {
+export interface CardType {
   message: string;
   id: number;
+}
+export enum CardColor {
+  White,
+  Black,
 }
 
 export interface UserType {
@@ -31,9 +35,10 @@ export interface GameNextRoundAction {
   type: typeof GAME_NEXT_ROUND;
   payload: {
     round: number;
-    cards: Card[];
+    cards: CardType[];
     role: Role;
-    blackCard: Card;
+    blackCard: CardType;
+    judgeID: string;
   };
 }
 

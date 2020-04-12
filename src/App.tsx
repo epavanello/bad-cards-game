@@ -4,7 +4,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import { useSelector } from './redux/store';
 
-import './styles/App.css';
+import './styles/App.scss';
 
 function App() {
   const logged = useSelector((state) => state.logged);
