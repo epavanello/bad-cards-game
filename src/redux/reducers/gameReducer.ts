@@ -1,5 +1,5 @@
 import {
-  GAME_USER_LOADED,
+  GAME_USER_INFO_LOADED,
   UserType,
   GAME_JOINED,
   GAME_HOSTED,
@@ -11,8 +11,10 @@ import {
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
 export interface GameState {
+  userInfoLoaded: boolean;
   gameStarted: boolean;
   logged: boolean;
+  uid: string;
   username: string;
   inRoom: boolean;
   roomID: string;
@@ -26,9 +28,11 @@ export interface GameState {
 }
 
 const initialState: GameState = {
-  gameStarted: false,
+  userInfoLoaded: false,
   logged: false,
+  uid: '',
   username: '',
+  gameStarted: false,
   inRoom: false,
   roomID: '',
   isHost: false,
@@ -44,8 +48,9 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
   switch (action.type) {
     case GAME_STATE_CHANGED:
       return { ...state, gameStarted: action.payload.gameStarted };
-    case GAME_USER_LOADED:
-      return { ...state, logged: true, username: action.payload.username };
+    case GAME_USER_INFO_LOADED:
+      const { logged, uid, username } = action.payload;
+      return { ...state, userInfoLoaded: true, logged, uid, username };
     case GAME_JOINED:
       return { ...state, inRoom: true, roomID: action.payload.roomID };
     case GAME_HOSTED:

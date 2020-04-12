@@ -1,4 +1,4 @@
-export const GAME_USER_LOADED = 'GAME_USER_LOADED';
+export const GAME_USER_INFO_LOADED = 'GAME_USER_INFO_LOADED';
 export const GAME_STATE_CHANGED = 'GAME_STATE_CHANGED';
 export const GAME_NEXT_ROUND = 'GAME_NEXT_ROUND';
 export const GAME_UPDATE_PLAYERS = 'GAME_UPDATE_PLAYERS';
@@ -42,9 +42,11 @@ export interface GameNextRoundAction {
   };
 }
 
-export interface GameUserLoadedAction {
-  type: typeof GAME_USER_LOADED;
+export interface GameUserInfoLoadedAction {
+  type: typeof GAME_USER_INFO_LOADED;
   payload: {
+    logged: boolean;
+    uid: string;
     username: string;
   };
 }
@@ -76,7 +78,7 @@ export interface GameHostedAction {
 export type GameActionTypes =
   | GameStateChangedAction
   | GameNextRoundAction
-  | GameUserLoadedAction
+  | GameUserInfoLoadedAction
   | GameUpdatePlayersAction
   | GameJoindedAction
   | GameHostedAction

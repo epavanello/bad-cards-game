@@ -1,4 +1,4 @@
-import { gameStarted, newRound, userLoaded, updatePlayers } from './redux/actions/gameActions';
+import { gameStarted, newRound, userLoaded as userInfoLoaded, updatePlayers } from './redux/actions/gameActions';
 import React from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
@@ -38,7 +38,9 @@ export class Firebase {
         user.getIdToken(true).then((idToken) => {
           Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
         });
-        this.reduxDispatch(userLoaded(user.displayName || ''));
+        this.reduxDispatch(userInfoLoaded(true, user.uid, user.displayName || ''));
+      } else {
+        this.reduxDispatch(userInfoLoaded(false, '', ''));
       }
     });
 

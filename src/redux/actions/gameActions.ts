@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Firebase } from './../../FirebaseContext';
 import {
-  GAME_USER_LOADED,
-  GameUserLoadedAction,
+  GAME_USER_INFO_LOADED,
+  GameUserInfoLoadedAction,
   GameUpdatePlayersAction,
   UserType,
   GAME_UPDATE_PLAYERS,
@@ -31,7 +31,10 @@ export const newRound = (round: number, cards: CardType[], role: Role, blackCard
   },
 });
 
-export const userLoaded = (username: string): GameUserLoadedAction => ({ type: GAME_USER_LOADED, payload: { username } });
+export const userLoaded = (logged: boolean, uid: string, username: string): GameUserInfoLoadedAction => ({
+  type: GAME_USER_INFO_LOADED,
+  payload: { username, logged, uid },
+});
 
 export const updatePlayers = (players: UserType[]): GameUpdatePlayersAction => ({ type: GAME_UPDATE_PLAYERS, payload: { players } });
 
