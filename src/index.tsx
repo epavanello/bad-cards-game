@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { FirebaseContext, Firebase } from './FirebaseContext';
 import { store } from './redux/store';
 
-import './styles/index.css';
+import './styles.css';
 
 ReactDOM.render(
   <Provider store={store}>
