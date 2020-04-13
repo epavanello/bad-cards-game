@@ -1,3 +1,4 @@
+export const LOGOUT = 'LOGOUT';
 export const GAME_USER_INFO_LOADED = 'GAME_USER_INFO_LOADED';
 export const GAME_STATE_CHANGED = 'GAME_STATE_CHANGED';
 export const GAME_NEXT_ROUND = 'GAME_NEXT_ROUND';
@@ -74,6 +75,9 @@ export interface GameHostedAction {
     roomID: string;
   };
 }
+export interface LogoutAction {
+  type: typeof LOGOUT;
+}
 
 export type GameActionTypes =
   | GameStateChangedAction
@@ -82,4 +86,5 @@ export type GameActionTypes =
   | GameUpdatePlayersAction
   | GameJoindedAction
   | GameHostedAction
-  | GameExitedAction;
+  | GameExitedAction
+  | LogoutAction;

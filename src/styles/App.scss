@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+$bg: #2b3950;
+$primary: #c24848;
+$secondary: #5db4ee;
+
+$border: #e2e7ee;
+$text: #eee;
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: $bg;
+  color: $text;
+}
+.header {
+  height: 50px;
+  box-shadow: 0px 2px 5px #00000077;
+  background-color: darken($color: $bg, $amount: 5%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: 0 7px;
+}
+
+.content {
+  padding: 32px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.logo {
+  margin: 0 7px;
+  margin: 0;
+  font-family: 'Pacifico', cursive;
+  color: $primary;
+}
+
+button {
+  background-color: transparent;
+  border: solid 2px $border;
+  color: $text;
+  font-size: 10pt;
+  line-height: 1em;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+  margin: 0 7px;
+
+  &.small {
+    padding: 8px 16px;
+  }
+
+  &:hover {
+    background-color: $border;
+    color: $primary;
+  }
+  &:active {
+    background-color: darken($color: $border, $amount: 10%);
+    color: $primary;
+  }
+  &:focus {
+    border-color: $primary;
+  }
+}
+
+input[type='text'],
+input[type='password'] {
+  font-size: 10pt;
+  line-height: 1em;
+  padding: 12px 20px;
+  background-color: transparent;
+  border: hidden 0px;
+  color: $text;
+  border-bottom: solid 2px $text;
+  outline: none;
+  margin: 0 7px;
+
+  &:focus {
+    border-color: $primary;
+  }
+  &::placeholder {
+    color: darken($color: $text, $amount: 20%);
+  }
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

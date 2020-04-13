@@ -35,14 +35,21 @@ export default function Home() {
   return (
     <>
       <p>
-        Logged as: {username} <button onClick={firebase?.doSignOut}>Logout</button>
+        Logged as: {username}{' '}
+        <button className="small" onClick={firebase?.doSignOut}>
+          Logout
+        </button>
       </p>
       {!inRoom ? (
         <>
           <h3>Join room</h3>
           <input type="text" size={4} value={manualRoomID} onChange={(e) => setManualRoomID(e.target.value)} />
-          <button onClick={onJoinRoom}>Join</button>
-          <button onClick={onHostGame}>Host</button>
+          <button className="small" onClick={onJoinRoom}>
+            Join
+          </button>
+          <button className="small" onClick={onHostGame}>
+            Host
+          </button>
         </>
       ) : (
         <>

@@ -7,6 +7,8 @@ import {
   GAME_NEXT_ROUND,
   CardType,
   Role,
+  GAME_EXITED,
+  LOGOUT,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
@@ -51,10 +53,14 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
     case GAME_USER_INFO_LOADED:
       const { logged, uid, username } = action.payload;
       return { ...state, userInfoLoaded: true, logged, uid, username };
+    case LOGOUT:
+      return { ...state, logged: false };
     case GAME_JOINED:
       return { ...state, inRoom: true, roomID: action.payload.roomID };
     case GAME_HOSTED:
       return { ...state, inRoom: true, roomID: action.payload.roomID, isHost: true };
+    case GAME_EXITED:
+      return { ...state, inRoom: false };
     case GAME_UPDATE_PLAYERS:
       return { ...state, players: [...action.payload.players] };
     case GAME_NEXT_ROUND:

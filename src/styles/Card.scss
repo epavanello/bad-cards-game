@@ -8,6 +8,8 @@
   margin: 5px;
   padding: 5px;
   box-sizing: border-box;
+  flex-grow: 0;
+  flex-shrink: 0;
 
   &.black {
     background-color: #111;
@@ -21,4 +23,9 @@
     box-shadow: #bbbbbb73 0px 3px 5px 0px;
     border: solid 1px #ddd;
   }
+}
+
+.card-scroller {
+  display: flex;
+  flex-direction: row;
 }

@@ -11,6 +11,8 @@ import {
   GAME_HOSTED,
   GAME_EXITED,
   GameExitedAction,
+  LOGOUT,
+  LogoutAction,
 } from './../actionTypes/gameTypes';
 import { Action } from '../store';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
@@ -56,4 +58,9 @@ export const hostGame = (firebase: Firebase): Action<string> => async (dispatch)
 export const exitGame = (firebase: Firebase): GameExitedAction => {
   firebase.exitRoom();
   return { type: GAME_EXITED };
+};
+
+export const logout = (firebase: Firebase): LogoutAction => {
+  firebase.doSignOut();
+  return { type: LOGOUT };
 };
