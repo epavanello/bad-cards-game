@@ -8,7 +8,6 @@ import { exitGame } from '../redux/actions/gameActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
 import { CardColor, CardType } from '../redux/actionTypes/gameTypes';
-import classNames from 'classnames';
 
 export default function Room() {
   const firebase = useContext(FirebaseContext);

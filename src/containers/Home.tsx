@@ -20,9 +20,9 @@ export default function Home() {
     }
   };
 
-  const onHostGame = () => {
+  const onHostGame = async () => {
     if (firebase) {
-      dispatch(hostGame(firebase));
+      dispatch(await hostGame(firebase));
     }
   };
   if (inRoom) {

@@ -13,15 +13,16 @@ import classNames from 'classnames';
 export default function Header() {
   const firebase = useContext(FirebaseContext);
   const dispatch = useDispatch();
+
   const username = useSelector((state) => state.username);
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
   const logged = useSelector((state) => state.logged);
 
   const [toggleHeader, setToggleHeader] = useState(false);
 
-  const onLogout = () => {
+  const onLogout = async () => {
     if (firebase) {
-      dispatch(logout(firebase));
+      dispatch(await logout(firebase));
     }
   };
 
@@ -51,33 +52,35 @@ export default function Header() {
             Pack editor
           </Link>
         </div>
-        <div className="flex flex-col sm:flex-row items-center">
-          {logged ? (
-            <>
-              <div
-                className="hidden -my-2 sm:flex bg-gray-600 text-gray-100 rounded-full h-12 w-12 flex items-center justify-center cursor-default mr-4"
-                title={username}
-              >
-                {username
-                  .split(' ')
-                  .map((w) => w.charAt(0).toUpperCase())
-                  .join(' ')}
-              </div>
-              <HeaderButton className="block mt-4 sm:inline-block sm:mt-0" onClick={() => firebase?.doSignOut()}>
-                Logout
-              </HeaderButton>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="sm:mr-4 block mt-4 sm:mt-0">
-                <HeaderButton className="block w-full sm:w-auto">Login</HeaderButton>
-              </Link>
-              <Link to="/signup" className="block mt-4 sm:mt-0">
-                <HeaderButton className="block w-full sm:w-auto">Register</HeaderButton>
-              </Link>
-            </>
-          )}
-        </div>
+        {userInfoLoaded && (
+          <div className="flex flex-col sm:flex-row items-center">
+            {logged ? (
+              <>
+                <div
+                  className="hidden -my-2 sm:flex bg-gray-600 text-gray-100 rounded-full h-12 w-12 flex items-center justify-center cursor-default mr-4"
+                  title={username}
+                >
+                  {username
+                    .split(' ')
+                    .map((w) => w.charAt(0).toUpperCase())
+                    .join(' ')}
+                </div>
+                <HeaderButton className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
+                  Logout
+                </HeaderButton>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="sm:mr-4 block mt-4 sm:mt-0">
+                  <HeaderButton className="block w-full sm:w-auto">Login</HeaderButton>
+                </Link>
+                <Link to="/signup" className="block mt-4 sm:mt-0">
+                  <HeaderButton className="block w-full sm:w-auto">Register</HeaderButton>
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

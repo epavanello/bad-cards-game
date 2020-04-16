@@ -1,20 +1,34 @@
 import React, { useContext, useState } from 'react';
 import { FirebaseContext } from '../FirebaseContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
+import { useSelector } from '../redux/store';
 
 export default function Login() {
   const firebase = useContext(FirebaseContext);
+
+  const logged = useSelector((state) => state.logged);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const history = useHistory();
+
   const doLogin = () => {
     setError('');
-    firebase?.doSignInWithEmailAndPassword(email, password).catch((error) => {
-      setError(error.toString());
-    });
+    firebase
+      ?.doSignInWithEmailAndPassword(email, password)
+      .then(() => {
+        history.push('/home');
+      })
+      .catch((error) => {
+        setError(error.toString());
+      });
   };
+
+  if(logged) {
+    return <Redirect to="/home" />
+  }
 
   return (
     <div className="w-full max-w-xs mx-auto">

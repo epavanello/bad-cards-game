@@ -6,7 +6,7 @@ import Intro from './containers/Intro';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import { useSelector } from './redux/store';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Room from './containers/Room';
 
 function App() {

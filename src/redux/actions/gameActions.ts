@@ -14,7 +14,6 @@ import {
   LOGOUT,
   LogoutAction,
 } from './../actionTypes/gameTypes';
-import { Action } from '../store';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
 export const gameStarted = (state: boolean): GameStateChangedAction => ({
@@ -45,14 +44,10 @@ export const joinGame = (roomID: string, firebase: Firebase): GameJoindedAction 
   return { type: GAME_JOINED, payload: { roomID } };
 };
 
-export const hostGame = (firebase: Firebase): Action<string> => async (dispatch) => {
-  try {
-    const response = await axios.get<{ roomID: string }>('/game/createRoom');
-    firebase?.enterRoom(response.data.roomID);
-    dispatch({ type: GAME_HOSTED, payload: { roomID: response.data.roomID } });
-  } catch (error) {
-    console.error(error);
-  }
+export const hostGame = async (firebase: Firebase) => {
+  const response = await axios.get<{ roomID: string }>('/game/createRoom');
+  firebase?.enterRoom(response.data.roomID);
+  return { type: GAME_HOSTED, payload: { roomID: response.data.roomID } };
 };
 
 export const exitGame = (firebase: Firebase): GameExitedAction => {
@@ -60,7 +55,7 @@ export const exitGame = (firebase: Firebase): GameExitedAction => {
   return { type: GAME_EXITED };
 };
 
-export const logout = (firebase: Firebase): LogoutAction => {
-  firebase.doSignOut();
+export const logout = async (firebase: Firebase): Promise<LogoutAction> => {
+  await firebase.doSignOut();
   return { type: LOGOUT };
 };

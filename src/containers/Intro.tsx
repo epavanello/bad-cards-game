@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { FirebaseContext } from '../FirebaseContext';
+import React from 'react';
 
 export default function Intro() {
-  return <div>Intro</div>;
+  return <div>Welcome to bad cards</div>;
 }
