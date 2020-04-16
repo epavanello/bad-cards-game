@@ -48,9 +48,16 @@ export default function Header() {
           <Link to="/home" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
             Home
           </Link>
-          <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
-            Pack editor
-          </Link>
+          {logged && (
+            <>
+              <Link to="/game" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
+                Game
+              </Link>
+              <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
+                Pack editor
+              </Link>
+            </>
+          )}
         </div>
         {userInfoLoaded && (
           <div className="flex flex-col sm:flex-row items-center">

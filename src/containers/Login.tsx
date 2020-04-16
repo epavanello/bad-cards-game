@@ -2,10 +2,11 @@ import React, { useContext, useState } from 'react';
 import { FirebaseContext } from '../FirebaseContext';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/actions/gameActions';
 
 export default function Login() {
   const firebase = useContext(FirebaseContext);
-
   const logged = useSelector((state) => state.logged);
 
   const [email, setEmail] = useState('');
@@ -13,21 +14,18 @@ export default function Login() {
   const [error, setError] = useState('');
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const doLogin = () => {
+  const doLogin = async () => {
     setError('');
-    firebase
-      ?.doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        history.push('/home');
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    if (firebase) {
+      dispatch(await login(firebase, email, password));
+      history.push('/game');
+    }
   };
 
-  if(logged) {
-    return <Redirect to="/home" />
+  if (logged) {
+    return <Redirect to="/game" />;
   }
 
   return (

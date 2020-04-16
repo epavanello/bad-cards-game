@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Header from './components/Header';
+import Game from './containers/Game';
 import Home from './containers/Home';
-import Intro from './containers/Intro';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import { useSelector } from './redux/store';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Room from './containers/Room';
+import NotFound from './containers/NotFound';
 
 function App() {
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
@@ -21,21 +22,13 @@ function App() {
             <p>Loading ...</p>
           ) : (
             <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/signup">
-                <Signup />
-              </Route>
-              <Route path="/home">
-                <Home />
-              </Route>
-              <Route path="/room/:roomID">
-                <Room />
-              </Route>
-              <Route path="/">
-                <Intro />
-              </Route>
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/game" component={Game} />
+              <Route path="/room/:roomID" component={Room} />
+              <Route path="/home" component={Home} />
+              <Route path="/" exact component={Home} />
+              <Route path="*" exact={true} component={NotFound} />
             </Switch>
           )}
         </div>

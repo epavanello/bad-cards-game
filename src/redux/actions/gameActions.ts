@@ -13,6 +13,8 @@ import {
   GameExitedAction,
   LOGOUT,
   LogoutAction,
+  LoginAction,
+  LOGIN,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -58,4 +60,9 @@ export const exitGame = (firebase: Firebase): GameExitedAction => {
 export const logout = async (firebase: Firebase): Promise<LogoutAction> => {
   await firebase.doSignOut();
   return { type: LOGOUT };
+};
+
+export const login = async (firebase: Firebase, email: string, password: string): Promise<LoginAction> => {
+  await firebase?.doSignInWithEmailAndPassword(email, password);
+  return { type: LOGIN };
 };

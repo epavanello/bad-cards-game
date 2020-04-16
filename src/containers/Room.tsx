@@ -8,6 +8,7 @@ import { exitGame } from '../redux/actions/gameActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
 import { CardColor, CardType } from '../redux/actionTypes/gameTypes';
+import { Redirect } from 'react-router-dom';
 
 export default function Room() {
   const firebase = useContext(FirebaseContext);
@@ -18,6 +19,7 @@ export default function Room() {
   const judge = useSelector((state) => state.judge);
   const uid = useSelector((state) => state.uid);
   const roomID = useSelector((state) => state.roomID);
+  const logged = useSelector((state) => state.logged);
 
   const [cardSelected, setCardSelected] = useState<CardType[]>([]);
 
@@ -52,7 +54,12 @@ export default function Room() {
         dispatch(exitGame(firebase));
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!logged) {
+    return <Redirect to={`/home`} />;
+  }
 
   return (
     <div>
