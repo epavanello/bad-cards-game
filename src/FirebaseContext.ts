@@ -86,10 +86,12 @@ export class Firebase {
     if (!whiteSnap.exists()) {
       console.error('White not exists', whiteSnap);
     } else {
-      const indexes = whiteSnap.val();
-      (indexes || '').split('|').forEach((i: number) => {
-        cards.push(this.cards.white[i]);
-      });
+      const indexes = whiteSnap.val() || '';
+      if (indexes !== '') {
+        indexes.split('|').forEach((i: number) => {
+          cards.push(this.cards.white[i]);
+        });
+      }
     }
     return cards;
   };

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 
 import { FirebaseContext } from '../FirebaseContext';
-import Room from '../containers/Room';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame, exitGame } from '../redux/actions/gameActions';
-import Button from '../components/Button';
+import { joinGame, hostGame } from '../redux/actions/gameActions';
 import { Redirect } from 'react-router-dom';
+import PrimaryButton from '../components/PrimaryButton';
 
 export default function Home() {
   const firebase = useContext(FirebaseContext);
@@ -50,23 +49,13 @@ export default function Home() {
               />
             </div>
             <div className="flex flex-row justify-center">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={onJoinRoom}
-              >
-                Join
-              </button>
+              <PrimaryButton onClick={onJoinRoom}>Join</PrimaryButton>
             </div>
           </div>
           <div className="flex flex-col justify-start p-4">
             <h1 className="text-2xl text-center mb-8">Host a game</h1>
             <div className="flex-1 flex flex-row align-bottom justify-center items-end">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={onHostGame}
-              >
-                Host
-              </button>
+              <PrimaryButton onClick={onHostGame}>Host</PrimaryButton>
             </div>
           </div>
         </div>

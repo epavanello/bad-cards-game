@@ -7,7 +7,7 @@ import { logout } from '../redux/actions/gameActions';
 
 import devilLogo from '../assets/devil.svg';
 
-import Button from './Button';
+import HeaderButton from './HeaderButton';
 import classNames from 'classnames';
 
 export default function Header() {
@@ -63,17 +63,17 @@ export default function Header() {
                   .map((w) => w.charAt(0).toUpperCase())
                   .join(' ')}
               </div>
-              <Button className="block mt-4 sm:inline-block sm:mt-0" onClick={() => firebase?.doSignOut()}>
+              <HeaderButton className="block mt-4 sm:inline-block sm:mt-0" onClick={() => firebase?.doSignOut()}>
                 Logout
-              </Button>
+              </HeaderButton>
             </>
           ) : (
             <>
               <Link to="/login" className="sm:mr-4 block mt-4 sm:mt-0">
-                <Button className="block w-full sm:w-auto">Login</Button>
+                <HeaderButton className="block w-full sm:w-auto">Login</HeaderButton>
               </Link>
               <Link to="/signup" className="block mt-4 sm:mt-0">
-                <Button className="block w-full sm:w-auto">Register</Button>
+                <HeaderButton className="block w-full sm:w-auto">Register</HeaderButton>
               </Link>
             </>
           )}

@@ -9,6 +9,12 @@ import { store } from './redux/store';
 
 import './styles.css';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
+
+library.add(faDotCircle, faCircle);
+
 ReactDOM.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={new Firebase(store.dispatch)}>

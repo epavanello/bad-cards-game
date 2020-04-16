@@ -6,7 +6,7 @@ type ButtonProps = {
   onClick?: (onClick?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   className?: string;
 };
-export default function Button({ children, onClick, className }: ButtonProps) {
+export default function HeaderButton({ children, onClick, className }: ButtonProps) {
   return (
     <button
       onClick={onClick}
