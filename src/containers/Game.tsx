@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame } from '../redux/actions/gameActions';
-import { Redirect } from 'react-router-dom';
+import { joinGame, hostGame, exitGame } from '../redux/actions/gameActions';
+import { Redirect, useHistory } from 'react-router-dom';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function Game() {
@@ -14,10 +14,16 @@ export default function Game() {
   const inRoom = useSelector((state) => state.inRoom);
   const logged = useSelector((state) => state.logged);
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const onJoinRoom = () => {
+  const onJoinRoom = async () => {
     if (firebase) {
-      dispatch(joinGame(manualRoomID, firebase));
+      try {
+        dispatch(await joinGame(manualRoomID, firebase));
+      } catch (e) {
+        dispatch(await exitGame(firebase));
+        history.push('/game');
+      }
     }
   };
 

@@ -3,12 +3,12 @@ import PrimaryButton from '../components/PrimaryButton';
 import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { exitGame } from '../redux/actions/gameActions';
+import { exitGame, joinGame } from '../redux/actions/gameActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
 import { CardColor, CardType } from '../redux/actionTypes/gameTypes';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 
 export default function Room() {
   const firebase = useContext(FirebaseContext);
@@ -20,6 +20,9 @@ export default function Room() {
   const uid = useSelector((state) => state.uid);
   const roomID = useSelector((state) => state.roomID);
   const logged = useSelector((state) => state.logged);
+  const inRoom = useSelector((state) => state.inRoom);
+
+  const { roomID: roomIDParam } = useParams<{ roomID: string }>();
 
   const [cardSelected, setCardSelected] = useState<CardType[]>([]);
 
@@ -29,6 +32,21 @@ export default function Room() {
   const whiteCards = useSelector((state) => state.cards);
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    (async () => {
+      if (!inRoom && firebase) {
+        try {
+          dispatch(await joinGame(roomIDParam, firebase));
+        } catch (e) {
+          dispatch(await exitGame(firebase));
+          history.push('/game');
+        }
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const startGame = () => {
     if (isHost) {

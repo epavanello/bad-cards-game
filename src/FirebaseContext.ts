@@ -46,7 +46,6 @@ export class Firebase {
 
     this.db.ref('cards').once('value', (cards) => {
       this.cards = cards.val();
-      console.log(this.cards);
     });
   }
 
@@ -97,7 +96,7 @@ export class Firebase {
   };
 
   enterRoom = (roomID: string) => {
-    this.roomID = roomID;
+    this.roomID = roomID.trim();
 
     // Notify game started
     this.room()
@@ -134,13 +133,15 @@ export class Firebase {
 
     // Set user in room
     const userRow = this.userInRoom();
-    userRow.set({
-      username: this.auth.currentUser?.displayName,
-      points: 0,
-    });
-
-    // Delete on disconnect
-    userRow.onDisconnect().remove();
+    return userRow
+      .set({
+        username: this.auth.currentUser?.displayName,
+        points: 0,
+      })
+      .then(() => {
+        // Delete on disconnect
+        userRow.onDisconnect().remove();
+      });
   };
 
   startGame = () => {
@@ -151,7 +152,11 @@ export class Firebase {
     if (this.roomID) {
       this.room().child('game_started').off('value');
       this.users().off('value');
-      this.userInRoom().remove();
+      this.userInRoom()
+        .remove()
+        .catch(() => {
+          /* no problem */
+        });
     }
     this.roomID = '';
   };

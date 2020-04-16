@@ -66,6 +66,7 @@ export interface GameJoindedAction {
     roomID: string;
   };
 }
+
 export interface GameExitedAction {
   type: typeof GAME_EXITED;
 }

@@ -56,9 +56,9 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
     case LOGOUT:
       return { ...state, logged: false };
     case GAME_JOINED:
-      return { ...state, inRoom: true, roomID: action.payload.roomID };
+      return { ...state, inRoom: true, joinFailed: false, joinError: '', roomID: action.payload.roomID };
     case GAME_HOSTED:
-      return { ...state, inRoom: true, roomID: action.payload.roomID, isHost: true };
+      return { ...state, inRoom: true, joinFailed: false, joinError: '', roomID: action.payload.roomID, isHost: true };
     case GAME_EXITED:
       return { ...state, inRoom: false };
     case GAME_UPDATE_PLAYERS:

@@ -41,8 +41,8 @@ export const userLoaded = (logged: boolean, uid: string, username: string): Game
 
 export const updatePlayers = (players: UserType[]): GameUpdatePlayersAction => ({ type: GAME_UPDATE_PLAYERS, payload: { players } });
 
-export const joinGame = (roomID: string, firebase: Firebase): GameJoindedAction => {
-  firebase.enterRoom(roomID);
+export const joinGame = async (roomID: string, firebase: Firebase): Promise<GameJoindedAction> => {
+  await firebase.enterRoom(roomID);
   return { type: GAME_JOINED, payload: { roomID } };
 };
 
