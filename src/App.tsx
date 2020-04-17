@@ -17,7 +17,7 @@ function App() {
     <Router>
       <div className="flex flex-col flex-1">
         <Header />
-        <div className="container mx-auto py-16 flex-1">
+        <div className="container mx-auto p-4 sm:py-16 flex-1">
           {!userInfoLoaded ? (
             <p>Loading ...</p>
           ) : (

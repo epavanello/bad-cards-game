@@ -43,8 +43,8 @@ export default function Game() {
   return (
     <div className="w-full max-w-lg mx-auto">
       <div className="bg-white text-gray-800 shadow-md rounded p-4">
-        <div className="grid grid-cols-2">
-          <div className="border-r p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="border-b sm:border-r sm:border-b-0 p-4">
             <h1 className="text-2xl text-center mb-8">Join a game</h1>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="roomID">

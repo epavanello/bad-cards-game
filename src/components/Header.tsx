@@ -9,6 +9,7 @@ import devilLogo from '../assets/devil.svg';
 
 import HeaderButton from './HeaderButton';
 import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Header() {
   const firebase = useContext(FirebaseContext);
@@ -18,7 +19,7 @@ export default function Header() {
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
   const logged = useSelector((state) => state.logged);
 
-  const [toggleHeader, setToggleHeader] = useState(false);
+  const [headerClosed, setHeaderClosed] = useState(true);
 
   const onLogout = async () => {
     if (firebase) {
@@ -27,23 +28,24 @@ export default function Header() {
   };
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-900 px-6 py-6">
+    <nav className="flex-shrink-0 flex flex-row justify-between sm:items-center flex-wrap bg-gray-900 px-6 py-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <img src={devilLogo} className="fill-current h-8 w-8 mr-2" alt="Bad Cards logo" />
         <span className="font-semibold text-xl tracking-tight">Bad Cards</span>
       </div>
       <div className="block sm:hidden">
         <button
-          onClick={() => setToggleHeader(!toggleHeader)}
+          onClick={() => setHeaderClosed(!headerClosed)}
           className="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white"
         >
-          <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
+          {headerClosed ? (
+            <FontAwesomeIcon size="xs" icon={['fas', 'bars']} title="Menu" />
+          ) : (
+            <FontAwesomeIcon size="xs" icon={['fas', 'times']} title="Menu" />
+          )}
         </button>
       </div>
-      <div className={classNames('w-full block flex-grow sm:flex sm:items-center sm:w-auto', { hidden: toggleHeader })}>
+      <div className={classNames('w-full block flex-grow sm:flex sm:items-center sm:w-auto', { hidden: headerClosed })}>
         <div className="text-sm sm:flex-grow">
           <Link to="/home" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
             Home
@@ -60,7 +62,7 @@ export default function Header() {
           )}
         </div>
         {userInfoLoaded && (
-          <div className="flex flex-col sm:flex-row items-center">
+          <div className="flex flex-col sm:flex-row sm:items-center">
             {logged ? (
               <>
                 <div

@@ -82,7 +82,7 @@ export default function Room() {
   return (
     <div>
       <div className="w-full max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
           <div className="bg-white text-gray-800 shadow-md rounded p-8 flex flex-col">
             {gameStarted ? (
               <>
@@ -138,7 +138,7 @@ export default function Room() {
           </div>
         )}
       </div>
-      <div className="flex flex-row overflow-x-auto p-4">
+      <div className="flex flex-row overflow-x-auto p-4 -mx-4">
         {whiteCards.map((card) => (
           <Card
             key={card.id}

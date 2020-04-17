@@ -96,7 +96,7 @@ export class Firebase {
   };
 
   enterRoom = (roomID: string) => {
-    this.roomID = roomID.trim();
+    this.roomID = roomID.trim().toUpperCase();
 
     // Notify game started
     this.room()
