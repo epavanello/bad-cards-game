@@ -15,6 +15,10 @@ import {
   LogoutAction,
   LoginAction,
   LOGIN,
+  GameErrorAction,
+  GAME_ERROR,
+  GameCloseErrorAction,
+  GAME_CLOSE_ERROR,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -65,4 +69,12 @@ export const logout = async (firebase: Firebase): Promise<LogoutAction> => {
 export const login = async (firebase: Firebase, email: string, password: string): Promise<LoginAction> => {
   await firebase?.doSignInWithEmailAndPassword(email, password);
   return { type: LOGIN };
+};
+
+export const error = (error: string, titleError: string): GameErrorAction => {
+  return { type: GAME_ERROR, payload: { error, titleError } };
+};
+
+export const closeError = (): GameCloseErrorAction => {
+  return { type: GAME_CLOSE_ERROR };
 };

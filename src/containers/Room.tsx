@@ -3,7 +3,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { exitGame, joinGame } from '../redux/actions/gameActions';
+import { exitGame, joinGame, error } from '../redux/actions/gameActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
@@ -41,6 +41,7 @@ export default function Room() {
           dispatch(await joinGame(roomIDParam, firebase));
         } catch (e) {
           dispatch(await exitGame(firebase));
+          dispatch(error('Cannot join the game', 'Join game'));
           history.push('/game');
         }
       }

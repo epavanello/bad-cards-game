@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame, exitGame } from '../redux/actions/gameActions';
+import { joinGame, hostGame, exitGame, error } from '../redux/actions/gameActions';
 import { Redirect, useHistory } from 'react-router-dom';
 import PrimaryButton from '../components/PrimaryButton';
 
@@ -22,6 +22,7 @@ export default function Game() {
         dispatch(await joinGame(manualRoomID, firebase));
       } catch (e) {
         dispatch(await exitGame(firebase));
+        dispatch(error('Cannot join the game', 'Join game'));
         history.push('/game');
       }
     }

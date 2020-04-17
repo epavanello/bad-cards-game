@@ -35,13 +35,13 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build:styles": "postcss src/tailwind.css -o src/styles.css",
-    "prebuild": "npm run build:styles",
-    "prestart": "npm run build:styles",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prebuild": "npm run build:styles",
+    "prestart": "npm run build:styles",
+    "build:styles": "postcss src/tailwind.css -o src/styles.css"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -10,10 +10,10 @@ import { store } from './redux/store';
 import './styles.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faDotCircle, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faDotCircle, faBars, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 
-library.add(faDotCircle, faCircle, faBars, faTimes);
+library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle);
 
 ReactDOM.render(
   <Provider store={store}>

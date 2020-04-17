@@ -9,6 +9,8 @@ import {
   Role,
   GAME_EXITED,
   LOGOUT,
+  GAME_ERROR,
+  GAME_CLOSE_ERROR,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
@@ -27,6 +29,8 @@ export interface GameState {
   cards: CardType[];
   role: Role;
   blackCard: CardType | undefined;
+  error: string;
+  titleError: string;
 }
 
 const initialState: GameState = {
@@ -44,9 +48,11 @@ const initialState: GameState = {
   cards: [],
   role: Role.PLAYER,
   blackCard: undefined,
+  error: '',
+  titleError: '',
 };
 
-export function gameReducer(state = initialState, action: GameActionTypes) {
+export function gameReducer(state = initialState, action: GameActionTypes): GameState {
   switch (action.type) {
     case GAME_STATE_CHANGED:
       return { ...state, gameStarted: action.payload.gameStarted };
@@ -56,9 +62,9 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
     case LOGOUT:
       return { ...state, logged: false };
     case GAME_JOINED:
-      return { ...state, inRoom: true, joinFailed: false, joinError: '', roomID: action.payload.roomID };
+      return { ...state, inRoom: true, roomID: action.payload.roomID };
     case GAME_HOSTED:
-      return { ...state, inRoom: true, joinFailed: false, joinError: '', roomID: action.payload.roomID, isHost: true };
+      return { ...state, inRoom: true, roomID: action.payload.roomID, isHost: true };
     case GAME_EXITED:
       return { ...state, inRoom: false };
     case GAME_UPDATE_PLAYERS:
@@ -66,6 +72,11 @@ export function gameReducer(state = initialState, action: GameActionTypes) {
     case GAME_NEXT_ROUND:
       const { round, cards, role, blackCard, judgeID } = action.payload;
       return { ...state, judge: state.players.find((player) => player.uid === judgeID), round, cards, role, blackCard };
+    case GAME_ERROR:
+      const { error, titleError } = action.payload;
+      return { ...state, error, titleError };
+    case GAME_CLOSE_ERROR:
+      return { ...state, error: '', titleError: '' };
   }
   return state;
 }

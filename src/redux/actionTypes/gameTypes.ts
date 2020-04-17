@@ -7,6 +7,8 @@ export const GAME_UPDATE_PLAYERS = 'GAME_UPDATE_PLAYERS';
 export const GAME_JOINED = 'GAME_JOINED';
 export const GAME_EXITED = 'GAME_EXITED';
 export const GAME_HOSTED = 'GAME_HOSTED';
+export const GAME_ERROR = 'GAME_ERROR';
+export const GAME_CLOSE_ERROR = 'GAME_CLOSE_ERROR';
 
 export enum Role {
   JUDGE,
@@ -77,6 +79,17 @@ export interface GameHostedAction {
     roomID: string;
   };
 }
+export interface GameErrorAction {
+  type: typeof GAME_ERROR;
+  payload: {
+    error: string;
+    titleError: string;
+  };
+}
+export interface GameCloseErrorAction {
+  type: typeof GAME_CLOSE_ERROR;
+}
+
 export interface LogoutAction {
   type: typeof LOGOUT;
 }
@@ -93,4 +106,6 @@ export type GameActionTypes =
   | GameHostedAction
   | GameExitedAction
   | LogoutAction
-  | LoginAction;
+  | LoginAction
+  | GameErrorAction
+  | GameCloseErrorAction;

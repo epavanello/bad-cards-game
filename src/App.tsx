@@ -9,15 +9,27 @@ import { useSelector } from './redux/store';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Room from './containers/Room';
 import NotFound from './containers/NotFound';
+import Alert from './components/Alert';
+import { useDispatch } from 'react-redux';
+import { closeError } from './redux/actions/gameActions';
 
 function App() {
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
+  const error = useSelector((state) => state.error);
+  const titleError = useSelector((state) => state.titleError);
+
+  const dispatch = useDispatch();
+
+  const onCloseError = () => {
+    dispatch(closeError());
+  };
 
   return (
     <Router>
       <div className="flex flex-col flex-1">
         <Header />
-        <div className="container mx-auto p-4 sm:py-16 flex-1">
+        <div className="container mx-auto p-4 sm:py-8 flex-1">
+          {error && <Alert className="mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
           {!userInfoLoaded ? (
             <p>Loading ...</p>
           ) : (
