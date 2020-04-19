@@ -31,6 +31,7 @@
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "rxjs": "^6.5.5",
     "tailwindcss": "^1.2.0",
     "typescript": "^3.7.5"
   },
@@ -57,5 +58,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

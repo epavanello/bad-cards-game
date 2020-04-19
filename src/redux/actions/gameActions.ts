@@ -19,6 +19,16 @@ import {
   GAME_ERROR,
   GameCloseErrorAction,
   GAME_CLOSE_ERROR,
+  GAME_START,
+  GameStartAction,
+  GameSendSelectedAction,
+  GAME_SEND_SELECTED,
+  GameSendWinnerAction,
+  GAME_SEND_WINNER,
+  RedirectAfterLoginAction,
+  REDIRECT_AFTER_LOGIN,
+  RedirectDoneAction,
+  REDIRECT_DONE,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -45,19 +55,20 @@ export const userLoaded = (logged: boolean, uid: string, username: string): Game
 
 export const updatePlayers = (players: UserType[]): GameUpdatePlayersAction => ({ type: GAME_UPDATE_PLAYERS, payload: { players } });
 
-export const joinGame = async (roomID: string, firebase: Firebase): Promise<GameJoindedAction> => {
-  await firebase.enterRoom(roomID);
+export const joinGame = (roomID: string): GameJoindedAction => {
   return { type: GAME_JOINED, payload: { roomID } };
 };
 
-export const hostGame = async (firebase: Firebase) => {
+export const hostGame = async () => {
   const response = await axios.get<{ roomID: string }>('/game/createRoom');
-  firebase?.enterRoom(response.data.roomID);
   return { type: GAME_HOSTED, payload: { roomID: response.data.roomID } };
 };
 
-export const exitGame = (firebase: Firebase): GameExitedAction => {
-  firebase.exitRoom();
+export const startGame = (): GameStartAction => {
+  return { type: GAME_START };
+};
+
+export const exitGame = (): GameExitedAction => {
   return { type: GAME_EXITED };
 };
 
@@ -77,4 +88,20 @@ export const error = (error: string, titleError: string): GameErrorAction => {
 
 export const closeError = (): GameCloseErrorAction => {
   return { type: GAME_CLOSE_ERROR };
+};
+
+export const sendSelected = (cards: CardType[]): GameSendSelectedAction => {
+  return { type: GAME_SEND_SELECTED, payload: { cards } };
+};
+
+export const sendWinner = (player: UserType): GameSendWinnerAction => {
+  return { type: GAME_SEND_WINNER, payload: { player } };
+};
+
+export const redirectAfterLogin = (pathAfterLogin: string): RedirectAfterLoginAction => {
+  return { type: REDIRECT_AFTER_LOGIN, payload: { pathAfterLogin } };
+};
+
+export const redirectDone = (): RedirectDoneAction => {
+  return { type: REDIRECT_DONE };
 };

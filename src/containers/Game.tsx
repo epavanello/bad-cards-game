@@ -1,37 +1,24 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame, exitGame, error } from '../redux/actions/gameActions';
-import { Redirect, useHistory } from 'react-router-dom';
+import { joinGame, hostGame } from '../redux/actions/gameActions';
+import { Redirect } from 'react-router-dom';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function Game() {
-  const firebase = useContext(FirebaseContext);
   const [manualRoomID, setManualRoomID] = useState('');
   const roomID = useSelector((state) => state.roomID);
   const inRoom = useSelector((state) => state.inRoom);
   const logged = useSelector((state) => state.logged);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const onJoinRoom = async () => {
-    if (firebase) {
-      try {
-        dispatch(await joinGame(manualRoomID, firebase));
-      } catch (e) {
-        dispatch(await exitGame(firebase));
-        dispatch(error('Cannot join the game', 'Join game'));
-        history.push('/game');
-      }
-    }
+    dispatch(joinGame(manualRoomID));
   };
 
   const onHostGame = async () => {
-    if (firebase) {
-      dispatch(await hostGame(firebase));
-    }
+    dispatch(await hostGame());
   };
 
   if (!logged) {

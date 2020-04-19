@@ -1,31 +1,44 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FirebaseContext } from '../FirebaseContext';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/actions/gameActions';
+import { login, redirectDone } from '../redux/actions/gameActions';
 
 export default function Login() {
   const firebase = useContext(FirebaseContext);
   const logged = useSelector((state) => state.logged);
+  const pathAfterLogin = useSelector((state) => state.pathAfterLogin);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(
+    () => () => {
+      if (pathAfterLogin) {
+        dispatch(redirectDone());
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const doLogin = async () => {
     setError('');
     if (firebase) {
       dispatch(await login(firebase, email, password));
-      history.push('/game');
     }
   };
 
   if (logged) {
-    return <Redirect to="/game" />;
+    if (pathAfterLogin) {
+      return <Redirect to={pathAfterLogin} />;
+    } else {
+      return <Redirect to="/game" />;
+    }
   }
 
   return (

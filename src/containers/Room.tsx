@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../components/PrimaryButton';
-import { FirebaseContext } from '../FirebaseContext';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { exitGame, joinGame, error } from '../redux/actions/gameActions';
+import { exitGame, joinGame, startGame, sendSelected, sendWinner, error, redirectAfterLogin } from '../redux/actions/gameActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
 import { CardColor, CardType } from '../redux/actionTypes/gameTypes';
-import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 
 export default function Room() {
-  const firebase = useContext(FirebaseContext);
   const gameStarted = useSelector((state) => state.gameStarted);
   const round = useSelector((state) => state.round);
   const players = useSelector((state) => state.players);
@@ -21,10 +19,11 @@ export default function Room() {
   const roomID = useSelector((state) => state.roomID);
   const logged = useSelector((state) => state.logged);
   const inRoom = useSelector((state) => state.inRoom);
+  const selectionsSent = useSelector((state) => state.selectionsSent);
 
   const { roomID: roomIDParam } = useParams<{ roomID: string }>();
 
-  const [cardSelected, setCardSelected] = useState<CardType[]>([]);
+  const [cardsSelected, setCardsSelected] = useState<CardType[]>([]);
 
   const isJudge = judge?.uid === uid;
 
@@ -32,53 +31,102 @@ export default function Room() {
   const whiteCards = useSelector((state) => state.cards);
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
+  // Join if roomIDParam
   useEffect(() => {
-    (async () => {
-      if (!inRoom && firebase) {
-        try {
-          dispatch(await joinGame(roomIDParam, firebase));
-        } catch (e) {
-          dispatch(await exitGame(firebase));
-          dispatch(error('Cannot join the game', 'Join game'));
-          history.push('/game');
-        }
-      }
-    })();
+    if (!inRoom && logged && roomIDParam) {
+      dispatch(joinGame(roomIDParam));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startGame = () => {
-    if (isHost) {
-      firebase?.startGame();
+  // Exit game at unload component
+  useEffect(() => {
+    return () => {
+      dispatch(exitGame());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setCardsSelected([]);
+  }, [round]);
+
+  const onStartGame = () => {
+    dispatch(startGame());
+  };
+
+  const sendSelections = () => {
+    if (isJudge) {
+      const winner = players.find((player) =>
+        player.cardSelected.find((card) => cardsSelected.find((cardSelected) => cardSelected.id === card.id))
+      );
+      if (winner) {
+        dispatch(sendWinner(winner));
+      }
+    } else {
+      dispatch(sendSelected(cardsSelected));
     }
   };
 
   const onSelectCard = (checked: boolean, card: CardType) => {
     if (checked) {
-      if (!cardSelected.find((c) => c.id === card.id)) {
-        setCardSelected([...cardSelected, card]);
+      if (!cardsSelected.find((c) => c.id === card.id)) {
+        //setCardsSelected([...cardsSelected, card]);
+        setCardsSelected([card]);
       }
     } else {
-      if (cardSelected.find((c) => c.id === card.id)) {
-        setCardSelected(cardSelected.filter((c) => c.id !== card.id));
+      if (cardsSelected.find((c) => c.id === card.id)) {
+        setCardsSelected(cardsSelected.filter((c) => c.id !== card.id));
       }
     }
   };
 
-  useEffect(() => {
-    return () => {
-      if (firebase) {
-        dispatch(exitGame(firebase));
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const shareRoom = () => {
+    let n = navigator as any;
+    if (n && n.share) {
+      n.share({
+        title: document.title,
+        text: 'Bad Cards URL',
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Room url copied');
+    }
+  };
 
   if (!logged) {
-    return <Redirect to={`/home`} />;
+    dispatch(error('You need to login or register before enter in a room', 'Not authorized'));
+    dispatch(redirectAfterLogin(window.location.pathname));
+    return <Redirect to="/login" />;
   }
+
+  let cardsToRender: CardType[] = [];
+  let checkable = false;
+  if (isJudge) {
+    cardsToRender = players.map((player) => player.cardSelected).flat(1);
+    checkable = !selectionsSent;
+  } else {
+    if (selectionsSent) {
+      cardsToRender = cardsSelected;
+      checkable = false;
+    } else {
+      cardsToRender = whiteCards;
+      checkable = true;
+    }
+  }
+
+  const shareButton = (
+    <FontAwesomeIcon
+      icon={['fas', 'share-square']}
+      className="hover:opacity-75 cursor-pointer hover:border-blue-800"
+      size="xs"
+      role="button"
+      title="Share"
+      onClick={shareRoom}
+    />
+  );
 
   return (
     <div>
@@ -91,7 +139,7 @@ export default function Room() {
                 {isJudge ? (
                   <p className="italic text-gray-700">Wait all players choose cards</p>
                 ) : (
-                  <p className="italic text-gray-700">Choose the best cards</p>
+                  <p className="italic text-gray-700">{cardsSelected ? 'Wait the end of the round' : 'Choose the best cards'}</p>
                 )}
                 {blackCard && (
                   <div className="mt-4 flex flex-row justify-center">
@@ -101,15 +149,21 @@ export default function Room() {
               </>
             ) : isHost ? (
               <>
-                <h1 className="text-2xl mb-4">Room {roomID} created</h1>
+                <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
+                  Room {roomID} created
+                  {shareButton}
+                </h1>
                 <p className="italic text-gray-700 mb-4">Start the game when all players are ready</p>
-                <PrimaryButton className="self-start" disabled={players.length < 2} onClick={startGame}>
+                <PrimaryButton className="self-start" disabled={players.length < 2} onClick={onStartGame}>
                   Start game
                 </PrimaryButton>
               </>
             ) : (
               <>
-                <h1 className="text-2xl mb-4">Starting...</h1>
+                <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
+                  Starting...
+                  {shareButton}
+                </h1>
                 <p className="italic text-gray-700">Wait the host start the game</p>
               </>
             )}
@@ -121,36 +175,49 @@ export default function Room() {
               {players &&
                 players.map((user) => (
                   <li key={user.uid} className="flex flex-row justify-between items-center px-4">
-                    <FontAwesomeIcon icon={['far', 'circle']} className="mr-4" />
+                    <FontAwesomeIcon icon={['far', user.cardSelected.length > 0 ? 'dot-circle' : 'circle']} className="mr-4" />
                     <span className="flex-1">
                       {user.username}
                       {gameStarted ? ` (${user.points})` : ''}
                     </span>
+                    {user.winner && <FontAwesomeIcon icon={['fas', 'trophy']} className="mr-2" />}
                     <span className="text-gray-600">{user.uid === judge?.uid ? 'Kazar' : 'Player'}</span>
                   </li>
                 ))}
             </ul>
           </div>
         </div>
-        {whiteCards.length > 0 && (
+        {!selectionsSent && cardsToRender.length > 0 && (
           <div className="mt-8">
-            <p className="mb-4">Card choosen: ({cardSelected.length})</p>
-            <PrimaryButton disabled={cardSelected.length === 0}>Send selection/s</PrimaryButton>
+            {isJudge ? (
+              <PrimaryButton disabled={cardsSelected.length === 0} onClick={sendSelections}>
+                Choose winner
+              </PrimaryButton>
+            ) : (
+              <>
+                <PrimaryButton disabled={cardsSelected.length === 0} onClick={sendSelections}>
+                  Send selection
+                </PrimaryButton>
+              </>
+            )}
           </div>
         )}
       </div>
-      <div className="flex flex-row overflow-x-auto p-4 -mx-4">
-        {whiteCards.map((card) => (
-          <Card
-            key={card.id}
-            checkable
-            onCheckChange={onSelectCard}
-            className="mt-4 mr-4 flex-shrink-0"
-            card={card}
-            color={CardColor.White}
-          />
-        ))}
-      </div>
+      {cardsToRender.length > 0 && (
+        <div className="flex flex-row overflow-x-auto p-4 -mx-4">
+          {cardsToRender.map((card) => (
+            <Card
+              key={card.id}
+              checkable={checkable}
+              onCheckChange={onSelectCard}
+              className="mt-4 mr-4 flex-shrink-0"
+              card={card}
+              color={CardColor.White}
+              checked={!!cardsSelected.find((c) => c.id === card.id)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

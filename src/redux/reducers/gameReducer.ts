@@ -11,6 +11,9 @@ import {
   LOGOUT,
   GAME_ERROR,
   GAME_CLOSE_ERROR,
+  GAME_SEND_SELECTED,
+  REDIRECT_AFTER_LOGIN,
+  REDIRECT_DONE,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
@@ -29,8 +32,10 @@ export interface GameState {
   cards: CardType[];
   role: Role;
   blackCard: CardType | undefined;
+  selectionsSent: boolean;
   error: string;
   titleError: string;
+  pathAfterLogin: string;
 }
 
 const initialState: GameState = {
@@ -48,8 +53,10 @@ const initialState: GameState = {
   cards: [],
   role: Role.PLAYER,
   blackCard: undefined,
+  selectionsSent: false,
   error: '',
   titleError: '',
+  pathAfterLogin: '',
 };
 
 export function gameReducer(state = initialState, action: GameActionTypes): GameState {
@@ -64,19 +71,33 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
     case GAME_JOINED:
       return { ...state, inRoom: true, roomID: action.payload.roomID };
     case GAME_HOSTED:
-      return { ...state, inRoom: true, roomID: action.payload.roomID, isHost: true };
+      return { ...state, isHost: true };
     case GAME_EXITED:
       return { ...state, inRoom: false };
     case GAME_UPDATE_PLAYERS:
       return { ...state, players: [...action.payload.players] };
     case GAME_NEXT_ROUND:
       const { round, cards, role, blackCard, judgeID } = action.payload;
-      return { ...state, judge: state.players.find((player) => player.uid === judgeID), round, cards, role, blackCard };
+      return {
+        ...state,
+        judge: state.players.find((player) => player.uid === judgeID),
+        round,
+        cards,
+        role,
+        blackCard,
+        selectionsSent: false,
+      };
     case GAME_ERROR:
       const { error, titleError } = action.payload;
       return { ...state, error, titleError };
     case GAME_CLOSE_ERROR:
       return { ...state, error: '', titleError: '' };
+    case GAME_SEND_SELECTED:
+      return { ...state, selectionsSent: true };
+    case REDIRECT_AFTER_LOGIN:
+      return { ...state, pathAfterLogin: action.payload.pathAfterLogin };
+    case REDIRECT_DONE:
+      return { ...state, pathAfterLogin: '' };
   }
   return state;
 }

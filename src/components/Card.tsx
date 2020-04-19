@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CardType, CardColor } from '../redux/actionTypes/gameTypes';
 import classNames from 'classnames';
 
@@ -7,13 +7,11 @@ type CardParams = {
   color: CardColor;
   className?: string;
   checkable?: boolean;
+  checked?: boolean;
   onCheckChange?: (checked: boolean, card: CardType) => void;
 };
-export default function Card({ card, color, className, checkable, onCheckChange }: CardParams) {
-  const [checked, setChecked] = useState(false);
-
+export default function Card({ card, color, className, checkable, checked, onCheckChange }: CardParams) {
   const changeChecked = (value: boolean) => {
-    setChecked(value);
     onCheckChange && onCheckChange(value, card);
   };
 
@@ -25,7 +23,9 @@ export default function Card({ card, color, className, checkable, onCheckChange 
         'bg-gray-100': color === CardColor.White,
         'text-gray-800': color === CardColor.White,
       })}
-      onClick={() => changeChecked(!checked)}
+      onClick={() => {
+        checkable && changeChecked(!checked);
+      }}
       role="button"
     >
       {card.message}
@@ -34,7 +34,9 @@ export default function Card({ card, color, className, checkable, onCheckChange 
           type="checkbox"
           className="absolute right-0 bottom-0 mb-4 mr-4"
           checked={checked}
-          onChange={(e) => changeChecked(e.target.checked)}
+          onChange={(e) => {
+            checkable && changeChecked(e.target.checked);
+          }}
         />
       )}
     </div>

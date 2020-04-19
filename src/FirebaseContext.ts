@@ -1,11 +1,9 @@
-import { gameStarted, newRound, userLoaded as userInfoLoaded, updatePlayers } from './redux/actions/gameActions';
 import React from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { Dispatch } from 'redux';
-import { GameActionTypes, CardType, UserType, Role } from './redux/actionTypes/gameTypes';
-import Axios from 'axios';
+import { CardType, UserType, Role } from './redux/actionTypes/gameTypes';
+import { Observable } from 'rxjs';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,28 +19,14 @@ export class Firebase {
   auth: app.auth.Auth;
   db: app.database.Database;
 
-  private roomID: string = '';
-  reduxDispatch: Dispatch<GameActionTypes>;
+  roomID: string = '';
   cards: { white: CardType[]; black: CardType[] } = { white: [], black: [] };
   uid: string = '';
 
-  constructor(reduxDispatch: Dispatch<GameActionTypes>) {
+  constructor() {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
-    this.reduxDispatch = reduxDispatch;
-
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.uid = user.uid;
-        user.getIdToken(true).then((idToken) => {
-          Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
-        });
-        this.reduxDispatch(userInfoLoaded(true, user.uid, user.displayName || ''));
-      } else {
-        this.reduxDispatch(userInfoLoaded(false, '', ''));
-      }
-    });
 
     this.db.ref('cards').once('value', (cards) => {
       this.cards = cards.val();
@@ -78,58 +62,85 @@ export class Firebase {
   private userInRoom = () => this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}`);
 
   private roundCards = async (): Promise<CardType[]> => {
-    const cards: CardType[] = [];
-
     const whiteRef = this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/white`);
     const whiteSnap = await whiteRef.once('value');
     if (!whiteSnap.exists()) {
-      console.error('White not exists', whiteSnap);
+      throw new Error('White not exists');
     } else {
-      const indexes = whiteSnap.val() || '';
-      if (indexes !== '') {
-        indexes.split('|').forEach((i: number) => {
-          cards.push(this.cards.white[i]);
-        });
-      }
+      return this.getCards(this.cards.white, whiteSnap.val() || '');
     }
-    return cards;
   };
 
-  enterRoom = (roomID: string) => {
-    this.roomID = roomID.trim().toUpperCase();
-
-    // Notify game started
-    this.room()
-      .child('game_started')
-      .on('value', (snap) => {
-        this.reduxDispatch(gameStarted(!!snap.val()));
+  private getCards = (cards: CardType[], ids: string) => {
+    const cardsResult: CardType[] = [];
+    if (ids) {
+      ids.split('|').forEach((i) => {
+        cardsResult.push(cards[+i]);
       });
+    }
+    return cardsResult;
+  };
 
-    // manage new round
-    this.room()
-      .child('round')
-      .on('value', async (snap) => {
+  // Notify game started
+  notifyOnGameStart = () =>
+    new Promise<boolean>((resolve) => {
+      const listner = this.room().child('game_started');
+      listner.on('value', (snap) => {
+        if (!!snap.val()) {
+          listner.off();
+          resolve(true);
+        }
+      });
+    });
+
+  notifyNewRound$ = () =>
+    new Observable<{ round: number; cards: CardType[]; role: Role; blackCard: CardType; judgeID: string }>((subscriber) => {
+      const listner = this.room().child('round');
+      listner.on('value', async (snap) => {
         if (snap.exists()) {
           const judgeID = (await snap.ref.parent?.child('judge').once('value'))?.val();
           const round = snap.val();
           const cards = await this.roundCards();
           const role = judgeID === this.uid ? Role.JUDGE : Role.PLAYER;
           const blackCard = this.cards.black[(await snap.ref.parent?.child('black').once('value'))?.val()];
-          this.reduxDispatch(newRound(round, cards, role, blackCard, judgeID));
+          subscriber.next({ round, cards, role, blackCard, judgeID });
         }
       });
+      return () => {
+        listner.off();
+      };
+    });
+
+  notifyNewPlayers$ = () =>
+    new Observable<UserType[]>((subscriber) => {
+      const listner = this.users();
+      listner.on('value', (snapshot) => {
+        const newPlayers: UserType[] = [];
+        snapshot.forEach((user) => {
+          if (user.exists() && user.key) {
+            const userObj = user.val();
+            newPlayers.push({
+              uid: user.key,
+              username: userObj.username,
+              points: userObj.points,
+              cardSelected: this.getCards(this.cards.white, userObj.selected),
+              winner: userObj.winner,
+            });
+          }
+          subscriber.next(newPlayers);
+        });
+      });
+      return () => {
+        listner.off();
+      };
+    });
+
+  enterRoom = (roomID: string) => {
+    this.roomID = roomID.trim().toUpperCase();
+
+    // manage new round
 
     // Notify new players
-    this.users().on('value', (snapshot) => {
-      const newPlayers: UserType[] = [];
-      snapshot.forEach((user) => {
-        if (user.exists() && user.key) {
-          const userObj = user.val();
-          newPlayers.push({ uid: user.key, username: userObj.username, points: userObj.points });
-        }
-      });
-      this.reduxDispatch(updatePlayers(newPlayers));
-    });
 
     // Set user in room
     const userRow = this.userInRoom();
@@ -144,21 +155,21 @@ export class Firebase {
       });
   };
 
-  startGame = () => {
-    this.room().child('game_started').set(true);
-  };
+  startGame = () => this.room().child('game_started').set(true);
 
-  exitRoom = () => {
+  exitRoom = async () => {
     if (this.roomID) {
-      this.room().child('game_started').off('value');
-      this.users().off('value');
-      this.userInRoom()
+      await this.userInRoom()
         .remove()
         .catch(() => {
-          /* no problem */
+          /* Can I have no permission becausa room can missing */
         });
     }
     this.roomID = '';
+  };
+
+  sendSelected = (cards: CardType[]) => {
+    return this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/selected`).set(cards.map((card) => card.id).join('|'));
   };
 }
 

@@ -1,0 +1,4 @@
+[0418/170906.411:ERROR:file_io.cc(89)] ReadExactly: expected 152, observed 120
+[0418/184633.070:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4
+[0418/185245.725:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4
+[0418/224442.988:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4
