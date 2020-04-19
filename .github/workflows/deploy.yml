@@ -21,6 +21,7 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    - uses: chrislennon/action-aws-cli@1.1
 
     # Install npm packages
     - name: Install Packages
@@ -29,3 +30,11 @@ jobs:
     # Build project
     - name: Build Project
       run: npm run build
+    
+    - name: AWS cli install action
+      run: aws s3 ls
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
