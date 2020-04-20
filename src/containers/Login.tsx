@@ -43,7 +43,7 @@ export default function Login() {
 
   return (
     <div className="w-full max-w-xs mx-auto">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 z-10">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
             Email
@@ -79,8 +79,8 @@ export default function Login() {
           >
             Sign In
           </button>
-          <Link to="/restorePassword" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Forgot Password?
+          <Link to="/signup" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+            Create an account
           </Link>
         </div>
       </form>

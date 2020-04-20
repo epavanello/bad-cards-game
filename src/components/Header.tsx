@@ -31,7 +31,7 @@ export default function Header() {
     <nav className="flex-shrink-0 flex flex-row justify-between sm:items-center flex-wrap bg-gray-900 px-6 py-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <img src={devilLogo} className="fill-current h-8 w-8 mr-2" alt="Bad Cards logo" />
-        <span className="font-semibold text-xl tracking-tight">Bad Cards</span>
+        <span className="font-semibold text-xl tracking-tight font-display tracking-wider">Bad Cards</span>
       </div>
       <div className="block sm:hidden">
         <button

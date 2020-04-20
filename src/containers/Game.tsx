@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame } from '../redux/actions/gameActions';
+import { joinGame, hostGame, redirectAfterLogin } from '../redux/actions/gameActions';
 import { Redirect } from 'react-router-dom';
 import PrimaryButton from '../components/PrimaryButton';
 
@@ -22,7 +22,8 @@ export default function Game() {
   };
 
   if (!logged) {
-    return <Redirect to={`/home`} />;
+    dispatch(redirectAfterLogin(window.location.pathname));
+    return <Redirect to={`/login`} />;
   }
   if (inRoom) {
     return <Redirect to={`/room/${roomID}`} />;
