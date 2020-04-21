@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ export default function Game() {
   const roomID = useSelector((state) => state.roomID);
   const inRoom = useSelector((state) => state.inRoom);
   const logged = useSelector((state) => state.logged);
+  const returnToGame = useSelector((state) => state.returnToGame);
   const dispatch = useDispatch();
 
   const onJoinRoom = async () => {
@@ -25,7 +26,8 @@ export default function Game() {
     dispatch(redirectAfterLogin(window.location.pathname));
     return <Redirect to={`/login`} />;
   }
-  if (inRoom) {
+
+  if (inRoom && !returnToGame) {
     return <Redirect to={`/room/${roomID}`} />;
   }
 

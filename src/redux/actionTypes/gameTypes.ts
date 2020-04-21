@@ -90,11 +90,17 @@ export interface GameHostedAction {
     roomID: string;
   };
 }
+
+export enum ErrorType {
+  LOGIN,
+  JOIN,
+}
 export interface GameErrorAction {
   type: typeof GAME_ERROR;
   payload: {
     error: string;
     titleError: string;
+    errorType: ErrorType;
   };
 }
 export interface GameCloseErrorAction {

@@ -14,18 +14,21 @@ import {
   GAME_SEND_SELECTED,
   REDIRECT_AFTER_LOGIN,
   REDIRECT_DONE,
+  ErrorType,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
 export interface GameState {
   userInfoLoaded: boolean;
-  gameStarted: boolean;
   logged: boolean;
   uid: string;
   username: string;
+
+  gameStarted: boolean;
   inRoom: boolean;
   roomID: string;
   isHost: boolean;
+
   judge: UserType | undefined;
   players: UserType[];
   round: number;
@@ -33,6 +36,8 @@ export interface GameState {
   role: Role;
   blackCard: CardType | undefined;
   selectionsSent: boolean;
+  returnToGame: boolean;
+
   error: string;
   titleError: string;
   pathAfterLogin: string;
@@ -53,6 +58,7 @@ const gameInitialState = {
   role: Role.PLAYER,
   blackCard: undefined,
   selectionsSent: false,
+  returnToGame: false,
 };
 
 const initialState: GameState = {
@@ -60,8 +66,10 @@ const initialState: GameState = {
   logged: false,
   uid: '',
   username: '',
+
   ...roomInitialState,
   ...gameInitialState,
+
   error: '',
   titleError: '',
   pathAfterLogin: '',
@@ -77,7 +85,7 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
     case LOGOUT:
       return { ...state, logged: false };
     case GAME_JOINED:
-      return { ...state, inRoom: true, roomID: action.payload.roomID };
+      return { ...state, inRoom: true, roomID: action.payload.roomID, returnToGame: false };
     case GAME_HOSTED:
       return { ...state, isHost: true };
     case GAME_EXITED:
@@ -97,7 +105,11 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
       };
     case GAME_ERROR:
       const { error, titleError } = action.payload;
-      return { ...state, error, titleError };
+      let extra = {};
+      if (action.payload.errorType === ErrorType.JOIN) {
+        extra = { returnToGame: true };
+      }
+      return { ...state, error, titleError, ...extra };
     case GAME_CLOSE_ERROR:
       return { ...state, error: '', titleError: '' };
     case GAME_SEND_SELECTED:

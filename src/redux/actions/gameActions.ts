@@ -29,6 +29,7 @@ import {
   REDIRECT_AFTER_LOGIN,
   RedirectDoneAction,
   REDIRECT_DONE,
+  ErrorType,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -82,8 +83,8 @@ export const login = async (firebase: Firebase, email: string, password: string)
   return { type: LOGIN };
 };
 
-export const error = (error: string, titleError: string): GameErrorAction => {
-  return { type: GAME_ERROR, payload: { error, titleError } };
+export const error = (error: string, titleError: string, errorType: ErrorType): GameErrorAction => {
+  return { type: GAME_ERROR, payload: { error, titleError, errorType } };
 };
 
 export const closeError = (): GameCloseErrorAction => {

@@ -27,10 +27,17 @@ export class Firebase {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
+  }
 
-    this.db.ref('cards').once('value', (cards) => {
-      this.cards = cards.val();
-    });
+  loadCards() {
+    this.db
+      .ref('cards')
+      .once('value', (cards) => {
+        this.cards = cards.val();
+      })
+      .catch((e) => {
+        console.error("Can't load cards", e);
+      });
   }
 
   doCreateUserWithEmailAndPassword = (email: string, password: string, username: string) => {
@@ -75,7 +82,13 @@ export class Firebase {
     const cardsResult: CardType[] = [];
     if (ids) {
       ids.split('|').forEach((i) => {
-        cardsResult.push(cards[+i]);
+        const currentCard = cards[+i];
+        if (!currentCard) {
+          alert('White cards are not ready, restart the game');
+          return false;
+        } else {
+          cardsResult.push(currentCard);
+        }
       });
     }
     return cardsResult;

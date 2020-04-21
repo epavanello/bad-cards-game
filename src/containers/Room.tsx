@@ -6,7 +6,7 @@ import { exitGame, joinGame, startGame, sendSelected, sendWinner, error, redirec
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
-import { CardColor, CardType } from '../redux/actionTypes/gameTypes';
+import { CardColor, CardType, ErrorType } from '../redux/actionTypes/gameTypes';
 import { Redirect, useParams } from 'react-router-dom';
 
 export default function Room() {
@@ -20,6 +20,7 @@ export default function Room() {
   const logged = useSelector((state) => state.logged);
   const inRoom = useSelector((state) => state.inRoom);
   const selectionsSent = useSelector((state) => state.selectionsSent);
+  const returnToGame = useSelector((state) => state.returnToGame);
 
   const { roomID: roomIDParam } = useParams<{ roomID: string }>();
 
@@ -43,6 +44,7 @@ export default function Room() {
   // Exit game at unload component
   useEffect(() => {
     return () => {
+      console.log('Exiting');
       dispatch(exitGame());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +101,7 @@ export default function Room() {
   if (!logged) {
     setTimeout(() => {
       // Prevent rendering conflict while redirect
-      dispatch(error('You need to login or register before enter in a room', 'Not authorized'));
+      dispatch(error('You need to login or register before enter in a room', 'Not authorized', ErrorType.LOGIN));
     }, 0);
     dispatch(redirectAfterLogin(window.location.pathname));
     return <Redirect to="/login" />;
@@ -130,6 +132,10 @@ export default function Room() {
       onClick={shareRoom}
     />
   );
+
+  if (returnToGame) {
+    return <Redirect to={`/game`} />;
+  }
 
   return (
     <div>

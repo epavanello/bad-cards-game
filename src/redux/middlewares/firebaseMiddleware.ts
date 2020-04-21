@@ -8,6 +8,7 @@ import {
   GAME_START,
   GAME_SEND_SELECTED,
   GAME_SEND_WINNER,
+  ErrorType,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
 import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error } from '../actions/gameActions';
@@ -22,6 +23,9 @@ export default function firebaseMiddleware(firebase: Firebase) {
     firebase.auth.onAuthStateChanged((user) => {
       if (user) {
         firebase.uid = user.uid;
+
+        firebase.loadCards();
+
         user.getIdToken(true).then((idToken) => {
           Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
         });
@@ -56,7 +60,7 @@ export default function firebaseMiddleware(firebase: Firebase) {
                   dispatch(updatePlayers(players));
                 });
               } catch (e) {
-                dispatch(error('Cannot join the game', 'Join game'));
+                dispatch(error('Cannot join the game', 'Join game', ErrorType.JOIN));
               }
             })();
             break;
