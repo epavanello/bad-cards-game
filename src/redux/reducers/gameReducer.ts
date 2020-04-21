@@ -38,15 +38,14 @@ export interface GameState {
   pathAfterLogin: string;
 }
 
-const initialState: GameState = {
-  userInfoLoaded: false,
-  logged: false,
-  uid: '',
-  username: '',
+const roomInitialState = {
   gameStarted: false,
   inRoom: false,
   roomID: '',
   isHost: false,
+};
+
+const gameInitialState = {
   judge: undefined,
   players: [],
   round: 0,
@@ -54,6 +53,15 @@ const initialState: GameState = {
   role: Role.PLAYER,
   blackCard: undefined,
   selectionsSent: false,
+};
+
+const initialState: GameState = {
+  userInfoLoaded: false,
+  logged: false,
+  uid: '',
+  username: '',
+  ...roomInitialState,
+  ...gameInitialState,
   error: '',
   titleError: '',
   pathAfterLogin: '',
@@ -73,7 +81,7 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
     case GAME_HOSTED:
       return { ...state, isHost: true };
     case GAME_EXITED:
-      return { ...state, inRoom: false };
+      return { ...state, ...roomInitialState, ...gameInitialState };
     case GAME_UPDATE_PLAYERS:
       return { ...state, players: [...action.payload.players] };
     case GAME_NEXT_ROUND:

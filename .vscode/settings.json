@@ -1,9 +1,4 @@
 {
-  "files.exclude": {
-    "src/setupTests.ts": true,
-    "src/serviceWorker.ts": true,
-    "src/react-app-env.d.ts": true,
-    "src/App.test.tsx": true
-  },
+  "files.exclude": {},
   "editor.formatOnSave": true
 }

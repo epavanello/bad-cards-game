@@ -97,7 +97,10 @@ export default function Room() {
   };
 
   if (!logged) {
-    dispatch(error('You need to login or register before enter in a room', 'Not authorized'));
+    setTimeout(() => {
+      // Prevent rendering conflict while redirect
+      dispatch(error('You need to login or register before enter in a room', 'Not authorized'));
+    }, 0);
     dispatch(redirectAfterLogin(window.location.pathname));
     return <Redirect to="/login" />;
   }
