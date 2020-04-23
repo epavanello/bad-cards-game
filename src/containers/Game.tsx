@@ -36,7 +36,7 @@ export default function Game() {
       <div className="bg-white text-gray-800 shadow-md rounded p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2">
           <div className="border-b sm:border-r sm:border-b-0 p-4">
-            <h1 className="text-2xl text-center mb-8">Join a game</h1>
+            <h1 className="text-2xl text-center mb-4">Join a game</h1>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="roomID">
                 Room ID
@@ -52,6 +52,12 @@ export default function Game() {
             </div>
             <div className="flex flex-row justify-center">
               <PrimaryButton onClick={onJoinRoom}>Join</PrimaryButton>
+            </div>
+          </div>
+          <div className="flex flex-col justify-start p-4">
+            <h1 className="text-2xl text-center mb-8">Host a game</h1>
+            <div className="flex-1 flex flex-row align-bottom justify-center items-end">
+              <PrimaryButton onClick={onHostGame}>Host</PrimaryButton>
             </div>
           </div>
           <div className="flex flex-col justify-start p-4">

@@ -1,22 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { FirebaseContext } from '../FirebaseContext';
+import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { signup, closeError } from '../redux/actions/gameActions';
 
 export default function Signup() {
-  const firebase = useContext(FirebaseContext);
   const logged = useSelector((state) => state.logged);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
   const doSignup = () => {
-    setError('');
-    firebase?.doCreateUserWithEmailAndPassword(email, password, username).catch((error) => {
-      setError(error.toString());
-    });
+    dispatch(closeError());
+    dispatch(signup(email, password, username));
   };
 
   if (logged) {
@@ -61,10 +59,10 @@ export default function Signup() {
             id="password"
             type="password"
             placeholder="Password"
+            autoComplete="on"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p className="text-red-500 text-xs italic">{error}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button

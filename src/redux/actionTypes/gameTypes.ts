@@ -1,5 +1,7 @@
 export const LOGIN = 'LOGIN';
+export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
+export const NEW_USERNAME = 'NEW_USERNAME';
 export const GAME_USER_INFO_LOADED = 'GAME_USER_INFO_LOADED';
 export const GAME_STATE_CHANGED = 'GAME_STATE_CHANGED';
 export const GAME_NEXT_ROUND = 'GAME_NEXT_ROUND';
@@ -93,6 +95,7 @@ export interface GameHostedAction {
 
 export enum ErrorType {
   LOGIN,
+  SIGNUP,
   JOIN,
 }
 export interface GameErrorAction {
@@ -112,7 +115,26 @@ export interface LogoutAction {
 }
 export interface LoginAction {
   type: typeof LOGIN;
+  payload: {
+    email: string;
+    password: string;
+  };
 }
+export interface SignupAction {
+  type: typeof SIGNUP;
+  payload: {
+    email: string;
+    password: string;
+    username: string;
+  };
+}
+export interface NewUsernameAction {
+  type: typeof NEW_USERNAME;
+  payload: {
+    username: string;
+  };
+}
+
 export interface GameSendSelectedAction {
   type: typeof GAME_SEND_SELECTED;
   payload: {
@@ -147,6 +169,8 @@ export type GameActionTypes =
   | GameExitedAction
   | LogoutAction
   | LoginAction
+  | SignupAction
+  | NewUsernameAction
   | GameErrorAction
   | GameCloseErrorAction
   | GameSendSelectedAction

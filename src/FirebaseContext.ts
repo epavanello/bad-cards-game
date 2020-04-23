@@ -40,20 +40,25 @@ export class Firebase {
       });
   }
 
-  doCreateUserWithEmailAndPassword = (email: string, password: string, username: string) => {
-    const unsubscribe = this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        user.updateProfile({
-          displayName: username,
-        });
+  changeUsername(username: string) {
+    this.auth.currentUser?.updateProfile({
+      displayName: username,
+    });
+  }
+
+  doCreateUserWithEmailAndPassword = (email: string, password: string) =>
+    new Promise<void>((resolve, reject) => {
+      const unsubscribe = this.auth.onAuthStateChanged((user) => {
+        if (user) {
+          resolve();
+          unsubscribe();
+        }
+      });
+      return this.auth.createUserWithEmailAndPassword(email, password).catch((e) => {
         unsubscribe();
-      }
+        reject(e);
+      });
     });
-    return this.auth.createUserWithEmailAndPassword(email, password).catch((e) => {
-      unsubscribe();
-      throw e;
-    });
-  };
 
   doSignInWithEmailAndPassword = (email: string, password: string) => this.auth.signInWithEmailAndPassword(email, password);
 

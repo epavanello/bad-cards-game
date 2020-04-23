@@ -1,18 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FirebaseContext } from '../FirebaseContext';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { login, redirectDone } from '../redux/actions/gameActions';
+import { login, redirectDone, closeError } from '../redux/actions/gameActions';
 
 export default function Login() {
-  const firebase = useContext(FirebaseContext);
   const logged = useSelector((state) => state.logged);
   const pathAfterLogin = useSelector((state) => state.pathAfterLogin);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
 
@@ -27,10 +24,8 @@ export default function Login() {
   );
 
   const doLogin = async () => {
-    setError('');
-    if (firebase) {
-      dispatch(await login(firebase, email, password));
-    }
+    dispatch(closeError());
+    dispatch(login(email, password));
   };
 
   if (logged) {
@@ -66,10 +61,10 @@ export default function Login() {
             id="password"
             type="password"
             placeholder="Password"
+            autoComplete="on"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p className="text-red-500 text-xs italic">{error}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button

@@ -9,9 +9,12 @@ import {
   GAME_SEND_SELECTED,
   GAME_SEND_WINNER,
   ErrorType,
+  SIGNUP,
+  NEW_USERNAME,
+  LOGIN,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
-import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error } from '../actions/gameActions';
+import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newUsername } from '../actions/gameActions';
 import { Subscription } from 'rxjs';
 
 export default function firebaseMiddleware(firebase: Firebase) {
@@ -38,6 +41,25 @@ export default function firebaseMiddleware(firebase: Firebase) {
     return function (next: Dispatch) {
       return async function (action: GameActionTypes) {
         switch (action.type) {
+          case LOGIN:
+            firebase.doSignInWithEmailAndPassword(action.payload.email, action.payload.password).catch((e) => {
+              dispatch(error(e.message, 'Login error', ErrorType.LOGIN));
+            });
+
+            break;
+          case SIGNUP:
+            firebase
+              .doCreateUserWithEmailAndPassword(action.payload.email, action.payload.password)
+              .then(() => {
+                dispatch(newUsername(action.payload.username));
+              })
+              .catch((e) => {
+                dispatch(error(e.message, 'Signup error', ErrorType.SIGNUP));
+              });
+            break;
+          case NEW_USERNAME:
+            firebase.changeUsername(action.payload.username);
+            break;
           case GAME_HOSTED:
             (async () => {
               await firebase.enterRoom(action.payload.roomID);

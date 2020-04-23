@@ -12,6 +12,7 @@ import NotFound from './containers/NotFound';
 import Alert from './components/Alert';
 import { useDispatch } from 'react-redux';
 import { closeError } from './redux/actions/gameActions';
+import Profile from './containers/Profile';
 
 function App() {
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
@@ -39,6 +40,7 @@ function App() {
               <Route path="/game" component={Game} />
               <Route path="/room/:roomID" component={Room} />
               <Route path="/home" component={Home} />
+              <Route path="/profile" component={Profile} />
               <Route path="/" exact component={Home} />
               <Route path="*" exact={true} component={NotFound} />
             </Switch>

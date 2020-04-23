@@ -30,6 +30,10 @@ import {
   RedirectDoneAction,
   REDIRECT_DONE,
   ErrorType,
+  SignupAction,
+  SIGNUP,
+  NewUsernameAction,
+  NEW_USERNAME,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -78,9 +82,16 @@ export const logout = async (firebase: Firebase): Promise<LogoutAction> => {
   return { type: LOGOUT };
 };
 
-export const login = async (firebase: Firebase, email: string, password: string): Promise<LoginAction> => {
-  await firebase?.doSignInWithEmailAndPassword(email, password);
-  return { type: LOGIN };
+export const login = (email: string, password: string): LoginAction => {
+  return { type: LOGIN, payload: { email, password } };
+};
+
+export const signup = (email: string, password: string, username: string): SignupAction => {
+  return { type: SIGNUP, payload: { email, password, username } };
+};
+
+export const newUsername = (username: string): NewUsernameAction => {
+  return { type: NEW_USERNAME, payload: { username } };
 };
 
 export const error = (error: string, titleError: string, errorType: ErrorType): GameErrorAction => {

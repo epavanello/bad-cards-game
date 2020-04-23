@@ -65,15 +65,17 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row sm:items-center">
             {logged ? (
               <>
-                <div
-                  className="hidden -my-2 sm:flex bg-gray-600 text-gray-100 rounded-full h-12 w-12 flex items-center justify-center cursor-default mr-4"
-                  title={username}
-                >
-                  {username
-                    .split(' ')
-                    .map((w) => w.charAt(0).toUpperCase())
-                    .join(' ')}
-                </div>
+                <Link to="/profile">
+                  <div
+                    className="hidden -my-2 sm:flex bg-gray-600 text-gray-100 rounded-full h-12 w-12 flex items-center justify-center cursor-default mr-4 cursor-pointer border-2 border-transparent hover:border-blue-600"
+                    title={username}
+                  >
+                    {username
+                      .split(' ')
+                      .map((w) => w.charAt(0).toUpperCase())
+                      .join(' ')}
+                  </div>
+                </Link>
                 <HeaderButton className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
                   Logout
                 </HeaderButton>
