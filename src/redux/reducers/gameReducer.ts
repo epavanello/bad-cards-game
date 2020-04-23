@@ -15,6 +15,7 @@ import {
   REDIRECT_AFTER_LOGIN,
   REDIRECT_DONE,
   ErrorType,
+  NEW_DISPLAY_NAME,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
@@ -22,7 +23,7 @@ export interface GameState {
   userInfoLoaded: boolean;
   logged: boolean;
   uid: string;
-  username: string;
+  displayName: string;
 
   gameStarted: boolean;
   inRoom: boolean;
@@ -65,7 +66,7 @@ const initialState: GameState = {
   userInfoLoaded: false,
   logged: false,
   uid: '',
-  username: '',
+  displayName: '',
 
   ...roomInitialState,
   ...gameInitialState,
@@ -80,8 +81,10 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
     case GAME_STATE_CHANGED:
       return { ...state, gameStarted: action.payload.gameStarted };
     case GAME_USER_INFO_LOADED:
-      const { logged, uid, username } = action.payload;
-      return { ...state, userInfoLoaded: true, logged, uid, username };
+      const { logged, uid, displayName } = action.payload;
+      return { ...state, userInfoLoaded: true, logged, uid, displayName };
+    case NEW_DISPLAY_NAME:
+      return { ...state, displayName: action.payload.displayName };
     case LOGOUT:
       return { ...state, logged: false };
     case GAME_JOINED:

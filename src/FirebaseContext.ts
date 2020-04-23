@@ -40,11 +40,13 @@ export class Firebase {
       });
   }
 
-  changeUsername(username: string) {
+  changeDisplayName(displayName: string) {
     this.auth.currentUser?.updateProfile({
-      displayName: username,
+      displayName: displayName,
     });
   }
+
+  deleteUser = () => this.auth.currentUser?.delete();
 
   doCreateUserWithEmailAndPassword = (email: string, password: string) =>
     new Promise<void>((resolve, reject) => {
@@ -139,7 +141,7 @@ export class Firebase {
             const userObj = user.val();
             newPlayers.push({
               uid: user.key,
-              username: userObj.username,
+              displayName: userObj.displayName,
               points: userObj.points,
               cardSelected: this.getCards(this.cards.white, userObj.selected),
               winner: userObj.winner,
@@ -164,7 +166,7 @@ export class Firebase {
     const userRow = this.userInRoom();
     return userRow
       .set({
-        username: this.auth.currentUser?.displayName,
+        displayName: this.auth.currentUser?.displayName,
         points: 0,
       })
       .then(() => {

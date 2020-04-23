@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from '../components/Card';
 import { CardColor } from '../redux/actionTypes/gameTypes';
-import HeaderButton from '../components/HeaderButton';
 import { useHistory } from 'react-router-dom';
+import Button from '../components/Button';
 
 export default function Home() {
   const history = useHistory();
@@ -30,13 +30,15 @@ export default function Home() {
         />
       </div>
       <div className="text-center mt-16">
-        <HeaderButton
+        <Button
+          size="SMALL"
+          type="OUTLINE"
           onClick={() => {
             history.push('/game');
           }}
         >
           Start now
-        </HeaderButton>
+        </Button>
       </div>
     </div>
   );

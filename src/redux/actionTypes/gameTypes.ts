@@ -1,7 +1,8 @@
 export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
-export const NEW_USERNAME = 'NEW_USERNAME';
+export const DELETE_USER = 'DELETE_USER';
+export const NEW_DISPLAY_NAME = 'NEW_DISPLAY_NAME';
 export const GAME_USER_INFO_LOADED = 'GAME_USER_INFO_LOADED';
 export const GAME_STATE_CHANGED = 'GAME_STATE_CHANGED';
 export const GAME_NEXT_ROUND = 'GAME_NEXT_ROUND';
@@ -32,7 +33,7 @@ export enum CardColor {
 }
 
 export interface UserType {
-  username: string;
+  displayName: string;
   uid: string;
   points: number;
   cardSelected: CardType[];
@@ -60,7 +61,7 @@ export interface GameUserInfoLoadedAction {
   payload: {
     logged: boolean;
     uid: string;
-    username: string;
+    displayName: string;
   };
 }
 
@@ -96,6 +97,8 @@ export interface GameHostedAction {
 export enum ErrorType {
   LOGIN,
   SIGNUP,
+  DELETE_USER,
+  PROFILE,
   JOIN,
 }
 export interface GameErrorAction {
@@ -113,6 +116,9 @@ export interface GameCloseErrorAction {
 export interface LogoutAction {
   type: typeof LOGOUT;
 }
+export interface DeleteUserAction {
+  type: typeof DELETE_USER;
+}
 export interface LoginAction {
   type: typeof LOGIN;
   payload: {
@@ -125,13 +131,13 @@ export interface SignupAction {
   payload: {
     email: string;
     password: string;
-    username: string;
+    displayName: string;
   };
 }
-export interface NewUsernameAction {
-  type: typeof NEW_USERNAME;
+export interface NewDisplayNameAction {
+  type: typeof NEW_DISPLAY_NAME;
   payload: {
-    username: string;
+    displayName: string;
   };
 }
 
@@ -168,9 +174,10 @@ export type GameActionTypes =
   | GameHostedAction
   | GameExitedAction
   | LogoutAction
+  | DeleteUserAction
   | LoginAction
   | SignupAction
-  | NewUsernameAction
+  | NewDisplayNameAction
   | GameErrorAction
   | GameCloseErrorAction
   | GameSendSelectedAction

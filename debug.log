@@ -3,3 +3,4 @@
 [0418/185245.725:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4
 [0418/224442.988:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4
 [0423/232309.105:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
+[0423/235608.926:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value c7e7acaa-8a33-400f-948d-9eb00b04bcb4

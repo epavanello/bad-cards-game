@@ -10,11 +10,12 @@ import {
   GAME_SEND_WINNER,
   ErrorType,
   SIGNUP,
-  NEW_USERNAME,
   LOGIN,
+  NEW_DISPLAY_NAME,
+  DELETE_USER,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
-import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newUsername } from '../actions/gameActions';
+import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newDisplayName } from '../actions/gameActions';
 import { Subscription } from 'rxjs';
 
 export default function firebaseMiddleware(firebase: Firebase) {
@@ -38,6 +39,14 @@ export default function firebaseMiddleware(firebase: Firebase) {
       }
     });
 
+    const checkDisplayName = (displayName: string) => {
+      if (!displayName.trim()) {
+        dispatch(error('Display name not valid', 'Profile error', ErrorType.PROFILE));
+        return false;
+      }
+      return true;
+    };
+
     return function (next: Dispatch) {
       return async function (action: GameActionTypes) {
         switch (action.type) {
@@ -48,17 +57,29 @@ export default function firebaseMiddleware(firebase: Firebase) {
 
             break;
           case SIGNUP:
-            firebase
-              .doCreateUserWithEmailAndPassword(action.payload.email, action.payload.password)
-              .then(() => {
-                dispatch(newUsername(action.payload.username));
-              })
-              .catch((e) => {
-                dispatch(error(e.message, 'Signup error', ErrorType.SIGNUP));
-              });
+            if (checkDisplayName(action.payload.displayName)) {
+              firebase
+                .doCreateUserWithEmailAndPassword(action.payload.email, action.payload.password)
+                .then(() => {
+                  dispatch(newDisplayName(action.payload.displayName));
+                })
+                .catch((e) => {
+                  dispatch(error(e.message, 'Signup error', ErrorType.SIGNUP));
+                });
+            }
+
             break;
-          case NEW_USERNAME:
-            firebase.changeUsername(action.payload.username);
+          case NEW_DISPLAY_NAME:
+            if (checkDisplayName(action.payload.displayName)) {
+              firebase.changeDisplayName(action.payload.displayName);
+            } else {
+              return;
+            }
+            break;
+          case DELETE_USER:
+            firebase.deleteUser()?.catch((e) => {
+              dispatch(error(e.message, 'Delete user', ErrorType.DELETE_USER));
+            });
             break;
           case GAME_HOSTED:
             (async () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PrimaryButton from '../components/PrimaryButton';
+import Button from '../components/Button';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { exitGame, joinGame, startGame, sendSelected, sendWinner, error, redirectAfterLogin } from '../redux/actions/gameActions';
@@ -163,9 +163,9 @@ export default function Room() {
                   {shareButton}
                 </h1>
                 <p className="italic text-gray-700 mb-4">Start the game when all players are ready</p>
-                <PrimaryButton className="self-start" disabled={players.length < 2} onClick={onStartGame}>
+                <Button className="self-start" disabled={players.length < 2} onClick={onStartGame}>
                   Start game
-                </PrimaryButton>
+                </Button>
               </>
             ) : (
               <>
@@ -186,7 +186,7 @@ export default function Room() {
                   <li key={user.uid} className="flex flex-row justify-between items-center px-4">
                     <FontAwesomeIcon icon={['far', user.cardSelected.length > 0 ? 'dot-circle' : 'circle']} className="mr-4" />
                     <span className="flex-1">
-                      {user.username}
+                      {user.displayName}
                       {gameStarted ? ` (${user.points})` : ''}
                     </span>
                     {user.winner && <FontAwesomeIcon icon={['fas', 'trophy']} className="mr-2" />}
@@ -199,14 +199,14 @@ export default function Room() {
         {!selectionsSent && cardsToRender.length > 0 && (
           <div className="mt-8">
             {isJudge ? (
-              <PrimaryButton disabled={cardsSelected.length === 0} onClick={sendSelections}>
+              <Button disabled={cardsSelected.length === 0} onClick={sendSelections}>
                 Choose winner
-              </PrimaryButton>
+              </Button>
             ) : (
               <>
-                <PrimaryButton disabled={cardsSelected.length === 0} onClick={sendSelections}>
+                <Button disabled={cardsSelected.length === 0} onClick={sendSelections}>
                   Send selection
-                </PrimaryButton>
+                </Button>
               </>
             )}
           </div>

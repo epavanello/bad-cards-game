@@ -7,15 +7,15 @@ import { logout } from '../redux/actions/gameActions';
 
 import devilLogo from '../assets/devil.svg';
 
-import HeaderButton from './HeaderButton';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ProfileLogo } from './ProfileLogo';
+import Button from './Button';
 
 export default function Header() {
   const firebase = useContext(FirebaseContext);
   const dispatch = useDispatch();
 
-  const username = useSelector((state) => state.username);
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
   const logged = useSelector((state) => state.logged);
 
@@ -65,28 +65,24 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row sm:items-center">
             {logged ? (
               <>
-                <Link to="/profile">
-                  <div
-                    className="hidden -my-2 sm:flex bg-gray-600 text-gray-100 rounded-full h-12 w-12 flex items-center justify-center cursor-default mr-4 cursor-pointer border-2 border-transparent hover:border-blue-600"
-                    title={username}
-                  >
-                    {username
-                      .split(' ')
-                      .map((w) => w.charAt(0).toUpperCase())
-                      .join(' ')}
-                  </div>
+                <Link to="/profile" className="mr-4">
+                  <ProfileLogo />
                 </Link>
-                <HeaderButton className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
+                <Button type="OUTLINE" size="SMALL" className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
                   Logout
-                </HeaderButton>
+                </Button>
               </>
             ) : (
               <>
                 <Link to="/login" className="sm:mr-4 block mt-4 sm:mt-0">
-                  <HeaderButton className="block w-full sm:w-auto">Login</HeaderButton>
+                  <Button type="OUTLINE" size="SMALL" className="block w-full sm:w-auto">
+                    Login
+                  </Button>
                 </Link>
                 <Link to="/signup" className="block mt-4 sm:mt-0">
-                  <HeaderButton className="block w-full sm:w-auto">Register</HeaderButton>
+                  <Button type="OUTLINE" size="SMALL" className="block w-full sm:w-auto">
+                    Register
+                  </Button>
                 </Link>
               </>
             )}

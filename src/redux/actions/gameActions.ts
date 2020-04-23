@@ -32,8 +32,10 @@ import {
   ErrorType,
   SignupAction,
   SIGNUP,
-  NewUsernameAction,
-  NEW_USERNAME,
+  NEW_DISPLAY_NAME,
+  NewDisplayNameAction,
+  DeleteUserAction,
+  DELETE_USER,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -53,9 +55,9 @@ export const newRound = (round: number, cards: CardType[], role: Role, blackCard
   },
 });
 
-export const userLoaded = (logged: boolean, uid: string, username: string): GameUserInfoLoadedAction => ({
+export const userLoaded = (logged: boolean, uid: string, displayName: string): GameUserInfoLoadedAction => ({
   type: GAME_USER_INFO_LOADED,
-  payload: { username, logged, uid },
+  payload: { displayName, logged, uid },
 });
 
 export const updatePlayers = (players: UserType[]): GameUpdatePlayersAction => ({ type: GAME_UPDATE_PLAYERS, payload: { players } });
@@ -86,12 +88,16 @@ export const login = (email: string, password: string): LoginAction => {
   return { type: LOGIN, payload: { email, password } };
 };
 
-export const signup = (email: string, password: string, username: string): SignupAction => {
-  return { type: SIGNUP, payload: { email, password, username } };
+export const signup = (email: string, password: string, displayName: string): SignupAction => {
+  return { type: SIGNUP, payload: { email, password, displayName } };
 };
 
-export const newUsername = (username: string): NewUsernameAction => {
-  return { type: NEW_USERNAME, payload: { username } };
+export const newDisplayName = (displayName: string): NewDisplayNameAction => {
+  return { type: NEW_DISPLAY_NAME, payload: { displayName } };
+};
+
+export const deleteUser = (): DeleteUserAction => {
+  return { type: DELETE_USER };
 };
 
 export const error = (error: string, titleError: string, errorType: ErrorType): GameErrorAction => {
