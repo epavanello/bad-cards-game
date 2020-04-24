@@ -51,7 +51,7 @@ export default function Game() {
           </div>
           <div className="pt-8 sm:pt-0 sm:pl-8 flex flex-col justify-center">
             <Title>or</Title>
-            <Title className="mb-4">Join an existing table</Title>
+            <Title className="mb-4">Join an existing room</Title>
             <div className="flex justify-center">
               <Button onClick={onJoinExistingRoom}>Enter</Button>
             </div>

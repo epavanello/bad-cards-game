@@ -89,12 +89,12 @@ export default function firebaseMiddleware(firebase: Firebase) {
             })();
             break;
           case GAME_JOINING_EXISTING:
-            Axios.get<{ roomID: string }>('/game/joinExisting')
+            Axios.get<{ roomID?: string; error?: string }>('/game/joinExisting')
               .then((response) => {
                 if (response.data.roomID) {
                   dispatch(joinGame(response.data.roomID));
                 } else {
-                  dispatch(error('No room available now', 'Join game', ErrorType.JOIN));
+                  dispatch(error(response.data.error || 'No room available now', 'Join game', ErrorType.JOIN));
                 }
               })
               .catch((e) => {
