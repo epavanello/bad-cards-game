@@ -2,7 +2,7 @@ import { MiddlewareAPI, Dispatch } from 'redux';
 import { Firebase } from '../../FirebaseContext';
 import {
   GameActionTypes,
-  GAME_HOSTED,
+  GAME_HOSTING,
   GAME_JOINED,
   GAME_EXITED,
   GAME_START,
@@ -13,6 +13,7 @@ import {
   LOGIN,
   NEW_DISPLAY_NAME,
   DELETE_USER,
+  GAME_JOINING_EXISTING,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
 import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newDisplayName } from '../actions/gameActions';
@@ -81,11 +82,24 @@ export default function firebaseMiddleware(firebase: Firebase) {
               dispatch(error(e.message, 'Delete user', ErrorType.DELETE_USER));
             });
             break;
-          case GAME_HOSTED:
+          case GAME_HOSTING:
             (async () => {
-              await firebase.enterRoom(action.payload.roomID);
-              dispatch(joinGame(action.payload.roomID));
+              const response = await Axios.get<{ roomID: string }>('/game/createRoom');
+              dispatch(joinGame(response.data.roomID));
             })();
+            break;
+          case GAME_JOINING_EXISTING:
+            Axios.get<{ roomID: string }>('/game/joinExisting')
+              .then((response) => {
+                if (response.data.roomID) {
+                  dispatch(joinGame(response.data.roomID));
+                } else {
+                  dispatch(error('No room available now', 'Join game', ErrorType.JOIN));
+                }
+              })
+              .catch((e) => {
+                dispatch(error(e.message, 'Join game', ErrorType.JOIN));
+              });
             break;
           case GAME_JOINED:
             (async () => {

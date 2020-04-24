@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Firebase } from './../../FirebaseContext';
 import {
   GAME_USER_INFO_LOADED,
@@ -8,7 +7,7 @@ import {
   GAME_UPDATE_PLAYERS,
   GameJoindedAction,
   GAME_JOINED,
-  GAME_HOSTED,
+  GAME_HOSTING,
   GAME_EXITED,
   GameExitedAction,
   LOGOUT,
@@ -36,6 +35,9 @@ import {
   NewDisplayNameAction,
   DeleteUserAction,
   DELETE_USER,
+  GameHostedAction,
+  GameJoiningExistingAction,
+  GAME_JOINING_EXISTING,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -66,9 +68,12 @@ export const joinGame = (roomID: string): GameJoindedAction => {
   return { type: GAME_JOINED, payload: { roomID } };
 };
 
-export const hostGame = async () => {
-  const response = await axios.get<{ roomID: string }>('/game/createRoom');
-  return { type: GAME_HOSTED, payload: { roomID: response.data.roomID } };
+export const JoiningExisting = (): GameJoiningExistingAction => {
+  return { type: GAME_JOINING_EXISTING };
+};
+
+export const hostGame = (): GameHostedAction => {
+  return { type: GAME_HOSTING };
 };
 
 export const startGame = (): GameStartAction => {

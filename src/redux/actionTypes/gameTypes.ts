@@ -8,9 +8,10 @@ export const GAME_STATE_CHANGED = 'GAME_STATE_CHANGED';
 export const GAME_NEXT_ROUND = 'GAME_NEXT_ROUND';
 export const GAME_UPDATE_PLAYERS = 'GAME_UPDATE_PLAYERS';
 export const GAME_JOINED = 'GAME_JOINED';
+export const GAME_JOINING_EXISTING = 'GAME_JOINING_EXISTING';
 export const GAME_START = 'GAME_START';
 export const GAME_EXITED = 'GAME_EXITED';
-export const GAME_HOSTED = 'GAME_HOSTED';
+export const GAME_HOSTING = 'GAME_HOSTING';
 export const GAME_ERROR = 'GAME_ERROR';
 export const GAME_CLOSE_ERROR = 'GAME_CLOSE_ERROR';
 export const GAME_SEND_SELECTED = 'GAME_SEND_SELECTED';
@@ -78,6 +79,9 @@ export interface GameJoindedAction {
     roomID: string;
   };
 }
+export interface GameJoiningExistingAction {
+  type: typeof GAME_JOINING_EXISTING;
+}
 
 export interface GameStartAction {
   type: typeof GAME_START;
@@ -88,10 +92,7 @@ export interface GameExitedAction {
 }
 
 export interface GameHostedAction {
-  type: typeof GAME_HOSTED;
-  payload: {
-    roomID: string;
-  };
+  type: typeof GAME_HOSTING;
 }
 
 export enum ErrorType {
@@ -170,6 +171,7 @@ export type GameActionTypes =
   | GameUserInfoLoadedAction
   | GameUpdatePlayersAction
   | GameJoindedAction
+  | GameJoiningExistingAction
   | GameStartAction
   | GameHostedAction
   | GameExitedAction

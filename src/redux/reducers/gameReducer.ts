@@ -2,7 +2,7 @@ import {
   GAME_USER_INFO_LOADED,
   UserType,
   GAME_JOINED,
-  GAME_HOSTED,
+  GAME_HOSTING,
   GAME_UPDATE_PLAYERS,
   GAME_NEXT_ROUND,
   CardType,
@@ -89,7 +89,7 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
       return { ...state, logged: false };
     case GAME_JOINED:
       return { ...state, inRoom: true, roomID: action.payload.roomID, returnToGame: false };
-    case GAME_HOSTED:
+    case GAME_HOSTING:
       return { ...state, isHost: true };
     case GAME_EXITED:
       return { ...state, ...roomInitialState, ...gameInitialState };

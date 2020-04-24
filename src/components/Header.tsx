@@ -58,6 +58,10 @@ export default function Header() {
               <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
                 Pack editor
               </Link>
+
+              <Link to="/profile" className="block mt-4 sm:hidden text-blue-200 hover:text-white mr-4">
+                Profile
+              </Link>
             </>
           )}
         </div>
@@ -65,7 +69,7 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row sm:items-center">
             {logged ? (
               <>
-                <Link to="/profile" className="mr-4">
+                <Link to="/profile" className="mr-4 hidden sm:flex">
                   <ProfileLogo />
                 </Link>
                 <Button type="OUTLINE" size="SMALL" className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>

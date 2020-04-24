@@ -1,6 +1,6 @@
 import React from 'react';
 
-type FieldInputProps = { id: string; label: string; value: string; onChange: (value: string) => void; type?: string };
+type FieldInputProps = { id: string; label: string; value: string; onChange?: (value: string) => void; type?: string };
 export function FieldInput({ id, label, value, onChange, type = 'text' }: FieldInputProps) {
   return (
     <div className="mb-4">
@@ -15,7 +15,7 @@ export function FieldInput({ id, label, value, onChange, type = 'text' }: FieldI
         value={value}
         autoComplete="on"
         onChange={(e) => {
-          onChange(e.target.value);
+          onChange && onChange(e.target.value);
         }}
       />
     </div>

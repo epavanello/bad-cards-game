@@ -4,6 +4,7 @@ import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { signup, closeError } from '../redux/actions/gameActions';
 import { FieldInput } from '../components/FieldInput';
+import Paper from '../components/Paper';
 
 export default function Signup() {
   const logged = useSelector((state) => state.logged);
@@ -13,9 +14,10 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
-  const doSignup = () => {
+  const doSignup = (e: React.FormEvent) => {
     dispatch(closeError());
     dispatch(signup(email, password, displayName));
+    e.preventDefault();
   };
 
   if (logged) {
@@ -24,24 +26,25 @@ export default function Signup() {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <FieldInput id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
-        <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
-        <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
+      <Paper>
+        <form onSubmit={doSignup}>
+          <FieldInput id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
+          <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
+          <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
 
-        <div className="flex items-center justify-between mt-8">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={doSignup}
-          >
-            Sign up
-          </button>
-          <Link to="/login" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Already registered?
-          </Link>
-        </div>
-      </form>
+          <div className="flex items-center justify-between mt-8">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign up
+            </button>
+            <Link to="/login" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+              Already registered?
+            </Link>
+          </div>
+        </form>
+      </Paper>
     </div>
   );
 }

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame, redirectAfterLogin } from '../redux/actions/gameActions';
+import { joinGame, hostGame, redirectAfterLogin, JoiningExisting } from '../redux/actions/gameActions';
 import { Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import { FieldInput } from '../components/FieldInput';
+import Paper from '../components/Paper';
+import Title from '../components/Title';
 
 export default function Game() {
   const [manualRoomID, setManualRoomID] = useState('');
@@ -19,8 +21,12 @@ export default function Game() {
     dispatch(joinGame(manualRoomID));
   };
 
-  const onHostGame = async () => {
-    dispatch(await hostGame());
+  const onHostGame = () => {
+    dispatch(hostGame());
+  };
+
+  const onJoinExistingRoom = () => {
+    dispatch(JoiningExisting());
   };
 
   if (!logged) {
@@ -34,23 +40,30 @@ export default function Game() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      <div className="bg-white text-gray-800 shadow-md rounded p-4">
+      <Paper>
         <div className="grid grid-cols-1 sm:grid-cols-2">
-          <div className="border-b sm:border-r sm:border-b-0 p-4">
-            <h1 className="text-2xl text-center mb-4">Join a game</h1>
+          <div className="pb-8 border-b sm:pr-8 sm:border-r sm:pb-0 sm:border-b-0">
+            <Title className="mb-4">Join a game</Title>
             <FieldInput id="roomID" label="Room ID" value={manualRoomID} onChange={(val) => setManualRoomID(val)} />
-            <div className="flex flex-row justify-center mt-8">
+            <div className="flex justify-center mt-8">
               <Button onClick={onJoinRoom}>Join</Button>
             </div>
           </div>
-          <div className="flex flex-col justify-start p-4">
-            <h1 className="text-2xl text-center mb-8">Host a game</h1>
-            <div className="flex-1 flex flex-row align-bottom justify-center items-end">
-              <Button onClick={onHostGame}>Host</Button>
+          <div className="pt-8 sm:pt-0 sm:pl-8 flex flex-col justify-center">
+            <Title>or</Title>
+            <Title className="mb-4">Join an existing table</Title>
+            <div className="flex justify-center">
+              <Button onClick={onJoinExistingRoom}>Enter</Button>
             </div>
           </div>
         </div>
-      </div>
+      </Paper>
+      <Paper className="mt-8 max-w-sm mx-auto">
+        <Title className="mb-4">Host a game</Title>
+        <div className="flex-1 flex flex-row align-bottom justify-center items-end">
+          <Button onClick={onHostGame}>Host</Button>
+        </div>
+      </Paper>
     </div>
   );
 }

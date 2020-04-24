@@ -4,6 +4,7 @@ import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { login, redirectDone, closeError } from '../redux/actions/gameActions';
 import { FieldInput } from '../components/FieldInput';
+import Paper from '../components/Paper';
 
 export default function Login() {
   const logged = useSelector((state) => state.logged);
@@ -24,9 +25,10 @@ export default function Login() {
     []
   );
 
-  const doLogin = async () => {
+  const doLogin = (e: React.FormEvent) => {
     dispatch(closeError());
     dispatch(login(email, password));
+    e.preventDefault();
   };
 
   if (logged) {
@@ -39,22 +41,23 @@ export default function Login() {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 z-10">
-        <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
-        <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
-        <div className="flex items-center justify-between mt-8">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={doLogin}
-          >
-            Sign In
-          </button>
-          <Link to="/signup" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Create an account
-          </Link>
-        </div>
-      </form>
+      <Paper>
+        <form onSubmit={doLogin}>
+          <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
+          <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
+          <div className="flex items-center justify-between mt-8">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign In
+            </button>
+            <Link to="/signup" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+              Create an account
+            </Link>
+          </div>
+        </form>
+      </Paper>
     </div>
   );
 }
