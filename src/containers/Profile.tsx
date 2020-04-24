@@ -43,7 +43,7 @@ export default function Profile() {
           </div>
           <form>
             <FieldInput id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
-            <FieldInput id="email" label="Email" value={email} />
+            <FieldInput id="email" label="Email" value={email} readonly />
             <div className="flex justify-between mt-8">
               <Button onClick={() => onUpdateProfile()}>Update profile</Button>
               <Button type="ERROR" className="bg-red-500" onClick={() => onDeleteProfile()}>
