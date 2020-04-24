@@ -26,12 +26,46 @@ export default function Room() {
 
   const [cardsSelected, setCardsSelected] = useState<CardType[]>([]);
 
-  const isJudge = judge?.uid === uid;
-
   const blackCard = useSelector((state) => state.blackCard);
   const whiteCards = useSelector((state) => state.cards);
 
   const dispatch = useDispatch();
+
+  let cardsToSend = 0;
+  const [isJudge, setIsJudge] = useState(false);
+  let cardsToRender: CardType[][] = [];
+  let checkable = false;
+  let covered = false;
+
+  useEffect(() => {
+    setIsJudge(judge?.uid === uid);
+  }, [judge, uid]);
+
+  if (blackCard) {
+    cardsToSend = (blackCard.message.match(/_/g) || []).length || 1;
+  }
+
+  if (isJudge) {
+    players.forEach((player) => {
+      if (player.cardSelected.length === 0) {
+        if (player.uid !== uid) {
+          covered = true;
+        }
+      } else {
+        cardsToRender.push(player.cardSelected);
+      }
+    });
+    //players.map((player) => player.cardSelected).flat(1);
+    checkable = !selectionsSent && !covered && cardsSelected.length < cardsToSend;
+  } else {
+    if (selectionsSent) {
+      cardsToRender.push(cardsSelected);
+      checkable = false;
+    } else {
+      cardsToRender.push(whiteCards);
+      checkable = cardsSelected.length < cardsToSend;
+    }
+  }
 
   // Join if roomIDParam
   useEffect(() => {
@@ -72,14 +106,22 @@ export default function Room() {
   };
 
   const onSelectCard = (checked: boolean, card: CardType) => {
-    if (checked) {
-      if (!cardsSelected.find((c) => c.id === card.id)) {
-        //setCardsSelected([...cardsSelected, card]);
-        setCardsSelected([card]);
+    if (!isJudge) {
+      if (checked) {
+        if (!cardsSelected.find((c) => c.id === card.id)) {
+          setCardsSelected([...cardsSelected, card]);
+        }
+      } else {
+        if (cardsSelected.find((c) => c.id === card.id)) {
+          setCardsSelected(cardsSelected.filter((c) => c.id !== card.id));
+        }
       }
     } else {
-      if (cardsSelected.find((c) => c.id === card.id)) {
-        setCardsSelected(cardsSelected.filter((c) => c.id !== card.id));
+      if (!checked) {
+        setCardsSelected([]);
+      } else {
+        // find player
+        setCardsSelected(players.find((p) => p.cardSelected.find((c) => c.id === card.id))?.cardSelected || []);
       }
     }
   };
@@ -107,21 +149,6 @@ export default function Room() {
     return <Redirect to="/login" />;
   }
 
-  let cardsToRender: CardType[] = [];
-  let checkable = false;
-  if (isJudge) {
-    cardsToRender = players.map((player) => player.cardSelected).flat(1);
-    checkable = !selectionsSent;
-  } else {
-    if (selectionsSent) {
-      cardsToRender = cardsSelected;
-      checkable = false;
-    } else {
-      cardsToRender = whiteCards;
-      checkable = true;
-    }
-  }
-
   const shareButton = (
     <FontAwesomeIcon
       icon={['fas', 'share-square']}
@@ -140,15 +167,15 @@ export default function Room() {
   return (
     <div>
       <div className="w-full max-w-6xl mx-auto">
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
-          <div className="bg-white text-gray-800 shadow-md rounded p-8 flex flex-col">
+        <div className="flex flex-col-reverse sm:flex-row">
+          <div className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1 bg-white text-gray-800 shadow-md rounded p-8 flex flex-col">
             {gameStarted ? (
               <>
                 <h1 className="text-2xl mb-4">Round {round}</h1>
                 {isJudge ? (
-                  <p className="italic text-gray-700">Wait all players choose cards</p>
+                  <p className="italic text-gray-700">{!covered ? 'Choose the best cards' : 'Wait all players choose cards'}</p>
                 ) : (
-                  <p className="italic text-gray-700">{cardsSelected ? 'Wait the end of the round' : 'Choose the best cards'}</p>
+                  <p className="italic text-gray-700">{selectionsSent ? 'Wait the end of the round' : 'Choose the best cards'}</p>
                 )}
                 {blackCard && (
                   <div className="mt-4 flex flex-row justify-center">
@@ -178,7 +205,7 @@ export default function Room() {
             )}
           </div>
 
-          <div className="bg-white text-gray-800 shadow-md rounded p-8">
+          <div className="mb-2 sm:mb-0 ml-0 sm:ml-2 sm:flex-1 bg-white text-gray-800 shadow-md rounded p-8">
             <h1 className="text-2xl mb-4">Players</h1>
             <ul>
               {players &&
@@ -196,15 +223,15 @@ export default function Room() {
             </ul>
           </div>
         </div>
-        {!selectionsSent && cardsToRender.length > 0 && (
+        {gameStarted && !covered && !selectionsSent && cardsToRender.length > 0 && (
           <div className="mt-8">
             {isJudge ? (
-              <Button disabled={cardsSelected.length === 0} onClick={sendSelections}>
+              <Button disabled={cardsSelected.length < cardsToSend} onClick={sendSelections}>
                 Choose winner
               </Button>
             ) : (
               <>
-                <Button disabled={cardsSelected.length === 0} onClick={sendSelections}>
+                <Button disabled={cardsSelected.length < cardsToSend} onClick={sendSelections}>
                   Send selection
                 </Button>
               </>
@@ -214,16 +241,22 @@ export default function Room() {
       </div>
       {cardsToRender.length > 0 && (
         <div className="flex flex-row overflow-x-auto p-4 -mx-4">
-          {cardsToRender.map((card) => (
-            <Card
-              key={card.id}
-              checkable={checkable}
-              onCheckChange={onSelectCard}
-              className="mt-4 mr-4 flex-shrink-0"
-              card={card}
-              color={CardColor.White}
-              checked={!!cardsSelected.find((c) => c.id === card.id)}
-            />
+          {cardsToRender.map((cardGroup, i) => (
+            <div key={i} className="mr-8 flex">
+              {cardGroup.map((card) => (
+                <Card
+                  key={card.id}
+                  checkable={checkable}
+                  onCheckChange={onSelectCard}
+                  checkbox={!selectionsSent}
+                  className="mt-4 mr-4 flex-shrink-0"
+                  card={card}
+                  color={CardColor.White}
+                  checked={!!cardsSelected.find((c) => c.id === card.id)}
+                  covered={covered}
+                />
+              ))}
+            </div>
           ))}
         </div>
       )}

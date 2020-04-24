@@ -10,11 +10,32 @@ type CardParams = {
   checkable?: boolean;
   checked?: boolean;
   onCheckChange?: (checked: boolean, card: CardType) => void;
+  covered?: boolean;
+  checkbox?: boolean;
 };
-export default function Card({ card, color, className, style, checkable, checked, onCheckChange }: CardParams) {
+export default function Card({ card, color, checkbox, className, style, checkable, checked, onCheckChange, covered }: CardParams) {
   const changeChecked = (value: boolean) => {
-    onCheckChange && onCheckChange(value, card);
+    // Consento il cambio check se checkabile o se sto dececkando
+    if (checkbox && (checkable || !value)) {
+      onCheckChange && onCheckChange(value, card);
+    }
   };
+
+  if (covered) {
+    return (
+      <div
+        className={classNames(
+          className,
+          'w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono shadow-lg rounded-lg p-4 relative cursor-default'
+        )}
+        style={{
+          ...style,
+          background: `repeating-linear-gradient(45deg, transparent, transparent 10px, #45509A 10px, #45509A 20px), #5F6BBE`,
+        }}
+        role="button"
+      ></div>
+    );
+  }
 
   return (
     <div
@@ -29,17 +50,18 @@ export default function Card({ card, color, className, style, checkable, checked
         }
       )}
       onClick={() => {
-        checkable && changeChecked(!checked);
+        changeChecked(!checked);
       }}
       style={style}
       role="button"
     >
       {card.message}
-      {checkable && (
+      {checkbox && (
         <input
           type="checkbox"
           className="absolute right-0 bottom-0 mb-4 mr-4"
           checked={checked}
+          disabled={!checkable && !checked}
           onChange={(e) => {
             checkable && changeChecked(e.target.checked);
           }}

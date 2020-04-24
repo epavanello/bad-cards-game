@@ -62,6 +62,11 @@ const gameInitialState = {
   returnToGame: false,
 };
 
+const errorInitialState = {
+  error: '',
+  titleError: '',
+};
+
 const initialState: GameState = {
   userInfoLoaded: false,
   logged: false,
@@ -70,9 +75,8 @@ const initialState: GameState = {
 
   ...roomInitialState,
   ...gameInitialState,
+  ...errorInitialState,
 
-  error: '',
-  titleError: '',
   pathAfterLogin: '',
 };
 
@@ -88,7 +92,7 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
     case LOGOUT:
       return { ...state, logged: false };
     case GAME_JOINED:
-      return { ...state, inRoom: true, roomID: action.payload.roomID, returnToGame: false };
+      return { ...state, inRoom: true, roomID: action.payload.roomID, returnToGame: false, ...errorInitialState };
     case GAME_HOSTING:
       return { ...state, isHost: true };
     case GAME_EXITED:
