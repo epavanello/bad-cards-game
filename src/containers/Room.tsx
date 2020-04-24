@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Card from '../components/Card';
 import { CardColor, CardType, ErrorType } from '../redux/actionTypes/gameTypes';
 import { Redirect, useParams } from 'react-router-dom';
+import Paper from '../components/Paper';
 
 export default function Room() {
   const gameStarted = useSelector((state) => state.gameStarted);
@@ -168,7 +169,7 @@ export default function Room() {
     <div>
       <div className="w-full max-w-6xl mx-auto">
         <div className="flex flex-col-reverse sm:flex-row">
-          <div className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1 bg-white text-gray-800 shadow-md rounded p-8 flex flex-col">
+          <Paper className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1 flex flex-col">
             {gameStarted ? (
               <>
                 <h1 className="text-2xl mb-4">Round {round}</h1>
@@ -203,9 +204,9 @@ export default function Room() {
                 <p className="italic text-gray-700">Wait the host start the game</p>
               </>
             )}
-          </div>
+          </Paper>
 
-          <div className="mb-2 sm:mb-0 ml-0 sm:ml-2 sm:flex-1 bg-white text-gray-800 shadow-md rounded p-8">
+          <Paper className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1">
             <h1 className="text-2xl mb-4">Players</h1>
             <ul>
               {players &&
@@ -221,7 +222,7 @@ export default function Room() {
                   </li>
                 ))}
             </ul>
-          </div>
+          </Paper>
         </div>
         {gameStarted && !covered && !selectionsSent && cardsToRender.length > 0 && (
           <div className="mt-8">
