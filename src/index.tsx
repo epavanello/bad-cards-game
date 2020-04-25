@@ -16,7 +16,7 @@ import { faCircle, faDotCircle } from '@fortawesome/free-regular-svg-icons';
 import firebaseMiddleware from './redux/middlewares/firebaseMiddleware';
 import Axios from 'axios';
 
-import './i18n';
+import './i18n/i18n.config';
 
 library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare);
 

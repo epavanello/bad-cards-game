@@ -22,7 +22,10 @@ export default function Profile() {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    setAvailableLanguages(i18n.languages);
+    if (i18n.options.resources) {
+      setAvailableLanguages(Object.keys(i18n.options.resources));
+    }
+    console.log(i18n.languages);
     setCurrentLanguage(i18n.language);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

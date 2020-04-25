@@ -24,7 +24,6 @@
     "firebase": "^7.14.0",
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",
-    "i18next-http-backend": "^1.0.6",
     "node-sass": "^4.13.1",
     "postcss-cli": "^7.1.0",
     "random-username-generator": "^1.0.4",
