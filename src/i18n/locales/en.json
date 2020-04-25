@@ -5,6 +5,15 @@
         "based on": "based on",
         "Black Humor": "Black Humor",
         "Start now": "Start now",
-        "Update profile": "Update profile"
+        "Update profile": "Update profile",
+        "Game": "Game",
+        "Pack editor": "Pack editor",
+        "Profile": "Profile",
+        "Logout": "Logout",
+        "Home": "Home",
+        "Display name": "Display name",
+        "Email": "Email",
+        "Language": "Language",
+        "Delete profile": "Delete profile"
     }
 }

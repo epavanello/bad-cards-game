@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ProfileLogo } from './ProfileLogo';
 import Button from './Button';
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const firebase = useContext(FirebaseContext);
@@ -20,6 +21,8 @@ export default function Header() {
   const logged = useSelector((state) => state.logged);
 
   const [headerClosed, setHeaderClosed] = useState(true);
+
+  const { t } = useTranslation();
 
   const onLogout = async () => {
     if (firebase) {
@@ -50,19 +53,19 @@ export default function Header() {
       <div className={classNames('w-full block flex-grow sm:flex sm:items-center sm:w-auto', { hidden: headerClosed })}>
         <div className="text-sm sm:flex-grow">
           <Link to="/home" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
-            Home
+            {t('Home')}
           </Link>
           {logged && (
             <>
               <Link to="/game" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
-                Game
+                {t('Game')}
               </Link>
               <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
-                Pack editor
+                {t('Pack editor')}
               </Link>
 
               <Link to="/profile" className="block mt-4 sm:hidden text-blue-200 hover:text-white mr-4">
-                Profile
+                {t('Profile')}
               </Link>
             </>
           )}
@@ -75,19 +78,19 @@ export default function Header() {
                   <ProfileLogo />
                 </Link>
                 <Button type="OUTLINE" size="SMALL" className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
-                  Logout
+                  {t('Logout')}
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login" className="sm:mr-4 block mt-4 sm:mt-0">
                   <Button type="OUTLINE" size="SMALL" className="block w-full sm:w-auto">
-                    Login
+                    {t('Login')}
                   </Button>
                 </Link>
                 <Link to="/signup" className="block mt-4 sm:mt-0">
                   <Button type="OUTLINE" size="SMALL" className="block w-full sm:w-auto">
-                    Register
+                    {t('Register')}
                   </Button>
                 </Link>
               </>

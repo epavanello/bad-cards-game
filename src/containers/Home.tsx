@@ -22,13 +22,13 @@ export default function Home() {
         <Card
           style={{ transform: 'rotate(-15deg)' }}
           className="transform flex-shrink-0"
-          card={{ id: 0, message: 'Sorry everyone,\nI just _' }}
+          card={{ id: 0, message: t('Sorry everyone,\nI just _') }}
           color={CardColor.Black}
         />
         <Card
           style={{ transform: 'rotate(20deg)' }}
           className="transform flex-shrink-0"
-          card={{ id: 0, message: 'Grandma.' }}
+          card={{ id: 0, message: t('Grandma.') }}
           color={CardColor.White}
         />
       </div>

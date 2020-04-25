@@ -25,7 +25,6 @@ export default function Profile() {
     if (i18n.options.resources) {
       setAvailableLanguages(Object.keys(i18n.options.resources));
     }
-    console.log(i18n.languages);
     setCurrentLanguage(i18n.language);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,11 +57,11 @@ export default function Profile() {
             <ProfileLogo />
           </div>
           <form>
-            <FieldInputText id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
-            <FieldInputText id="email" label="Email" value={email} readonly />
+            <FieldInputText id="displayName" label={t('Display name')} value={displayName} onChange={(value) => setDisplayName(value)} />
+            <FieldInputText id="email" label={t('Email')} value={email} readonly />
             <FieldInputSelect
               id="language"
-              label="Language"
+              label={t('Language')}
               value={currentLanguage}
               values={availableLanguages}
               onChange={(l) => setCurrentLanguage(l)}
@@ -70,7 +69,7 @@ export default function Profile() {
             <div className="flex justify-between mt-8">
               <Button onClick={() => onUpdateProfile()}>{t('Update profile')}</Button>
               <Button type="ERROR" className="bg-red-500" onClick={() => onDeleteProfile()}>
-                Delete profile
+                {t('Delete profile')}
               </Button>
             </div>
           </form>

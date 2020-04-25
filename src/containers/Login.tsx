@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login, redirectDone, closeError } from '../redux/actions/gameActions';
 import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
+import { useTranslation } from 'react-i18next';
 
 export default function Login() {
   const logged = useSelector((state) => state.logged);
@@ -14,6 +15,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   useEffect(
     () => () => {
@@ -43,17 +46,17 @@ export default function Login() {
     <div className="w-full max-w-sm mx-auto">
       <Paper>
         <form onSubmit={doLogin}>
-          <FieldInputText id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
-          <FieldInputText id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
+          <FieldInputText id="email" label={t('Email')} value={email} onChange={(value) => setEmail(value)} />
+          <FieldInputText id="password" label={t('Password')} value={password} onChange={(value) => setPassword(value)} type="password" />
           <div className="flex items-center justify-between mt-8">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Sign In
+              {t('Sign In')}
             </button>
             <Link to="/signup" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-              Create an account
+              {t('Create an account')}
             </Link>
           </div>
         </form>

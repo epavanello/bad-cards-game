@@ -9,6 +9,7 @@ import Card from '../components/Card';
 import { CardColor, CardType, ErrorType } from '../redux/actionTypes/gameTypes';
 import { Redirect, useParams } from 'react-router-dom';
 import Paper from '../components/Paper';
+import { useTranslation } from 'react-i18next';
 
 export default function Room() {
   const gameStarted = useSelector((state) => state.gameStarted);
@@ -22,6 +23,8 @@ export default function Room() {
   const inRoom = useSelector((state) => state.inRoom);
   const selectionsSent = useSelector((state) => state.selectionsSent);
   const returnToGame = useSelector((state) => state.returnToGame);
+
+  const { t } = useTranslation();
 
   const { roomID: roomIDParam } = useParams<{ roomID: string }>();
 
@@ -79,7 +82,6 @@ export default function Room() {
   // Exit game at unload component
   useEffect(() => {
     return () => {
-      console.log('Exiting');
       dispatch(exitGame());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,14 +139,14 @@ export default function Room() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Room url copied');
+      alert(t('Room url copied'));
     }
   };
 
   if (!logged) {
     setTimeout(() => {
       // Prevent rendering conflict while redirect
-      dispatch(error('You need to login or register before enter in a room', 'Not authorized', ErrorType.LOGIN));
+      dispatch(error(t('You need to login or register before enter in a room'), t('Not authorized'), ErrorType.LOGIN));
     }, 0);
     dispatch(redirectAfterLogin(window.location.pathname));
     return <Redirect to="/login" />;
@@ -172,11 +174,11 @@ export default function Room() {
           <Paper className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1 flex flex-col">
             {gameStarted ? (
               <>
-                <h1 className="text-2xl mb-4">Round {round}</h1>
+                <h1 className="text-2xl mb-4">{t('Round {{round}}', { round })}</h1>
                 {isJudge ? (
-                  <p className="italic text-gray-700">{!covered ? 'Choose the best cards' : 'Wait all players choose cards'}</p>
+                  <p className="italic text-gray-700">{!covered ? t('Choose the best cards') : t('Wait all players choose cards')}</p>
                 ) : (
-                  <p className="italic text-gray-700">{selectionsSent ? 'Wait the end of the round' : 'Choose the best cards'}</p>
+                  <p className="italic text-gray-700">{selectionsSent ? t('Wait the end of the round') : t('Choose the best cards')}</p>
                 )}
                 {blackCard && (
                   <div className="mt-4 flex flex-row justify-center">
@@ -187,10 +189,10 @@ export default function Room() {
             ) : isHost ? (
               <>
                 <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
-                  Room {roomID} created
+                  {t('Room {{roomID}} created', { roomID })}
                   {shareButton}
                 </h1>
-                <p className="italic text-gray-700 mb-4">Start the game when all players are ready</p>
+                <p className="italic text-gray-700 mb-4">{t('Start the game when all players are ready')}</p>
                 <Button className="self-start" disabled={players.length < 2} onClick={onStartGame}>
                   Start game
                 </Button>
@@ -198,16 +200,16 @@ export default function Room() {
             ) : (
               <>
                 <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
-                  Starting...
+                  {t('Starting...')}
                   {shareButton}
                 </h1>
-                <p className="italic text-gray-700">Wait the host start the game</p>
+                <p className="italic text-gray-700">{t('Wait the host start the game')}</p>
               </>
             )}
           </Paper>
 
           <Paper className="mt-2 sm:mt-0 mr-0 sm:mr-2 sm:flex-1">
-            <h1 className="text-2xl mb-4">Players</h1>
+            <h1 className="text-2xl mb-4">{t('Players')}</h1>
             <ul>
               {players &&
                 players.map((user) => (
@@ -228,12 +230,12 @@ export default function Room() {
           <div className="mt-8">
             {isJudge ? (
               <Button disabled={cardsSelected.length < cardsToSend} onClick={sendSelections}>
-                Choose winner
+                {t('Choose winner')}
               </Button>
             ) : (
               <>
                 <Button disabled={cardsSelected.length < cardsToSend} onClick={sendSelections}>
-                  Send selection
+                  {t('Send selection')}
                 </Button>
               </>
             )}
