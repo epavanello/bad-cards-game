@@ -9,7 +9,6 @@ import { Redirect } from 'react-router-dom';
 import { FirebaseContext } from '../FirebaseContext';
 import Paper from '../components/Paper';
 import { useTranslation } from 'react-i18next';
-import { useEnforcedTranslation, TKey } from '../i18n';
 
 export default function Profile() {
   const firebase = useContext(FirebaseContext);
@@ -20,12 +19,12 @@ export default function Profile() {
   const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
   const [currentLanguage, setCurrentLanguage] = useState('');
 
-  const { i18n } = useTranslation();
-  const t = useEnforcedTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setAvailableLanguages(i18n.languages);
     setCurrentLanguage(i18n.language);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logged = useSelector((state) => state.logged);
@@ -66,7 +65,7 @@ export default function Profile() {
               onChange={(l) => setCurrentLanguage(l)}
             />
             <div className="flex justify-between mt-8">
-              <Button onClick={() => onUpdateProfile()}>{t(TKey.Profile, TKey.UpdateProfile)}</Button>
+              <Button onClick={() => onUpdateProfile()}>{t('Update profile')}</Button>
               <Button type="ERROR" className="bg-red-500" onClick={() => onDeleteProfile()}>
                 Delete profile
               </Button>

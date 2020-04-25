@@ -1,50 +1,12 @@
 import i18n from 'i18next';
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-export enum TKey {
-  Header,
-  Home,
-  Game,
-  PackEditor,
-  Login,
-  Logout,
-  Profile,
-  Welcome1,
-  Welcome2,
-  Welcome3,
-  StartNow,
-  Footer,
-  Rights,
-  UpdateProfile,
-}
+const resources = {};
 
-interface Translation {
-  [TKey.Header]: {
-    [TKey.Home]: string;
-    [TKey.Game]: string;
-    [TKey.PackEditor]: string;
-    [TKey.Login]: string;
-    [TKey.Logout]: string;
-    [TKey.Profile]: string;
-  };
-  [TKey.Home]: {
-    [TKey.Welcome1]: string;
-    [TKey.Welcome2]: string;
-    [TKey.Welcome3]: string;
-    [TKey.StartNow]: string;
-  };
-  [TKey.Profile]: {
-    [TKey.UpdateProfile]: string;
-  };
-  [TKey.Footer]: {
-    [TKey.Rights]: string;
-  };
-}
-type Translations = { [key: string]: { translation: Translation } };
-
+/*
 const resources: Translations = {
   en: {
     translation: {
@@ -94,14 +56,14 @@ const resources: Translations = {
       },
     },
   },
-};
-
+};*/
+/*
 export const Translate = (key: TKey) => i18n.t(TKey[key]);
 
 export function useEnforcedTranslation() {
   const { t } = useTranslation();
   return (...tkeys: TKey[]) => t(tkeys.join('.'));
-}
+}*/
 
 i18n
   .use(Backend)

@@ -3,19 +3,19 @@ import Card from '../components/Card';
 import { CardColor } from '../redux/actionTypes/gameTypes';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
-import { useEnforcedTranslation, TKey } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
-  const t = useEnforcedTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
 
   return (
     <div>
       <header className="text-2xl text-center">
-        <h1>{t(TKey.Home, TKey.Welcome1)}</h1>
+        <h1>{t('Welcome to the best game')}</h1>
         <h1>
-          {t(TKey.Home, TKey.Welcome2)}
-          <span className="font-display tracking-wider">{t(TKey.Home, TKey.Welcome3)}</span>
+          {t('based on')}
+          <span className="font-display tracking-wider">{t('Black Humor')}</span>
         </h1>
       </header>
       <div className="flex flex-row justify-center mt-16">
@@ -40,7 +40,7 @@ export default function Home() {
             history.push('/game');
           }}
         >
-          {t(TKey.Home, TKey.StartNow)}
+          {t('Start now')}
         </Button>
       </div>
     </div>
