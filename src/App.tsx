@@ -13,8 +13,11 @@ import Alert from './components/Alert';
 import { useDispatch } from 'react-redux';
 import { closeError } from './redux/actions/gameActions';
 import Profile from './containers/Profile';
+import { useEnforcedTranslation, TKey } from './i18n';
 
 function App() {
+  const t = useEnforcedTranslation();
+
   const userInfoLoaded = useSelector((state) => state.userInfoLoaded);
   const error = useSelector((state) => state.error);
   const titleError = useSelector((state) => state.titleError);
@@ -47,7 +50,7 @@ function App() {
           )}
         </div>
 
-        <footer className="text-center text-gray-500 text-xs py-4">&copy;2020 Pavanello Emanuele. All rights reserved.</footer>
+        <footer className="text-center text-gray-500 text-xs py-4">&copy;2020 Pavanello Emanuele. {t(TKey.Footer, TKey.Rights)}</footer>
       </div>
     </Router>
   );

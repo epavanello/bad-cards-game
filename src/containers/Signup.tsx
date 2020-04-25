@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { signup, closeError } from '../redux/actions/gameActions';
-import { FieldInput } from '../components/FieldInput';
+import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
 
 export default function Signup() {
@@ -28,9 +28,9 @@ export default function Signup() {
     <div className="w-full max-w-sm mx-auto">
       <Paper>
         <form onSubmit={doSignup}>
-          <FieldInput id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
-          <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
-          <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
+          <FieldInputText id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
+          <FieldInputText id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
+          <FieldInputText id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
 
           <div className="flex items-center justify-between mt-8">
             <button

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { joinGame, hostGame, redirectAfterLogin, JoiningExisting } from '../redux/actions/gameActions';
 import { Redirect } from 'react-router-dom';
 import Button from '../components/Button';
-import { FieldInput } from '../components/FieldInput';
+import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
 import Title from '../components/Title';
 
@@ -44,7 +44,7 @@ export default function Game() {
         <div className="grid grid-cols-1 sm:grid-cols-2">
           <div className="pb-8 border-b sm:pr-8 sm:border-r sm:pb-0 sm:border-b-0">
             <Title className="mb-4">Join a game</Title>
-            <FieldInput id="roomID" label="Room ID" value={manualRoomID} onChange={(val) => setManualRoomID(val)} />
+            <FieldInputText id="roomID" label="Room ID" value={manualRoomID} onChange={(val) => setManualRoomID(val)} />
             <div className="flex justify-center mt-8">
               <Button onClick={onJoinRoom}>Join</Button>
             </div>

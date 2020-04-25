@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { login, redirectDone, closeError } from '../redux/actions/gameActions';
-import { FieldInput } from '../components/FieldInput';
+import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
 
 export default function Login() {
@@ -43,8 +43,8 @@ export default function Login() {
     <div className="w-full max-w-sm mx-auto">
       <Paper>
         <form onSubmit={doLogin}>
-          <FieldInput id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
-          <FieldInput id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
+          <FieldInputText id="email" label="Email" value={email} onChange={(value) => setEmail(value)} />
+          <FieldInputText id="password" label="Password" value={password} onChange={(value) => setPassword(value)} type="password" />
           <div className="flex items-center justify-between mt-8">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

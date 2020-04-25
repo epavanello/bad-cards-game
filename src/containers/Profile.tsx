@@ -4,16 +4,29 @@ import { useDispatch } from 'react-redux';
 import { newDisplayName, deleteUser } from '../redux/actions/gameActions';
 import Button from '../components/Button';
 import { ProfileLogo } from '../components/ProfileLogo';
-import { FieldInput } from '../components/FieldInput';
+import { FieldInputText, FieldInputSelect } from '../components/FieldInput';
 import { Redirect } from 'react-router-dom';
 import { FirebaseContext } from '../FirebaseContext';
 import Paper from '../components/Paper';
+import { useTranslation } from 'react-i18next';
+import { useEnforcedTranslation, TKey } from '../i18n';
 
 export default function Profile() {
   const firebase = useContext(FirebaseContext);
   const displayNameFirebase = useSelector((state) => state.displayName);
   const [displayName, setDisplayName] = useState(displayNameFirebase);
   const [email, setEmail] = useState(firebase?.auth.currentUser?.email || '');
+
+  const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
+  const [currentLanguage, setCurrentLanguage] = useState('');
+
+  const { i18n } = useTranslation();
+  const t = useEnforcedTranslation();
+
+  useEffect(() => {
+    setAvailableLanguages(i18n.languages);
+    setCurrentLanguage(i18n.language);
+  }, []);
 
   const logged = useSelector((state) => state.logged);
 
@@ -25,6 +38,7 @@ export default function Profile() {
 
   const onUpdateProfile = () => {
     dispatch(newDisplayName(displayName));
+    i18n.changeLanguage(currentLanguage);
   };
   const onDeleteProfile = () => {
     dispatch(deleteUser());
@@ -42,10 +56,17 @@ export default function Profile() {
             <ProfileLogo />
           </div>
           <form>
-            <FieldInput id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
-            <FieldInput id="email" label="Email" value={email} readonly />
+            <FieldInputText id="displayName" label="Display name" value={displayName} onChange={(value) => setDisplayName(value)} />
+            <FieldInputText id="email" label="Email" value={email} readonly />
+            <FieldInputSelect
+              id="language"
+              label="Language"
+              value={currentLanguage}
+              values={availableLanguages}
+              onChange={(l) => setCurrentLanguage(l)}
+            />
             <div className="flex justify-between mt-8">
-              <Button onClick={() => onUpdateProfile()}>Update profile</Button>
+              <Button onClick={() => onUpdateProfile()}>{t(TKey.Profile, TKey.UpdateProfile)}</Button>
               <Button type="ERROR" className="bg-red-500" onClick={() => onDeleteProfile()}>
                 Delete profile
               </Button>
