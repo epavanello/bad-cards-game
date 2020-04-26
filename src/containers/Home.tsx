@@ -14,21 +14,20 @@ export default function Home() {
       <header className="text-2xl text-center">
         <h1>{t('Welcome to the best game')}</h1>
         <h1>
-          {t('based on')}
-          <span className="font-display tracking-wider">{t('Black Humor')}</span>
+          {t('based on')} <span className="font-display tracking-wider">{t('Black Humor')}</span>
         </h1>
       </header>
       <div className="flex flex-row justify-center mt-16">
         <Card
           style={{ transform: 'rotate(-15deg)' }}
           className="transform flex-shrink-0"
-          card={{ id: 0, message: t('Sorry everyone,\nI just _') }}
+          card={{ id: 0, message: t('CARD_1') }}
           color={CardColor.Black}
         />
         <Card
           style={{ transform: 'rotate(20deg)' }}
           className="transform flex-shrink-0"
-          card={{ id: 0, message: t('Grandma.') }}
+          card={{ id: 0, message: t('CARD_2') }}
           color={CardColor.White}
         />
       </div>

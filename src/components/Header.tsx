@@ -60,10 +60,11 @@ export default function Header() {
               <Link to="/game" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
                 {t('Game')}
               </Link>
-              <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
-                {t('Pack editor')}
-              </Link>
-
+              {false && (
+                <Link to="/packEditor" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
+                  {t('Pack editor')}
+                </Link>
+              )}
               <Link to="/profile" className="block mt-4 sm:hidden text-blue-200 hover:text-white mr-4">
                 {t('Profile')}
               </Link>

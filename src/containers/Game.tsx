@@ -47,7 +47,7 @@ export default function Game() {
         <div className="grid grid-cols-1 sm:grid-cols-2">
           <div className="pb-8 border-b sm:pr-8 sm:border-r sm:pb-0 sm:border-b-0">
             <Title className="mb-4">{t('Join a game')}</Title>
-            <FieldInputText id="roomID" label="Room ID" value={manualRoomID} onChange={(val) => setManualRoomID(val)} />
+            <FieldInputText id="roomID" label={t('Room ID')} value={manualRoomID} onChange={(val) => setManualRoomID(val)} />
             <div className="flex justify-center mt-8">
               <Button onClick={onJoinRoom}>{t('Join')}</Button>
             </div>

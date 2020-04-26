@@ -194,7 +194,7 @@ export default function Room() {
                 </h1>
                 <p className="italic text-gray-700 mb-4">{t('Start the game when all players are ready')}</p>
                 <Button className="self-start" disabled={players.length < 2} onClick={onStartGame}>
-                  Start game
+                  {t('Start game')}
                 </Button>
               </>
             ) : (
