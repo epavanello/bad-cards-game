@@ -33,6 +33,12 @@ export enum CardColor {
   Black,
 }
 
+export interface Pack {
+  id: number;
+  blackCards: CardType[];
+  whiteCards: CardType[];
+}
+
 export interface UserType {
   displayName: string;
   uid: string;
@@ -43,7 +49,7 @@ export interface UserType {
 
 export interface GameStateChangedAction {
   type: typeof GAME_STATE_CHANGED;
-  payload: { gameStarted: boolean };
+  payload: { pack: Pack };
 }
 
 export interface GameNextRoundAction {
@@ -93,6 +99,7 @@ export interface GameExitedAction {
 
 export interface GameHostedAction {
   type: typeof GAME_HOSTING;
+  payload: { lang: string };
 }
 
 export enum ErrorType {

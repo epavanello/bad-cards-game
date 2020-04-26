@@ -16,6 +16,7 @@ import {
   REDIRECT_DONE,
   ErrorType,
   NEW_DISPLAY_NAME,
+  Pack,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameActionTypes } from '../actionTypes/gameTypes';
 
@@ -33,6 +34,7 @@ export interface GameState {
   judge: UserType | undefined;
   players: UserType[];
   round: number;
+  pack: Pack | undefined;
   cards: CardType[];
   role: Role;
   blackCard: CardType | undefined;
@@ -55,6 +57,7 @@ const gameInitialState = {
   judge: undefined,
   players: [],
   round: 0,
+  pack: undefined,
   cards: [],
   role: Role.PLAYER,
   blackCard: undefined,
@@ -83,7 +86,7 @@ const initialState: GameState = {
 export function gameReducer(state = initialState, action: GameActionTypes): GameState {
   switch (action.type) {
     case GAME_STATE_CHANGED:
-      return { ...state, gameStarted: action.payload.gameStarted };
+      return { ...state, gameStarted: true, pack: action.payload.pack };
     case GAME_USER_INFO_LOADED:
       const { logged, uid, displayName } = action.payload;
       return { ...state, userInfoLoaded: true, logged, uid, displayName };

@@ -38,12 +38,13 @@ import {
   GameHostedAction,
   GameJoiningExistingAction,
   GAME_JOINING_EXISTING,
+  Pack,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
-export const gameStarted = (state: boolean): GameStateChangedAction => ({
+export const gameStarted = (pack: Pack): GameStateChangedAction => ({
   type: GAME_STATE_CHANGED,
-  payload: { gameStarted: state },
+  payload: { pack },
 });
 
 export const newRound = (round: number, cards: CardType[], role: Role, blackCard: CardType, judgeID: string): GameNextRoundAction => ({
@@ -72,8 +73,8 @@ export const JoiningExisting = (): GameJoiningExistingAction => {
   return { type: GAME_JOINING_EXISTING };
 };
 
-export const hostGame = (): GameHostedAction => {
-  return { type: GAME_HOSTING };
+export const hostGame = (lang: string): GameHostedAction => {
+  return { type: GAME_HOSTING, payload: { lang } };
 };
 
 export const startGame = (): GameStartAction => {

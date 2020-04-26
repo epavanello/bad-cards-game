@@ -2,7 +2,7 @@ import React from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { CardType, UserType, Role } from './redux/actionTypes/gameTypes';
+import { CardType, UserType, Role, Pack } from './redux/actionTypes/gameTypes';
 import { Observable } from 'rxjs';
 
 const config = {
@@ -20,24 +20,13 @@ export class Firebase {
   db: app.database.Database;
 
   roomID: string = '';
-  cards: { white: CardType[]; black: CardType[] } = { white: [], black: [] };
+  //cards: { white: CardType[]; black: CardType[] } = { white: [], black: [] };
   uid: string = '';
 
   constructor() {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
-  }
-
-  loadCards() {
-    this.db
-      .ref('cards')
-      .once('value', (cards) => {
-        this.cards = cards.val();
-      })
-      .catch((e) => {
-        console.error("Can't load cards", e);
-      });
   }
 
   changeDisplayName(displayName: string) {
@@ -75,13 +64,13 @@ export class Firebase {
 
   private userInRoom = () => this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}`);
 
-  private roundCards = async (): Promise<CardType[]> => {
+  private roundCards = async (pack: Pack): Promise<CardType[]> => {
     const whiteRef = this.db.ref(`rooms/${this.roomID}/users/${this.auth.currentUser?.uid}/white`);
     const whiteSnap = await whiteRef.once('value');
     if (!whiteSnap.exists()) {
       throw new Error('White not exists');
     } else {
-      return this.getCards(this.cards.white, whiteSnap.val() || '');
+      return this.getCards(pack.whiteCards, whiteSnap.val() || '');
     }
   };
 
@@ -113,16 +102,16 @@ export class Firebase {
       });
     });
 
-  notifyNewRound$ = () =>
+  notifyNewRound$ = (pack: Pack) =>
     new Observable<{ round: number; cards: CardType[]; role: Role; blackCard: CardType; judgeID: string }>((subscriber) => {
       const listner = this.room().child('round');
       listner.on('value', async (snap) => {
         if (snap.exists()) {
           const judgeID = (await snap.ref.parent?.child('judge').once('value'))?.val();
           const round = snap.val();
-          const cards = await this.roundCards();
+          const cards = await this.roundCards(pack);
           const role = judgeID === this.uid ? Role.JUDGE : Role.PLAYER;
-          const blackCard = this.cards.black[(await snap.ref.parent?.child('black').once('value'))?.val()];
+          const blackCard = pack.blackCards[(await snap.ref.parent?.child('black').once('value'))?.val()];
           subscriber.next({ round, cards, role, blackCard, judgeID });
         }
       });
@@ -131,7 +120,7 @@ export class Firebase {
       };
     });
 
-  notifyNewPlayers$ = () =>
+  notifyNewPlayers$ = (pack: Pack) =>
     new Observable<UserType[]>((subscriber) => {
       const listner = this.users();
       listner.on('value', (snapshot) => {
@@ -143,7 +132,7 @@ export class Firebase {
               uid: user.key,
               displayName: userObj.displayName,
               points: userObj.points,
-              cardSelected: this.getCards(this.cards.white, userObj.selected),
+              cardSelected: this.getCards(pack.whiteCards, userObj.selected),
               winner: userObj.winner,
             });
           }
@@ -173,6 +162,13 @@ export class Firebase {
         // Delete on disconnect
         userRow.onDisconnect().remove();
       });
+  };
+
+  getPackRef = async () => {
+    return {
+      lang: (await this.room().child('lang').once('value')).val(),
+      selectedPack: +(await this.room().child('selected_pack').once('value')).val(),
+    };
   };
 
   startGame = () => this.room().child('game_started').set(true);

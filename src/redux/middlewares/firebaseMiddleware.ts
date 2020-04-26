@@ -14,6 +14,7 @@ import {
   NEW_DISPLAY_NAME,
   DELETE_USER,
   GAME_JOINING_EXISTING,
+  Pack,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
 import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newDisplayName } from '../actions/gameActions';
@@ -28,8 +29,6 @@ export default function firebaseMiddleware(firebase: Firebase) {
     firebase.auth.onAuthStateChanged((user) => {
       if (user) {
         firebase.uid = user.uid;
-
-        firebase.loadCards();
 
         user.getIdToken(true).then((idToken) => {
           Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
@@ -84,7 +83,7 @@ export default function firebaseMiddleware(firebase: Firebase) {
             break;
           case GAME_HOSTING:
             (async () => {
-              const response = await Axios.get<{ roomID: string }>('/game/createRoom');
+              const response = await Axios.get<{ roomID: string }>(`/game/createRoom/${action.payload.lang}`);
               dispatch(joinGame(response.data.roomID));
             })();
             break;
@@ -105,15 +104,24 @@ export default function firebaseMiddleware(firebase: Firebase) {
             (async () => {
               try {
                 await firebase.enterRoom(action.payload.roomID);
-                firebase.notifyOnGameStart().then((started) => {
-                  dispatch(gameStarted(started));
+
+                // Richiedo il pack della room corrente
+                const packRef = await firebase.getPackRef();
+
+                // Mi assicuro che sia scaricato il pack prima di iniziare il gioco
+                const pack = (await Axios.get<Pack>(`/game/pack/${packRef.lang}/${packRef.selectedPack}`)).data;
+
+                // Attendo l'inizio del gioco
+                firebase.notifyOnGameStart().then(() => {
+                  dispatch(gameStarted(pack));
                 });
-                newRoundSubscription = firebase.notifyNewRound$().subscribe((newRoundData) => {
+
+                newRoundSubscription = firebase.notifyNewRound$(pack).subscribe((newRoundData) => {
                   const { round, cards, role, blackCard, judgeID } = newRoundData;
                   dispatch(newRound(round, cards, role, blackCard, judgeID));
                 });
 
-                newPlayersSubscription = firebase.notifyNewPlayers$().subscribe((players) => {
+                newPlayersSubscription = firebase.notifyNewPlayers$(pack).subscribe((players) => {
                   dispatch(updatePlayers(players));
                 });
               } catch (e) {

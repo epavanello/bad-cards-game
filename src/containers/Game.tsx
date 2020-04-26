@@ -18,14 +18,14 @@ export default function Game() {
   const returnToGame = useSelector((state) => state.returnToGame);
   const dispatch = useDispatch();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const onJoinRoom = async () => {
     dispatch(joinGame(manualRoomID));
   };
 
   const onHostGame = () => {
-    dispatch(hostGame());
+    dispatch(hostGame(i18n.language));
   };
 
   const onJoinExistingRoom = () => {
