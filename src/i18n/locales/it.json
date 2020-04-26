@@ -44,6 +44,9 @@
         "Sign up": "Registrati",
         "Already registered?": "Già registrato?",
         "Room ID": "ID stanza",
-        "Start game": "Avvia"
+        "Start game": "Avvia",
+        "or": "oppure",
+        "Enter as a guest": "Entra come ospite",
+        "Display name not valid": "Nome non valido"
     }
 }

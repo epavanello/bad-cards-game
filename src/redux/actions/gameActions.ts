@@ -39,6 +39,8 @@ import {
   GameJoiningExistingAction,
   GAME_JOINING_EXISTING,
   Pack,
+  LoginAsGuestAction,
+  LOGIN_AS_GUEST,
 } from './../actionTypes/gameTypes';
 import { GAME_STATE_CHANGED, GameStateChangedAction, CardType, Role, GameNextRoundAction, GAME_NEXT_ROUND } from '../actionTypes/gameTypes';
 
@@ -92,6 +94,10 @@ export const logout = async (firebase: Firebase): Promise<LogoutAction> => {
 
 export const login = (email: string, password: string): LoginAction => {
   return { type: LOGIN, payload: { email, password } };
+};
+
+export const loginAsGuest = (displayName: string): LoginAsGuestAction => {
+  return { type: LOGIN_AS_GUEST, payload: { displayName } };
 };
 
 export const signup = (email: string, password: string, displayName: string): SignupAction => {

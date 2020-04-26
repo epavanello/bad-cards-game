@@ -1,4 +1,5 @@
 export const LOGIN = 'LOGIN';
+export const LOGIN_AS_GUEST = 'LOGIN_AS_GUEST';
 export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
 export const DELETE_USER = 'DELETE_USER';
@@ -134,6 +135,12 @@ export interface LoginAction {
     password: string;
   };
 }
+export interface LoginAsGuestAction {
+  type: typeof LOGIN_AS_GUEST;
+  payload: {
+    displayName: string;
+  };
+}
 export interface SignupAction {
   type: typeof SIGNUP;
   payload: {
@@ -185,6 +192,7 @@ export type GameActionTypes =
   | LogoutAction
   | DeleteUserAction
   | LoginAction
+  | LoginAsGuestAction
   | SignupAction
   | NewDisplayNameAction
   | GameErrorAction

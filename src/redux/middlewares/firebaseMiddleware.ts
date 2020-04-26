@@ -15,6 +15,7 @@ import {
   DELETE_USER,
   GAME_JOINING_EXISTING,
   Pack,
+  LOGIN_AS_GUEST,
 } from '../actionTypes/gameTypes';
 import Axios from 'axios';
 import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newDisplayName } from '../actions/gameActions';
@@ -33,7 +34,9 @@ export default function firebaseMiddleware(firebase: Firebase) {
         user.getIdToken(true).then((idToken) => {
           Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
         });
-        dispatch(userLoaded(true, user.uid, user.displayName || ''));
+        setTimeout(() => {
+          dispatch(userLoaded(true, user.uid, user.displayName || ''));
+        }, 1000);
       } else {
         dispatch(userLoaded(false, '', ''));
       }
@@ -55,6 +58,18 @@ export default function firebaseMiddleware(firebase: Firebase) {
               dispatch(error(e.message, 'Login error', ErrorType.LOGIN));
             });
 
+            break;
+          case LOGIN_AS_GUEST:
+            if (checkDisplayName(action.payload.displayName)) {
+              firebase
+                .doSignInAsGuest()
+                .then(() => {
+                  dispatch(newDisplayName(action.payload.displayName));
+                })
+                .catch((e) => {
+                  dispatch(error(e.message, 'Login error', ErrorType.LOGIN));
+                });
+            }
             break;
           case SIGNUP:
             if (checkDisplayName(action.payload.displayName)) {

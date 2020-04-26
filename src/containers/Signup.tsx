@@ -6,6 +6,7 @@ import { signup, closeError } from '../redux/actions/gameActions';
 import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
 import { useTranslation } from 'react-i18next';
+import Title from '../components/Title';
 
 export default function Signup() {
   const logged = useSelector((state) => state.logged);
@@ -35,6 +36,7 @@ export default function Signup() {
   return (
     <div className="w-full max-w-sm mx-auto">
       <Paper>
+        <Title>{t('Sign up')}</Title>
         <form onSubmit={doSignup}>
           <FieldInputText id="displayName" label={t('Display name')} value={displayName} onChange={(value) => setDisplayName(value)} />
           <FieldInputText id="email" label={t('Email')} value={email} onChange={(value) => setEmail(value)} />

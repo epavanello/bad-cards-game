@@ -89,7 +89,7 @@ export function gameReducer(state = initialState, action: GameActionTypes): Game
       return { ...state, gameStarted: true, pack: action.payload.pack };
     case GAME_USER_INFO_LOADED:
       const { logged, uid, displayName } = action.payload;
-      return { ...state, userInfoLoaded: true, logged, uid, displayName };
+      return { ...state, userInfoLoaded: true, logged, uid, displayName: displayName || state.displayName };
     case NEW_DISPLAY_NAME:
       return { ...state, displayName: action.payload.displayName };
     case LOGOUT:

@@ -53,6 +53,8 @@ export class Firebase {
 
   doSignInWithEmailAndPassword = (email: string, password: string) => this.auth.signInWithEmailAndPassword(email, password);
 
+  doSignInAsGuest = () => this.auth.signInAnonymously();
+
   doPasswordReset = (email: string) => this.auth.sendPasswordResetEmail(email);
   doPasswordUpdate = (password: string) => this.auth.currentUser?.updatePassword(password);
 
