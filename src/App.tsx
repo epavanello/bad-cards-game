@@ -50,7 +50,7 @@ function App() {
           )}
         </div>
 
-        <footer className="text-center text-gray-500 text-xs py-4">&copy;2020 Pavanello Emanuele. {t('All rights reserved')}.</footer>
+        <footer className="text-center text-gray-500 text-xs mb-4">&copy;2020 Pavanello Emanuele. {t('All rights reserved')}.</footer>
       </div>
     </Router>
   );
