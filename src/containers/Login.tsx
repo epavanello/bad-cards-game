@@ -72,7 +72,7 @@ export default function Login() {
             </Link>
           </div>
         </form>
-        <Title className="mt-8">{t('or')}</Title>
+        <Title className="mt-8 mb-4">{t('or')}</Title>
         <FieldInputText id="displayName" label={t('Display name')} value={displayName} onChange={(value) => setDisplayName(value)} />
         <div className="flex justify-center mt-8">
           <button
