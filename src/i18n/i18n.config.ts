@@ -15,6 +15,7 @@ i18n
       it,
     },
     fallbackLng: 'en',
+    whitelist: ['en', 'it'],
     debug: process.env.NODE_ENV !== 'production',
 
     keySeparator: false,
