@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Signup() {
   const logged = useSelector((state) => state.logged);
+  const pathAfterLogin = useSelector((state) => state.pathAfterLogin);
 
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +25,11 @@ export default function Signup() {
   };
 
   if (logged) {
-    return <Redirect to="/game" />;
+    if (pathAfterLogin) {
+      return <Redirect to={pathAfterLogin} />;
+    } else {
+      return <Redirect to="/game" />;
+    }
   }
 
   return (

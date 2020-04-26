@@ -140,7 +140,7 @@ export default function Room() {
   if (!logged) {
     setTimeout(() => {
       // Prevent rendering conflict while redirect
-      dispatch(error(t('You need to login or register before enter in a room'), t('Not authorized'), ErrorType.LOGIN));
+      dispatch(error(t('LOGIN_BEFORE_ENTER'), t('Not authorized'), ErrorType.LOGIN));
     }, 0);
     dispatch(redirectAfterLogin(window.location.pathname));
     return <Redirect to="/login" />;
@@ -197,7 +197,7 @@ export default function Room() {
                   {t('Starting...')}
                   {shareButton}
                 </h1>
-                <p className="italic text-gray-700">{t('Wait the host start the game')}</p>
+                <p className="italic text-gray-700">{t('WAIT_FOR_HOST')}</p>
               </>
             )}
           </Paper>
