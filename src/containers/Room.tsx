@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import copyText from 'copy-text-to-clipboard';
 import Button from '../components/Button';
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
@@ -130,17 +131,10 @@ export default function Room() {
   };
 
   const shareRoom = () => {
-    let n = navigator as any;
-    if (n && n.share) {
-      n.share({
-        title: document.title,
-        text: 'Bad Cards URL',
-        url: window.location.href,
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
+    try {
+      copyText(window.location.href.toString());
       alert(t('Room url copied'));
-    }
+    } catch (e) {}
   };
 
   if (!logged) {
