@@ -6,7 +6,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import { useSelector } from './redux/store';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import Room from './containers/Room';
 import NotFound from './containers/NotFound';
 import Alert from './components/Alert';
@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux';
 import { closeError } from './redux/actions/gameActions';
 import Profile from './containers/Profile';
 import { useTranslation } from 'react-i18next';
+
+import history from './history';
 
 function App() {
   const { t } = useTranslation();
@@ -29,7 +31,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router history={history}>
       <div className="flex flex-col flex-1">
         <Header />
         <div className="container mx-auto p-4 sm:py-8 flex-1">
