@@ -42,7 +42,7 @@ export default function Game() {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto flex flex-col-reverse sm:flex-col">
       <Paper>
         <div className="grid grid-cols-1 sm:grid-cols-2">
           <div className="pb-8 border-b sm:pr-8 sm:border-r sm:pb-0 sm:border-b-0">
@@ -61,7 +61,7 @@ export default function Game() {
           </div>
         </div>
       </Paper>
-      <Paper className="mt-8 max-w-sm mx-auto">
+      <Paper className="mb-4 sm:mb-0 sm:mt-8 max-w-sm mx-auto w-full">
         <Title className="mb-4">{t('Host a game')}</Title>
         <div className="flex-1 flex flex-row align-bottom justify-center items-end">
           <Button onClick={onHostGame}>{t('Host')}</Button>

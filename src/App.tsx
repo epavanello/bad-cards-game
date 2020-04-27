@@ -16,6 +16,7 @@ import Profile from './containers/Profile';
 import { useTranslation } from 'react-i18next';
 
 import history from './history';
+import Title from './components/Title';
 
 function App() {
   const { t } = useTranslation();
@@ -37,7 +38,7 @@ function App() {
         <div className="container mx-auto p-4 sm:py-8 flex-1">
           {error && <Alert className="mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
           {!userInfoLoaded ? (
-            <p>Loading ...</p>
+            <Title className="text-center">Loading ...</Title>
           ) : (
             <Switch>
               <Route path="/login" component={Login} />

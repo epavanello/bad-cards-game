@@ -31,7 +31,8 @@ export default function Home() {
           color={CardColor.White}
         />
       </div>
-      <div className="text-center mt-16">
+      <p className="mt-12 italic text-center">{t('Enter now, create a room and play with your friends')}</p>
+      <div className="text-center mt-8">
         <Button
           size="SMALL"
           type="OUTLINE"

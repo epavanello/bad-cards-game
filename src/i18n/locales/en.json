@@ -35,7 +35,7 @@
         "Choose the best cards": "Choose the best cards",
         "Wait the end of the round": "Wait the end of the round",
         "Room {{roomID}} created": "Room {{roomID}} created",
-        "Start the game when all players are ready": "Start the game when all players are ready",
+        "Room {{roomID}}": "Room {{roomID}}",
         "Starting...": "Starting...",
         "WAIT_FOR_HOST": "wait for the host",
         "Players": "Players",
@@ -44,6 +44,8 @@
         "Sign up": "Sign up",
         "Already registered?": "Already registered?",
         "Room ID": "Room ID",
-        "Start game": "Start game"
+        "Start game": "Start game",
+        "Share the URL with your friends to join the game": "Share the URL with your friends to join the game",
+        "Enter now, create a room and play with your friends": "Enter now, create a room and play with your friends"
     }
 }

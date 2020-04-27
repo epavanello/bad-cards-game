@@ -35,7 +35,7 @@
         "Choose the best cards": "Scegli le carte migliori",
         "Wait the end of the round": "Attendi la fine del turno",
         "Room {{roomID}} created": "Stanza {{roomID}} creata",
-        "Start the game when all players are ready": "Avvia il gioco quando tutti i giocatori sono pronti",
+        "Room {{roomID}}": "Stanza {{roomID}}",
         "Starting...": "Avvio...",
         "WAIT_FOR_HOST": "Aspetta che l'host avvii il gioco",
         "Players": "Giocatori",
@@ -47,6 +47,8 @@
         "Start game": "Avvia",
         "or": "oppure",
         "Enter as a guest": "Entra come ospite",
-        "Display name not valid": "Nome non valido"
+        "Display name not valid": "Nome non valido",
+        "Share the URL with your friends to join the game": "Condividi con i tuoi amici l'URL per unirti al gioco",
+        "Enter now, create a room and play with your friends": "Entra subito, crea una stanza e gioca con i tuoi amici"
     }
 }

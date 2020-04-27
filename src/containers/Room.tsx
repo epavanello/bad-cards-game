@@ -149,8 +149,8 @@ export default function Room() {
   const shareButton = (
     <FontAwesomeIcon
       icon={['fas', 'share-square']}
-      className="hover:opacity-75 cursor-pointer hover:border-blue-800"
-      size="xs"
+      className="hover:opacity-75 cursor-pointer hover:border-blue-800 ml-2"
+      size="sm"
       role="button"
       title="Share"
       onClick={shareRoom}
@@ -182,21 +182,22 @@ export default function Room() {
               </>
             ) : isHost ? (
               <>
-                <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
-                  {t('Room {{roomID}} created', { roomID })}
+                <h1 className="text-2xl mb-4">{t('Room {{roomID}} created', { roomID })}</h1>
+                <p className="font-semibold mb-4">
+                  {t('Share the URL with your friends to join the game')}
                   {shareButton}
-                </h1>
-                <p className="italic text-gray-700 mb-4">{t('Start the game when all players are ready')}</p>
+                </p>
                 <Button className="self-start" disabled={players.length < 2} onClick={onStartGame}>
                   {t('Start game')}
                 </Button>
               </>
             ) : (
               <>
-                <h1 className="text-2xl mb-4 flex flex-row justify-between items-center">
-                  {t('Starting...')}
+                <h1 className="text-2xl mb-4">{t('Room {{roomID}}', { roomID })}</h1>
+                <p className="font-semibold mb-4">
+                  {t('Share the URL with your friends to join the game')}
                   {shareButton}
-                </h1>
+                </p>
                 <p className="italic text-gray-700">{t('WAIT_FOR_HOST')}</p>
               </>
             )}
