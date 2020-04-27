@@ -21,6 +21,8 @@ import Axios from 'axios';
 import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newDisplayName } from '../actions/gameActions';
 import { Subscription } from 'rxjs';
 
+import ReactGA from '../../analytics';
+
 export default function firebaseMiddleware(firebase: Firebase) {
   const middleware = function middleware(params: MiddlewareAPI) {
     const { dispatch /* getState */ } = params;
@@ -30,6 +32,7 @@ export default function firebaseMiddleware(firebase: Firebase) {
     firebase.auth.onAuthStateChanged((user) => {
       if (user) {
         firebase.uid = user.uid;
+        ReactGA.set({ userId: user.uid });
 
         user.getIdToken(true).then((idToken) => {
           Axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
