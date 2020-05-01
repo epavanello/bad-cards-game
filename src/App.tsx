@@ -36,8 +36,8 @@ function App() {
     <Router history={history}>
       <div className="flex flex-col flex-1">
         <Header />
-        <div className="container mx-auto p-4 sm:py-8 flex-1">
-          {error && <Alert className="mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
+        <div className="p-4 sm:p-8 flex-1">
+          {error && <Alert className="mb-4 sm:mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
           {!userInfoLoaded ? (
             <Title className="text-center">{t('Loading') + '...'}</Title>
           ) : (
@@ -54,7 +54,7 @@ function App() {
           )}
         </div>
 
-        <footer className="text-center text-gray-500 text-xs pb-4">
+        <footer className="text-center text-gray-500 text-xs py-2 mb-4 sm:-mt-4 bg-gray-900">
           Made with <FontAwesomeIcon icon={['fas', 'heart']} className="mx-1" /> in{' '}
           <span className="font-bold hover:underline">#QUARANTINE</span> &copy; Pavanello Emanuele
         </footer>

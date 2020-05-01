@@ -18,6 +18,7 @@ import Axios from 'axios';
 
 import './analytics';
 import './i18n/i18n.config';
+import './styles/common.scss';
 
 library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart);
 

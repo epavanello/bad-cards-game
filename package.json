@@ -65,5 +65,7 @@
       "not op_mini all"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.2"
+  }
 }

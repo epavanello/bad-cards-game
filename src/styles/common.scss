@@ -1,0 +1,19 @@
+.scroll {
+  scrollbar-color: #00000073 #fff;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ffffff00;
+    border-radius: 10px;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background: #ffffff85;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+  }
+}
