@@ -55,18 +55,19 @@ export default function Header() {
           <Link to="/home" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
             {t('Home')}
           </Link>
+          <Link to="/game" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
+            {t('Game')}
+          </Link>
+          <Link to="/social" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
+            {t('Social')}
+          </Link>
+          <Link to="/about" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
+            {t('About')}
+          </Link>
           {logged && (
-            <>
-              <Link to="/game" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
-                {t('Game')}
-              </Link>
-              <Link to="/social" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white">
-                {t('Social')}
-              </Link>
-              <Link to="/profile" className="block mt-4 sm:hidden text-blue-200 hover:text-white mr-4">
-                {t('Profile')}
-              </Link>
-            </>
+            <Link to="/profile" className="block mt-4 sm:hidden text-blue-200 hover:text-white mr-4">
+              {t('Profile')}
+            </Link>
           )}
         </div>
         {userInfoLoaded && (

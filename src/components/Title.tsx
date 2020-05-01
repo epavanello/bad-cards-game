@@ -6,7 +6,7 @@ export default function Title({ children, error, className }: TitleProps) {
   return (
     <h1
       className={classNames(
-        'text-xl font-bold text-center font-display tracking-wider',
+        'text-2xl font-bold text-center font-display tracking-wider',
         {
           'text-red-600': error,
         },

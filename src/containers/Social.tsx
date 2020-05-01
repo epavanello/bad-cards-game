@@ -9,11 +9,11 @@ export default function Social() {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full max-w-sm mx-auto">
+    <div className="w-full max-w-xl mx-auto">
       <Paper>
         <Title className="mb-4">{t('Social')}</Title>
         <div className="mb-4 flex items-center flex-col">
-          <p className="font-bold">Follow us on</p>
+          <p className="font-bold mb-2">Follow us on</p>
           <a href="https://www.instagram.com/bad_cards_game/" target="_blank" rel="noopener noreferrer">
             <Button>
               <FontAwesomeIcon icon={['fab', 'instagram']} size="lg" className="mr-4" />
@@ -21,10 +21,12 @@ export default function Social() {
             </Button>
           </a>
         </div>
-        <p className="italic">{t('Send a suggestion or report a bug at')}:</p>
-        <a className="font-bold hover:underline" href="mailto:badcardsgame@gmail.com">
-          badcardsgame@gmail.com
-        </a>
+        <p className="text-center">
+          <span className="italic">{t('Send a suggestion or report a bug at')}: </span>
+          <a className="font-bold hover:underline" href="mailto:badcardsgame@gmail.com">
+            badcardsgame@gmail.com
+          </a>
+        </p>
       </Paper>
     </div>
   );

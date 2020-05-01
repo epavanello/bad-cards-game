@@ -22,10 +22,11 @@ import { userLoaded, joinGame, gameStarted, updatePlayers, newRound, error, newD
 import { Subscription } from 'rxjs';
 
 import ReactGA from '../../analytics';
+import { GameState } from '../reducers/gameReducer';
 
 export default function firebaseMiddleware(firebase: Firebase) {
-  const middleware = function middleware(params: MiddlewareAPI) {
-    const { dispatch /* getState */ } = params;
+  const middleware = function middleware(params: MiddlewareAPI<Dispatch, GameState>) {
+    const { dispatch /*getState*/ } = params;
     let newPlayersSubscription: Subscription | null = null;
     let newRoundSubscription: Subscription | null = null;
 

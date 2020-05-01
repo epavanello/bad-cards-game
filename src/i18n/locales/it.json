@@ -50,6 +50,7 @@
         "Display name not valid": "Nome non valido",
         "Share the URL with your friends to join the game": "Condividi con i tuoi amici l'URL per unirti al gioco",
         "Enter now, create a room and play with your friends": "Entra subito, crea una stanza e gioca con i tuoi amici",
-        "Loading": "Caricamento"
+        "Loading": "Caricamento",
+        "Before starting, log in or log in as a guest": "Prima di iniziare accedi o entra come ospite."
     }
 }

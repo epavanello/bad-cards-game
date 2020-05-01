@@ -225,7 +225,7 @@ export default function Room() {
                       {gameStarted ? ` (${user.points})` : ''}
                     </span>
                     {user.winner && <FontAwesomeIcon icon={['fas', 'trophy']} className="mr-2" />}
-                    <span className="text-gray-600">{user.uid === judge?.uid ? 'Kazar' : 'Player'}</span>
+                    <span className="text-gray-600">{user.uid === judge?.uid ? 'Czar' : 'Player'}</span>
                   </li>
                 ))}
             </ul>

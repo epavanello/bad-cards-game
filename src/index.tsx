@@ -6,7 +6,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { FirebaseContext, Firebase } from './FirebaseContext';
 import { createCustomStore } from './redux/store';
-import loggerMiddleware from './redux/middlewares/loggerMiddleware';
 
 import './styles.css';
 
@@ -25,7 +24,7 @@ import './styles/common.scss';
 library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faInstagram);
 
 const firebase = new Firebase();
-const store = createCustomStore([loggerMiddleware(), firebaseMiddleware(firebase)]);
+const store = createCustomStore([firebaseMiddleware(firebase)]);
 
 Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 

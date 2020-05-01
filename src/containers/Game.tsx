@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 
 import { useSelector } from '../redux/store';
 import { useDispatch } from 'react-redux';
-import { joinGame, hostGame, redirectAfterLogin, JoiningExisting } from '../redux/actions/gameActions';
+import { joinGame, hostGame, redirectAfterLogin, JoiningExisting, error } from '../redux/actions/gameActions';
 import { Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import { FieldInputText } from '../components/FieldInput';
 import Paper from '../components/Paper';
 import Title from '../components/Title';
 import { useTranslation } from 'react-i18next';
+import { ErrorType } from '../redux/actionTypes/gameTypes';
 
 export default function Game() {
   const [manualRoomID, setManualRoomID] = useState('');
@@ -34,6 +35,7 @@ export default function Game() {
 
   if (!logged) {
     dispatch(redirectAfterLogin(window.location.pathname));
+    dispatch(error(t('Before starting, log in or log in as a guest'), t('Login'), ErrorType.LOGIN));
     return <Redirect to={`/login`} />;
   }
 

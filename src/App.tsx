@@ -19,6 +19,7 @@ import history from './history';
 import Title from './components/Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Social from './containers/Social';
+import About from './containers/About';
 
 function App() {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ function App() {
               <Route path="/home" component={Home} />
               <Route path="/profile" component={Profile} />
               <Route path="/social" component={Social} />
+              <Route path="/about" component={About} />
               <Route path="/" exact component={Home} />
               <Route path="*" exact={true} component={NotFound} />
             </Switch>

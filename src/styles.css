@@ -14242,13 +14242,6 @@ video {
   transition-delay: 1000ms;
 }
 
-.card {
-  -webkit-backface-visibility: 'hidden';
-          backface-visibility: 'hidden';
-  visibility: 'visible';
-  perspective: 0;
-}
-
 @media (min-width: 640px){
   .sm\:space-y-0 > :not(template) ~ :not(template){
     --space-y-reverse: 0;
