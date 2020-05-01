@@ -10,7 +10,7 @@ import { createCustomStore } from './redux/store';
 import './styles.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faDotCircle } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 
@@ -21,7 +21,7 @@ import './analytics';
 import './i18n/i18n.config';
 import './styles/common.scss';
 
-library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faInstagram);
+library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faInstagram, faHandPointRight);
 
 const firebase = new Firebase();
 const store = createCustomStore([firebaseMiddleware(firebase)]);
