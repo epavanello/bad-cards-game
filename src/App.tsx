@@ -59,8 +59,15 @@ function App() {
         </div>
 
         <footer className="text-center text-gray-500 text-xs py-2 mb-4 sm:-mt-4 bg-gray-900">
-          Made with <FontAwesomeIcon icon={['fas', 'heart']} className="mx-1" /> in{' '}
-          <span className="font-bold hover:underline">#QUARANTINE</span> &copy; Pavanello Emanuele
+          Made with <FontAwesomeIcon icon={['fas', 'heart']} className="mx-1" /> in <span className="font-bold">#QUARANTINE</span> &copy;{' '}
+          <a
+            className="hover:underline cursor-pointer"
+            href="https://www.linkedin.com/in/emanuele-pavanello/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pavanello Emanuele
+          </a>
         </footer>
       </div>
     </Router>

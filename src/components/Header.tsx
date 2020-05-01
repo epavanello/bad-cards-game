@@ -74,7 +74,7 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row sm:items-center">
             {logged ? (
               <>
-                <Link to="/profile" className="mr-4 hidden sm:flex">
+                <Link to="/profile" className="mr-4 hidden sm:flex -my-2">
                   <ProfileLogo />
                 </Link>
                 <Button type="OUTLINE" size="SMALL" className="block mt-4 sm:inline-block sm:mt-0" onClick={onLogout}>
