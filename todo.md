@@ -8,5 +8,7 @@
 - [ ] Offer a coffee
 - [ ] Contacts (Subscribe, Social(instagram, fb, twitter))
 - [ ] New features - list of features with like counter
-- [ ] counter rounds
+- [x] counter rounds
       card transition and borders
+
+- [ ] pack editor?

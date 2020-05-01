@@ -13,6 +13,8 @@ import './styles.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faDotCircle } from '@fortawesome/free-regular-svg-icons';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+
 import firebaseMiddleware from './redux/middlewares/firebaseMiddleware';
 import Axios from 'axios';
 
@@ -20,7 +22,7 @@ import './analytics';
 import './i18n/i18n.config';
 import './styles/common.scss';
 
-library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart);
+library.add(faDotCircle, faCircle, faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faInstagram);
 
 const firebase = new Firebase();
 const store = createCustomStore([loggerMiddleware(), firebaseMiddleware(firebase)]);

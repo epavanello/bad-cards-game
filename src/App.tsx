@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import history from './history';
 import Title from './components/Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Social from './containers/Social';
 
 function App() {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ function App() {
         <div className="p-4 sm:p-8 flex-1">
           {error && <Alert className="mb-4 sm:mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
           {!userInfoLoaded ? (
-            <Title className="text-center">{t('Loading') + '...'}</Title>
+            <Title>{t('Loading') + '...'}</Title>
           ) : (
             <Switch>
               <Route path="/login" component={Login} />
@@ -48,6 +49,7 @@ function App() {
               <Route path="/room/:roomID" component={Room} />
               <Route path="/home" component={Home} />
               <Route path="/profile" component={Profile} />
+              <Route path="/social" component={Social} />
               <Route path="/" exact component={Home} />
               <Route path="*" exact={true} component={NotFound} />
             </Switch>

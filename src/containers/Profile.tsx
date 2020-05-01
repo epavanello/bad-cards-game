@@ -9,6 +9,7 @@ import { Redirect } from 'react-router-dom';
 import { FirebaseContext } from '../FirebaseContext';
 import Paper from '../components/Paper';
 import { useTranslation } from 'react-i18next';
+import Title from '../components/Title';
 
 export default function Profile() {
   const firebase = useContext(FirebaseContext);
@@ -54,6 +55,7 @@ export default function Profile() {
     <div className="w-full max-w-sm mx-auto">
       <Paper>
         <>
+          <Title className="mb-4">{t('Profile')}</Title>
           <div className="flex justify-center mb-4">
             <ProfileLogo />
           </div>
