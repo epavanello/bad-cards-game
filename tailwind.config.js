@@ -20,8 +20,17 @@ module.exports = {
       mono: ['Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
       display: ['Bangers'],
     },
-    extend: {},
+    extend: {
+      rotate: {
+        '-15': '-15deg',
+        '15': '15deg',
+        '-30': '-30deg',
+        '30': '30deg',
+      },
+    },
   },
-  variants: {},
+  variants: {
+    rotate: ['responsive', 'hover', 'group-hover'],
+  },
   plugins: [],
 };

@@ -49,6 +49,7 @@
         "Enter as a guest": "Entra come ospite",
         "Display name not valid": "Nome non valido",
         "Share the URL with your friends to join the game": "Condividi con i tuoi amici l'URL per unirti al gioco",
-        "Enter now, create a room and play with your friends": "Entra subito, crea una stanza e gioca con i tuoi amici"
+        "Enter now, create a room and play with your friends": "Entra subito, crea una stanza e gioca con i tuoi amici",
+        "Loading": "Caricamento"
     }
 }

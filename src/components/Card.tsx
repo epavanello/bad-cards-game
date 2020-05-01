@@ -2,6 +2,30 @@ import React, { CSSProperties } from 'react';
 import { CardType, CardColor } from '../redux/actionTypes/gameTypes';
 import classNames from 'classnames';
 
+const cardStyle: React.CSSProperties = {
+  backfaceVisibility: 'hidden',
+  visibility: 'visible',
+  width: '100%',
+  height: '100%',
+};
+const backCard: React.CSSProperties = {
+  background: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #45509A 10px, #45509A 20px), #5F6BBE',
+  transform: 'rotateY(180deg)',
+  zIndex: 1,
+};
+const rotateCardStyle: React.CSSProperties = {
+  transform: 'rotateY(180deg)',
+};
+
+const containerStyle: React.CSSProperties = {
+  transition: 'transform 0.5s',
+  transformStyle: 'preserve-3d',
+};
+
+const sceneStyle: React.CSSProperties = {
+  perspective: '600px',
+};
+
 type CardParams = {
   card: CardType;
   color: CardColor;
@@ -22,51 +46,45 @@ export default function Card({ card, color, checkbox, className, style, checkabl
   };
 
   if (covered) {
-    return (
-      <div
-        className={classNames(
-          className,
-          'w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono shadow-lg rounded-lg p-4 relative cursor-default'
-        )}
-        style={{
-          ...style,
-          background: `repeating-linear-gradient(45deg, transparent, transparent 10px, #45509A 10px, #45509A 20px), #5F6BBE`,
-        }}
-        role="button"
-      ></div>
-    );
   }
 
   return (
-    <div
-      className={classNames(
-        className,
-        'w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono shadow-lg rounded-lg p-4 relative cursor-default',
-        {
-          'bg-gray-900': color === CardColor.Black,
-          'text-gray-100': color === CardColor.Black,
-          'bg-gray-100': color === CardColor.White,
-          'text-gray-800': color === CardColor.White,
-        }
-      )}
-      onClick={() => {
-        changeChecked(!checked);
-      }}
-      style={style}
-      role="button"
-    >
-      {card.message}
-      {checkbox && (
-        <input
-          type="checkbox"
-          className="absolute right-0 bottom-0 mb-4 mr-4"
-          checked={checked}
-          disabled={!checkable && !checked}
-          onChange={(e) => {
-            checkable && changeChecked(e.target.checked);
+    <div style={sceneStyle} className={classNames(className, 'relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono')}>
+      <div
+        className="relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono"
+        style={{ ...style, ...containerStyle, ...(covered ? rotateCardStyle : {}) }}
+      >
+        <div className="absolute cursor-default border-8 border-white shadow-lg rounded-lg" style={{ ...backCard, ...cardStyle }}></div>
+        <div
+          className={classNames(
+            'absolute w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm  font-mono shadow-lg rounded-lg p-4 relative cursor-default',
+            {
+              'bg-gray-900': color === CardColor.Black,
+              'text-gray-100': color === CardColor.Black,
+              'bg-gray-100': color === CardColor.White,
+              'text-gray-800': color === CardColor.White,
+            }
+          )}
+          onClick={() => {
+            changeChecked(!checked);
           }}
-        />
-      )}
+          style={{ ...cardStyle }}
+          role="button"
+        >
+          {card.message}
+          {checkbox && (
+            <input
+              type="checkbox"
+              className="absolute right-0 bottom-0 mb-4 mr-4"
+              checked={checked}
+              disabled={!checkable && !checked}
+              onChange={(e) => {
+                checkable && changeChecked(e.target.checked);
+              }}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

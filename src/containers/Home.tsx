@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../components/Card';
 import { CardColor } from '../redux/actionTypes/gameTypes';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 export default function Home() {
   const { t } = useTranslation();
   const history = useHistory();
-
+  const [hover, setHover] = useState(false);
   return (
     <div>
       <header className="text-2xl text-center">
@@ -18,18 +18,19 @@ export default function Home() {
         </h1>
       </header>
       <div className="flex flex-row justify-center mt-16">
-        <Card
-          style={{ transform: 'rotate(-15deg)' }}
-          className="transform flex-shrink-0"
-          card={{ id: 0, message: t('CARD_1') }}
-          color={CardColor.Black}
-        />
-        <Card
-          style={{ transform: 'rotate(20deg)' }}
-          className="transform flex-shrink-0"
-          card={{ id: 0, message: t('CARD_2') }}
-          color={CardColor.White}
-        />
+        <div className="group flex flex-row flex-no-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+          <Card
+            className="transition-all duration-200 transform flex-shrink-0 -rotate-15 group-hover:-rotate-30"
+            card={{ id: 0, message: t('CARD_1') }}
+            color={CardColor.Black}
+          />
+          <Card
+            className="transition-all duration-200 transform flex-shrink-0 rotate-15 rotate-0"
+            card={{ id: 0, message: t('CARD_2') }}
+            color={CardColor.White}
+            covered={!hover}
+          />
+        </div>
       </div>
       <p className="mt-12 italic text-center">{t('Enter now, create a room and play with your friends')}</p>
       <div className="text-center mt-8">

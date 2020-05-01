@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 import history from './history';
 import Title from './components/Title';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ function App() {
         <div className="container mx-auto p-4 sm:py-8 flex-1">
           {error && <Alert className="mb-8 max-w-md mx-auto" title={titleError} message={error} onClose={onCloseError} />}
           {!userInfoLoaded ? (
-            <Title className="text-center">Loading ...</Title>
+            <Title className="text-center">{t('Loading') + '...'}</Title>
           ) : (
             <Switch>
               <Route path="/login" component={Login} />
@@ -53,7 +54,10 @@ function App() {
           )}
         </div>
 
-        <footer className="text-center text-gray-500 text-xs mb-4">&copy;2020 Pavanello Emanuele. {t('All rights reserved')}.</footer>
+        <footer className="text-center text-gray-500 text-xs pb-4">
+          Made with <FontAwesomeIcon icon={['fas', 'heart']} className="mx-1" /> in{' '}
+          <span className="font-bold hover:underline">#QUARANTINE</span> &copy; Pavanello Emanuele
+        </footer>
       </div>
     </Router>
   );
