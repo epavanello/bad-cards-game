@@ -80,7 +80,7 @@ export default function Login() {
             type="button"
             onClick={doLoginAsGuest}
           >
-            {t('Enter as a guest')}
+            {t('Enter as a gunpmest')}
           </button>
         </div>
       </Paper>

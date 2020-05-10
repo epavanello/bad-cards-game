@@ -39,8 +39,22 @@ type CardParams = {
   onCheckChange?: (checked: boolean, card: CardType) => void;
   covered?: boolean;
   checkbox?: boolean;
+  editable?: boolean;
+  onEdit?: (val: string) => void;
 };
-export default function Card({ card, color, checkbox, className, style, checkable, checked, onCheckChange, covered }: CardParams) {
+export default function Card({
+  card,
+  color,
+  checkbox,
+  className,
+  style,
+  checkable,
+  checked,
+  editable,
+  onEdit,
+  onCheckChange,
+  covered,
+}: CardParams) {
   const changeChecked = (value: boolean) => {
     // Consento il cambio check se checkabile o se sto dececkando
     if (checkbox && (checkable || !value)) {
@@ -51,16 +65,18 @@ export default function Card({ card, color, checkbox, className, style, checkabl
   return (
     <div style={sceneStyle} className={className}>
       <div
-        className="relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm font-mono cursor-default"
+        className="relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm font-mono"
         style={{ ...style, ...containerStyle, ...(covered ? rotateCardStyle : {}) }}
       >
         <div className="absolute border-8 border-white shadow-lg rounded-lg" style={{ ...backCard, ...cardStyle }}></div>
         <div
-          className={classNames('absolute shadow-lg rounded-lg p-4', {
+          className={classNames('absolute shadow-lg rounded-lg p-2', {
             'bg-gray-900': color === CardColor.Black,
             'text-gray-100': color === CardColor.Black,
             'bg-gray-100': color === CardColor.White,
             'text-gray-800': color === CardColor.White,
+            'cursor-pointer': checkable,
+            'cursor-default': !checkable,
           })}
           onClick={() => {
             changeChecked(!checked);
@@ -68,7 +84,18 @@ export default function Card({ card, color, checkbox, className, style, checkabl
           style={{ ...cardStyle }}
           role="button"
         >
-          {card.message}
+          {editable ? (
+            <textarea
+              className={classNames('border bg-transparent h-full w-full p-2', {
+                'text-gray-100': color === CardColor.Black,
+                'text-gray-800': color === CardColor.White,
+              })}
+              value={card.message}
+              onChange={(e) => onEdit && onEdit(e.target.value)}
+            />
+          ) : (
+            <span className="p-2">{card.message}</span>
+          )}
           {checkbox && (
             <input
               type="checkbox"
