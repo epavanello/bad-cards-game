@@ -38,7 +38,7 @@ export default function Header() {
           <span className="font-semibold text-xl tracking-tight font-display tracking-wider">Bad Cards</span>
         </div>
       </Link>
-      <div className="block sm:hidden">
+      <div className="ignore-screenshot block sm:hidden">
         <button
           onClick={() => setHeaderClosed(!headerClosed)}
           className="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white"
@@ -50,7 +50,7 @@ export default function Header() {
           )}
         </button>
       </div>
-      <div className={classNames('w-full block flex-grow sm:flex sm:items-center sm:w-auto', { hidden: headerClosed })}>
+      <div className={classNames('ignore-screenshot w-full block flex-grow sm:flex sm:items-center sm:w-auto', { hidden: headerClosed })}>
         <div className="text-sm sm:flex-grow">
           <Link to="/home" className="block mt-4 sm:inline-block sm:mt-0 text-blue-200 hover:text-white mr-4">
             {t('Home')}

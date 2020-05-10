@@ -10,7 +10,16 @@ import { createCustomStore } from './redux/store';
 import './styles.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faTimes, faInfoCircle, faTrophy, faShareSquare, faHeart, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faTimes,
+  faInfoCircle,
+  faTrophy,
+  faShareSquare,
+  faHeart,
+  faHandPointRight,
+  faCamera,
+} from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faDotCircle, faEdit, faSave } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 
@@ -33,7 +42,8 @@ library.add(
   faInstagram,
   faHandPointRight,
   faEdit,
-  faSave
+  faSave,
+  faCamera
 );
 
 const firebase = new Firebase();

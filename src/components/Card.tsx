@@ -68,7 +68,7 @@ export default function Card({
         className="relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm font-mono"
         style={{ ...style, ...containerStyle, ...(covered ? rotateCardStyle : {}) }}
       >
-        <div className="absolute border-8 border-white shadow-lg rounded-lg" style={{ ...backCard, ...cardStyle }}></div>
+        <div className="ignore-screenshot absolute border-8 border-white shadow-lg rounded-lg" style={{ ...backCard, ...cardStyle }}></div>
         <div
           className={classNames('absolute shadow-lg rounded-lg p-2', {
             'bg-gray-900': color === CardColor.Black,
@@ -94,7 +94,7 @@ export default function Card({
               onChange={(e) => onEdit && onEdit(e.target.value)}
             />
           ) : (
-            <span className="p-2">{card.message}</span>
+            <div className="p-2">{card.message}</div>
           )}
           {checkbox && (
             <input
