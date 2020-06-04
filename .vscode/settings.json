@@ -1,4 +1,5 @@
 {
   "files.exclude": {},
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "deno.enable": false
 }
