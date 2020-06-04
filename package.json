@@ -10,8 +10,8 @@
     "build:server": "cd server && npm run build",
     "build": "npm-run-all build:*",
     "start:web": "cd web && npm run start",
-    "start:server": "cd server && npm run start",
-    "start": "npm-run-all start:*"
+    "start:server": "cd server && npm run start:prod",
+    "start": "npm-run-all --parallel start:*"
   },
   "repository": {
     "type": "git",
