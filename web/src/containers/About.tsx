@@ -33,6 +33,12 @@ export default function About() {
         <H2>What's new</H2>
         <ul className="list-disc list-inside">
           <li>
+            <b>Jun 04, 2020</b> - Public git repository{' '}
+            <a href="https://github.com/epavanello/bad-cards-game" target="_blank">
+              Bad Cards Game
+            </a>
+          </li>
+          <li>
             <b>May 01, 2020</b> - Pages About, Social and Card animations
           </li>
           <li>
