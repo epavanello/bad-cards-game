@@ -5,7 +5,10 @@
   "scripts": {
     "install:web": "cd web && npm i",
     "install:server": "cd server && npm i",
-    "install-all": "npm-run-all install:*",
+    "install": "npm-run-all install:*",
+    "build:web": "cd web && npm run build",
+    "build:server": "cd server && npm run build",
+    "build": "npm-run-all build:*",
     "start:web": "cd web && npm run start",
     "start:server": "cd server && npm run start",
     "start": "npm-run-all start:*"
