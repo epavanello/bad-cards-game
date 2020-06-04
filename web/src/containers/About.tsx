@@ -34,7 +34,7 @@ export default function About() {
         <ul className="list-disc list-inside">
           <li>
             <b>Jun 04, 2020</b> - Public git repository{' '}
-            <a href="https://github.com/epavanello/bad-cards-game" target="_blank">
+            <a href="https://github.com/epavanello/bad-cards-game" target="_blank" className="underline font-bold">
               Bad Cards Game
             </a>
           </li>
