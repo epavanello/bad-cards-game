@@ -9,7 +9,6 @@ _A CAH clone online_
 
 - **Frontend** - [React](https://github.com/topics/react), [Typescript](https://github.com/topics/typescript), [Tailwindcss](https://github.com/tailwindcss/tailwindcss)
 - **Backend** - [NestJS](https://github.com/nestjs/nest)
-
 - **Shared** - [Firebase Realtime Database](https://firebase.google.com/docs/database)
 
 # ⚙️ Developer Setup
