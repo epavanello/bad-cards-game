@@ -2,6 +2,8 @@ import React from 'react';
 import Paper from '../components/Paper';
 import { useTranslation } from 'react-i18next';
 import Title from '../components/Title';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '../components/Button';
 
 const H2 = ({ children }: { children: React.ReactNode }) => <h2 className="text-lg font-extrabold mt-5">{children}</h2>;
 const P = ({ children }: { children: React.ReactNode }) => <p className="mb-3 leading-tight">{children}</p>;
@@ -30,11 +32,23 @@ export default function About() {
         <P>
           Black cards are either fill-in-the-blank statements or questions. Both white and black cards break these rules on rare occasions.
         </P>
+        <H2>Contribute</H2>
+        <a href="https://github.com/epavanello/bad-cards-game" target="_blank" rel="noopener noreferrer" className="mt-4">
+          <Button>
+            <FontAwesomeIcon icon={['fab', 'github']} size="lg" className="mr-4" />
+            Github
+          </Button>
+        </a>
         <H2>What's new</H2>
         <ul className="list-disc list-inside">
           <li>
             <b>Jun 04, 2020</b> - Public git repository{' '}
-            <a href="https://github.com/epavanello/bad-cards-game" target="_blank" className="underline font-bold">
+            <a
+              href="https://github.com/epavanello/bad-cards-game"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-bold"
+            >
               Bad Cards Game
             </a>
           </li>

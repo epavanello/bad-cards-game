@@ -14,12 +14,20 @@ export default function Social() {
         <Title className="mb-4">{t('Social')}</Title>
         <div className="mb-4 flex items-center flex-col">
           <p className="font-bold mb-2">Follow us on</p>
-          <a href="https://www.instagram.com/bad_cards_game/" target="_blank" rel="noopener noreferrer">
-            <Button>
-              <FontAwesomeIcon icon={['fab', 'instagram']} size="lg" className="mr-4" />
-              Instagram
-            </Button>
-          </a>
+          <div className="flex flex-row">
+            <a href="https://www.instagram.com/bad_cards_game/" target="_blank" rel="noopener noreferrer">
+              <Button>
+                <FontAwesomeIcon icon={['fab', 'instagram']} size="lg" className="mr-4" />
+                Instagram
+              </Button>
+            </a>
+            <a href="https://twitter.com/bad_cards_game" target="_blank" rel="noopener noreferrer" className="ml-4">
+              <Button>
+                <FontAwesomeIcon icon={['fab', 'twitter']} size="lg" className="mr-4" />
+                Twitter
+              </Button>
+            </a>
+          </div>
         </div>
         <p className="text-center">
           <span className="italic">{t('Send a suggestion or report a bug at')}: </span>
