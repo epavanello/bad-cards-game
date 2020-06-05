@@ -27,6 +27,12 @@ export default function Social() {
                 Twitter
               </Button>
             </a>
+            <a href="https://www.facebook.com/Bad-Cards-Game-106300184449707/" target="_blank" rel="noopener noreferrer" className="ml-4">
+              <Button>
+                <FontAwesomeIcon icon={['fab', 'facebook']} size="lg" className="mr-4" />
+                Facebook
+              </Button>
+            </a>
           </div>
         </div>
         <p className="text-center">

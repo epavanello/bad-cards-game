@@ -21,7 +21,7 @@ import {
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faDotCircle, faEdit, faSave } from '@fortawesome/free-regular-svg-icons';
-import { faInstagram, faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faTwitter, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 import firebaseMiddleware from './redux/middlewares/firebaseMiddleware';
 import Axios from 'axios';
@@ -42,6 +42,7 @@ library.add(
   faInstagram,
   faTwitter,
   faGithub,
+  faFacebook,
   faHandPointRight,
   faEdit,
   faSave,
