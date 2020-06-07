@@ -55,7 +55,7 @@ export default function Game() {
             </div>
           </div>
           <div className="pt-8 sm:pt-0 sm:pl-8 flex flex-col justify-center">
-            <Title>or</Title>
+            <Title>{t('or')}</Title>
             <Title className="mb-4">{t('Join an existing room')}</Title>
             <div className="flex justify-center">
               <Button onClick={onJoinExistingRoom}>{t('Enter')}</Button>

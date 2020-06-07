@@ -68,6 +68,9 @@ function App() {
           >
             Pavanello Emanuele
           </a>
+          <a href="https://github.com/epavanello/bad-cards-game" target="_blank" rel="noopener noreferrer" title="Github" className="ml-2 text-sm leading-4 hover:opacity-50">
+            <FontAwesomeIcon icon={['fab', 'github']} />
+          </a>
         </footer>
       </div>
     </Router>
