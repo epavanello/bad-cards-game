@@ -1,5 +1,7 @@
 # 😈 Bad Cards Game
 
+![Build Web](https://github.com/epavanello/bad-cards-game/workflows/Build%20Web/badge.svg)
+![Build Server](https://github.com/epavanello/bad-cards-game/workflows/Build%20Server/badge.svg)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/95c9d272-6746-4131-9ffb-697894d18066/deploy-status)](https://app.netlify.com/sites/bad-cards/deploys)
 ![Heroku](https://heroku-badge.herokuapp.com/?app=bad-cards-api&style=flat&svg=1)
 
