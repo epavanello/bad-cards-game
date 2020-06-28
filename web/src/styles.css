@@ -12938,47 +12938,47 @@ video {
   --transform-rotate: -30deg;
 }
 
-.group:hover .group-hover\:rotate-0{
+.focus\:rotate-0:focus{
   --transform-rotate: 0;
 }
 
-.group:hover .group-hover\:rotate-15{
+.focus\:rotate-15:focus{
   --transform-rotate: 15deg;
 }
 
-.group:hover .group-hover\:rotate-30{
+.focus\:rotate-30:focus{
   --transform-rotate: 30deg;
 }
 
-.group:hover .group-hover\:rotate-45{
+.focus\:rotate-45:focus{
   --transform-rotate: 45deg;
 }
 
-.group:hover .group-hover\:rotate-90{
+.focus\:rotate-90:focus{
   --transform-rotate: 90deg;
 }
 
-.group:hover .group-hover\:rotate-180{
+.focus\:rotate-180:focus{
   --transform-rotate: 180deg;
 }
 
-.group:hover .group-hover\:-rotate-180{
+.focus\:-rotate-180:focus{
   --transform-rotate: -180deg;
 }
 
-.group:hover .group-hover\:-rotate-90{
+.focus\:-rotate-90:focus{
   --transform-rotate: -90deg;
 }
 
-.group:hover .group-hover\:-rotate-45{
+.focus\:-rotate-45:focus{
   --transform-rotate: -45deg;
 }
 
-.group:hover .group-hover\:-rotate-15{
+.focus\:-rotate-15:focus{
   --transform-rotate: -15deg;
 }
 
-.group:hover .group-hover\:-rotate-30{
+.focus\:-rotate-30:focus{
   --transform-rotate: -30deg;
 }
 
@@ -26560,47 +26560,47 @@ video {
     --transform-rotate: -30deg;
   }
 
-  .group:hover .sm\:group-hover\:rotate-0{
+  .sm\:focus\:rotate-0:focus{
     --transform-rotate: 0;
   }
 
-  .group:hover .sm\:group-hover\:rotate-15{
+  .sm\:focus\:rotate-15:focus{
     --transform-rotate: 15deg;
   }
 
-  .group:hover .sm\:group-hover\:rotate-30{
+  .sm\:focus\:rotate-30:focus{
     --transform-rotate: 30deg;
   }
 
-  .group:hover .sm\:group-hover\:rotate-45{
+  .sm\:focus\:rotate-45:focus{
     --transform-rotate: 45deg;
   }
 
-  .group:hover .sm\:group-hover\:rotate-90{
+  .sm\:focus\:rotate-90:focus{
     --transform-rotate: 90deg;
   }
 
-  .group:hover .sm\:group-hover\:rotate-180{
+  .sm\:focus\:rotate-180:focus{
     --transform-rotate: 180deg;
   }
 
-  .group:hover .sm\:group-hover\:-rotate-180{
+  .sm\:focus\:-rotate-180:focus{
     --transform-rotate: -180deg;
   }
 
-  .group:hover .sm\:group-hover\:-rotate-90{
+  .sm\:focus\:-rotate-90:focus{
     --transform-rotate: -90deg;
   }
 
-  .group:hover .sm\:group-hover\:-rotate-45{
+  .sm\:focus\:-rotate-45:focus{
     --transform-rotate: -45deg;
   }
 
-  .group:hover .sm\:group-hover\:-rotate-15{
+  .sm\:focus\:-rotate-15:focus{
     --transform-rotate: -15deg;
   }
 
-  .group:hover .sm\:group-hover\:-rotate-30{
+  .sm\:focus\:-rotate-30:focus{
     --transform-rotate: -30deg;
   }
 
@@ -40183,47 +40183,47 @@ video {
     --transform-rotate: -30deg;
   }
 
-  .group:hover .md\:group-hover\:rotate-0{
+  .md\:focus\:rotate-0:focus{
     --transform-rotate: 0;
   }
 
-  .group:hover .md\:group-hover\:rotate-15{
+  .md\:focus\:rotate-15:focus{
     --transform-rotate: 15deg;
   }
 
-  .group:hover .md\:group-hover\:rotate-30{
+  .md\:focus\:rotate-30:focus{
     --transform-rotate: 30deg;
   }
 
-  .group:hover .md\:group-hover\:rotate-45{
+  .md\:focus\:rotate-45:focus{
     --transform-rotate: 45deg;
   }
 
-  .group:hover .md\:group-hover\:rotate-90{
+  .md\:focus\:rotate-90:focus{
     --transform-rotate: 90deg;
   }
 
-  .group:hover .md\:group-hover\:rotate-180{
+  .md\:focus\:rotate-180:focus{
     --transform-rotate: 180deg;
   }
 
-  .group:hover .md\:group-hover\:-rotate-180{
+  .md\:focus\:-rotate-180:focus{
     --transform-rotate: -180deg;
   }
 
-  .group:hover .md\:group-hover\:-rotate-90{
+  .md\:focus\:-rotate-90:focus{
     --transform-rotate: -90deg;
   }
 
-  .group:hover .md\:group-hover\:-rotate-45{
+  .md\:focus\:-rotate-45:focus{
     --transform-rotate: -45deg;
   }
 
-  .group:hover .md\:group-hover\:-rotate-15{
+  .md\:focus\:-rotate-15:focus{
     --transform-rotate: -15deg;
   }
 
-  .group:hover .md\:group-hover\:-rotate-30{
+  .md\:focus\:-rotate-30:focus{
     --transform-rotate: -30deg;
   }
 
@@ -53806,47 +53806,47 @@ video {
     --transform-rotate: -30deg;
   }
 
-  .group:hover .lg\:group-hover\:rotate-0{
+  .lg\:focus\:rotate-0:focus{
     --transform-rotate: 0;
   }
 
-  .group:hover .lg\:group-hover\:rotate-15{
+  .lg\:focus\:rotate-15:focus{
     --transform-rotate: 15deg;
   }
 
-  .group:hover .lg\:group-hover\:rotate-30{
+  .lg\:focus\:rotate-30:focus{
     --transform-rotate: 30deg;
   }
 
-  .group:hover .lg\:group-hover\:rotate-45{
+  .lg\:focus\:rotate-45:focus{
     --transform-rotate: 45deg;
   }
 
-  .group:hover .lg\:group-hover\:rotate-90{
+  .lg\:focus\:rotate-90:focus{
     --transform-rotate: 90deg;
   }
 
-  .group:hover .lg\:group-hover\:rotate-180{
+  .lg\:focus\:rotate-180:focus{
     --transform-rotate: 180deg;
   }
 
-  .group:hover .lg\:group-hover\:-rotate-180{
+  .lg\:focus\:-rotate-180:focus{
     --transform-rotate: -180deg;
   }
 
-  .group:hover .lg\:group-hover\:-rotate-90{
+  .lg\:focus\:-rotate-90:focus{
     --transform-rotate: -90deg;
   }
 
-  .group:hover .lg\:group-hover\:-rotate-45{
+  .lg\:focus\:-rotate-45:focus{
     --transform-rotate: -45deg;
   }
 
-  .group:hover .lg\:group-hover\:-rotate-15{
+  .lg\:focus\:-rotate-15:focus{
     --transform-rotate: -15deg;
   }
 
-  .group:hover .lg\:group-hover\:-rotate-30{
+  .lg\:focus\:-rotate-30:focus{
     --transform-rotate: -30deg;
   }
 
@@ -67429,47 +67429,47 @@ video {
     --transform-rotate: -30deg;
   }
 
-  .group:hover .xl\:group-hover\:rotate-0{
+  .xl\:focus\:rotate-0:focus{
     --transform-rotate: 0;
   }
 
-  .group:hover .xl\:group-hover\:rotate-15{
+  .xl\:focus\:rotate-15:focus{
     --transform-rotate: 15deg;
   }
 
-  .group:hover .xl\:group-hover\:rotate-30{
+  .xl\:focus\:rotate-30:focus{
     --transform-rotate: 30deg;
   }
 
-  .group:hover .xl\:group-hover\:rotate-45{
+  .xl\:focus\:rotate-45:focus{
     --transform-rotate: 45deg;
   }
 
-  .group:hover .xl\:group-hover\:rotate-90{
+  .xl\:focus\:rotate-90:focus{
     --transform-rotate: 90deg;
   }
 
-  .group:hover .xl\:group-hover\:rotate-180{
+  .xl\:focus\:rotate-180:focus{
     --transform-rotate: 180deg;
   }
 
-  .group:hover .xl\:group-hover\:-rotate-180{
+  .xl\:focus\:-rotate-180:focus{
     --transform-rotate: -180deg;
   }
 
-  .group:hover .xl\:group-hover\:-rotate-90{
+  .xl\:focus\:-rotate-90:focus{
     --transform-rotate: -90deg;
   }
 
-  .group:hover .xl\:group-hover\:-rotate-45{
+  .xl\:focus\:-rotate-45:focus{
     --transform-rotate: -45deg;
   }
 
-  .group:hover .xl\:group-hover\:-rotate-15{
+  .xl\:focus\:-rotate-15:focus{
     --transform-rotate: -15deg;
   }
 
-  .group:hover .xl\:group-hover\:-rotate-30{
+  .xl\:focus\:-rotate-30:focus{
     --transform-rotate: -30deg;
   }
 

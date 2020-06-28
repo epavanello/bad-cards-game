@@ -63,10 +63,10 @@ export default function Card({
   };
 
   return (
-    <div style={sceneStyle} className={className}>
+    <div style={{ ...style, ...sceneStyle }} className={className}>
       <div
         className="relative w-32 h-48 text-xs sm:w-48 sm:h-64 sm:text-sm font-mono"
-        style={{ ...style, ...containerStyle, ...(covered ? rotateCardStyle : {}) }}
+        style={{ ...containerStyle, ...(covered ? rotateCardStyle : {}) }}
       >
         <div className="ignore-screenshot absolute border-8 border-white shadow-lg rounded-lg" style={{ ...backCard, ...cardStyle }}></div>
         <div
@@ -94,7 +94,11 @@ export default function Card({
               onChange={(e) => onEdit && onEdit(e.target.value)}
             />
           ) : (
-            <div className="p-2">{card.message}</div>
+            <div className="p-2">
+              {card.message.split('\n').map((line) => (
+                <p>{line}</p>
+              ))}
+            </div>
           )}
           {checkbox && (
             <input

@@ -19,6 +19,9 @@ import {
   faHeart,
   faHandPointRight,
   faCamera,
+  faPlus,
+  faMinus,
+  faRandom,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faDotCircle, faEdit, faSave } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram, faTwitter, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -46,7 +49,10 @@ library.add(
   faHandPointRight,
   faEdit,
   faSave,
-  faCamera
+  faCamera,
+  faPlus,
+  faMinus,
+  faRandom,
 );
 
 const firebase = new Firebase();
@@ -62,7 +68,7 @@ ReactDOM.render(
       </React.StrictMode>
     </FirebaseContext.Provider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -29,8 +29,5 @@ module.exports = {
       },
     },
   },
-  variants: {
-    rotate: ['responsive', 'hover', 'group-hover'],
-  },
   plugins: [],
 };
