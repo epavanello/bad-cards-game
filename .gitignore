@@ -14,3 +14,4 @@ yarn-debug.log*
 yarn-error.log*
 .env
 .vscode/settings.json
+web/src/styles.css
