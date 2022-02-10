@@ -29,7 +29,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "postcss-cli": "^7.1.0",
     "random-username-generator": "^1.0.4",
     "react": "^16.13.1",
